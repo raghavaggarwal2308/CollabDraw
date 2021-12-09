@@ -2,6 +2,7 @@ import "./App.css";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import Container from "./components/Container/Container";
 import { Switch, Route } from "react-router-dom";
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
         </Route>
         <Route path="/signup" exact>
           <SignUp />
+        </Route>
+        <Route path="/join" exact>
+          <Container />
         </Route>
       </Switch>
     </div>
