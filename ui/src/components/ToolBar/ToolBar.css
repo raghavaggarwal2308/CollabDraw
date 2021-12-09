@@ -1,0 +1,28 @@
+.topContainer {
+  border: 1px solid gray;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  display: flex;
+  padding: 5px;
+  border-radius: 5px;
+  /* margin: auto; */
+}
+
+.topContainer div {
+  width: 40px;
+  height: 40px;
+  border: 1px dotted gray;
+  border-radius: 5px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.clearBoardContainer {
+  background-color: rgb(206, 36, 36);
+  color: white;
+}
