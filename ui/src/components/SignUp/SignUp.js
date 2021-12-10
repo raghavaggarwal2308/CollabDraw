@@ -10,8 +10,12 @@ function SignUp() {
   const addUserDetails = async (e) => {
     e.preventDefault();
     const user = { firstName, lastName, email, password, confirmPassword };
-    const res = await addUser(user);
-    console.log(res);
+    try {
+      const res = await addUser(user);
+      window.location = "/join";
+    } catch (e) {
+      alert(e.message);
+    }
   };
   const changeHandler = (e) => {
     const name = e.target.name;
