@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Join.css";
 
 function Join(props) {
   const [username, setUsername] = useState("");
@@ -26,22 +27,26 @@ function Join(props) {
     });
   };
   return (
-    <form onSubmit={submitHandler}>
-      <label>Name</label>
+    <form onSubmit={submitHandler} className="joinRoom">
+      {/* <label>Name</label> */}
       <input
         value={username}
         name="username"
         type="text"
         onChange={changeHandler}
+        placeholder="Username"
+        className="username"
       />
-      <label>Room name</label>
+      {/* <label>Room name</label> */}
       <input
         value={roomname}
         name="roomname"
         type="text"
         onChange={changeHandler}
+        placeholder="Room Name"
+        className="roomName"
       />
-      <input type="submit" />
+      <input type="submit" value="Join" className="submitJoin" />
     </form>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { loginUser } from "../../api/User";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -28,24 +29,28 @@ function Login() {
     setPassword("");
   };
   return (
-    <form onSubmit={submitHandler}>
-      <label>Email</label>
+    <form onSubmit={submitHandler} className="logIn">
+      {/* <label>Email</label> */}
       <input
         value={email}
         name="email"
         type="email"
         onChange={changeHandler}
+        placeholder="Email"
+        className="loginEmail"
         required
       />
-      <label>Password</label>
+      {/* <label>Password</label> */}
       <input
         name="password"
         type="password"
         value={password}
         onChange={changeHandler}
+        placeholder="Password"
+        className="loginPassword"
         required
       />
-      <input type="submit" />
+      <input type="submit" value="Login" className="submitLogin" />
     </form>
   );
 }

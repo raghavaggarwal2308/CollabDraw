@@ -1,22 +1,14 @@
-.signUp {
+.logIn {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  /* background-color: rgb(34, 32, 32); */
   background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  /* background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
-    linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(0, 0, 0, 0.25) 200%
-    );
-  background-blend-mode: multiply; */
 }
 
-.signUp input {
+.logIn input {
   padding: 7px 10px;
   width: 20vw;
   margin: 12px;
@@ -24,7 +16,7 @@
   border: none;
 }
 
-.submitSign {
+.submitLogin {
   /* background: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0.15) 0%,
