@@ -1,4 +1,7 @@
 #canvas {
+  /* border: 2px solid red; */
+}
+.canvasContainer {
   border: 1px solid black;
   margin-top: 100px;
   margin-left: 200px;

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./SideBar.css";
-import { SketchPicker } from "react-color";
+// import { SketchPicker } from "react-color";
 
 function SideBar({
   setlineColor,

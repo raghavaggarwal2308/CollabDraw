@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./ToolBar.css";
 import Pencil from "@material-ui/icons/Create";
 import Rectangle from "@material-ui/icons/CropDin";
@@ -10,7 +10,7 @@ import Undo from "@material-ui/icons/Undo";
 import Redo from "@material-ui/icons/Redo";
 import Select from "@material-ui/icons/PhotoSizeSelectSmall";
 
-function ToolBar({ setshapeType }) {
+function ToolBar({ setShape }) {
   return (
     <div className="topContainer">
       <div className="eraserContainer">
@@ -22,10 +22,10 @@ function ToolBar({ setshapeType }) {
       <div className="pencilConntainer">
         <Pencil />
       </div>
-      <div className="rectangleContainer">
+      <div className="rectangleContainer" onClick={() => setShape("rectangle")}>
         <Rectangle />
       </div>
-      <div className="circleContainer">
+      <div className="circleContainer" onClick={() => setShape("circle")}>
         <Circle />
       </div>
       <div className="lineContainer">

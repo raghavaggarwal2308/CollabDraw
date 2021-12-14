@@ -1,11 +1,11 @@
 import "./App.css";
-import { useEffect } from "react";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import { Switch, Route } from "react-router-dom";
 import io from "socket.io-client";
 import Join from "./components/Join/Join";
+import Container from "./components/Container/Container";
 
 function App() {
   let socket;
@@ -26,6 +26,9 @@ function App() {
         </Route>
         <Route path="/join" exact>
           <Join socket={socket} />
+        </Route>
+        <Route path="/board" exact>
+          <Container socket={socket} />
         </Route>
       </Switch>
     </div>

@@ -21,6 +21,7 @@ function Login() {
     e.preventDefault();
     try {
       const user = await loginUser({ email, password });
+      console.log(user);
       window.location = "/join";
     } catch (e) {
       alert(e.message);

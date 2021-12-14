@@ -13,6 +13,7 @@ function SignUp() {
     const user = { firstName, lastName, email, password, confirmPassword };
     try {
       const res = await addUser(user);
+      console.log(res);
       window.location = "/join";
     } catch (e) {
       alert(e.message);
