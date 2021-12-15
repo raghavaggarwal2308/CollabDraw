@@ -11,6 +11,8 @@ class Board extends React.Component {
     this.origX = null;
     this.origY = null;
     this.isDown = false;
+    this.username = window.location.pathname.split("/")[2];
+    this.roomname = window.location.pathname.split("/")[3];
   }
 
   start = (o) => {
@@ -85,16 +87,20 @@ class Board extends React.Component {
     this.canvas.renderAll();
   };
   finish = (o) => {
-    console.log(this.canvas);
     this.isDown = false;
     this.props.setShape("selection");
     const figures = this.canvas._objects;
     const figure = figures[figures.length - 1];
     const id = figures[figures.length - 1].id;
-    this.props.socket.emit("drawFigures", { figure, id });
+    const roomname = this.roomname;
+    this.props.socket.emit("drawFigures", { figure, id, roomname });
   };
   modify = (o) => {
-    console.log("modified");
+    this.props.socket.emit("modifyFigure", {
+      figure: o.target,
+      id: o.target.id,
+      roomname: this.roomname,
+    });
   };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
@@ -110,8 +116,51 @@ class Board extends React.Component {
     this.canvas.on("mouse:up", this.finish);
 
     this.canvas.on("object:modified", this.modify);
-    this.props.socket.on("newFigure", (figure) => {
-      console.log(figure);
+    this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
+      if (this.roomname === roomname) {
+        switch (figure.type) {
+          case "rect":
+            this.canvas.add(
+              new fabric.Rect({
+                id: id,
+                left: figure.left,
+                top: figure.top,
+                originX: figure.originX,
+                originY: figure.originY,
+                width: figure.width,
+                height: figure.height,
+                angle: figure.angle,
+                fill: figure.fill,
+                transparentCorners: false,
+              })
+            );
+            break;
+          case "circle":
+            this.canvas.add(
+              new fabric.Circle({
+                id,
+                left: figure.left,
+                top: figure.top,
+                originX: figure.originX,
+                originY: figure.originY,
+                radius: figure.radius,
+                angle: figure.angle,
+                fill: "",
+                stroke: "red",
+                strokeWidth: 3,
+              })
+            );
+            break;
+          default:
+        }
+      }
+    });
+    this.props.socket.on("updateFigure", ({ figure, id, roomname }) => {
+      if (this.roomname === roomname) {
+        this.canvas._objects = this.canvas._objects.filter(
+          (object) => object.id !== id
+        );
+      }
     });
   }
   render() {
@@ -125,23 +174,3 @@ class Board extends React.Component {
 }
 
 export default Board;
-// function Board() {
-//   console.log(shape);
-
-//   const test = () => {
-//     console.log("test", shape);
-//   };
-//   // useEffect(() => {
-//   //   test();
-//   // }, [shape]);
-//   useEffect(() => {
-//     console.log("main chlra hu");
-
-//   }, [shape]);
-
-//   return (
-
-//   );
-// }
-
-// export default Board;

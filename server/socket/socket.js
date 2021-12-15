@@ -6,18 +6,17 @@ const initializeSocket = (io) => {
       username = username.trim().toLowerCase();
       roomname = roomname.trim().toLowerCase();
       const id = socket.id;
-      const { error, message } = addUser({ username, roomname: "12345", id });
+      const { error, message } = addUser({ username, roomname, id });
       if (message) {
-        socket.join("1235");
+        socket.join(roomname);
       }
       callback(error, message);
     });
-
-    socket.on("drawFigures", (object) => {
-      console.log(socket.to("12345"));
-      socket.broadcast.emit("newFigure", "test");
-      //io.sockets.in("12345").emit("newFigure", "test");
-      //io.to("html").emit("", "test");
+    socket.on("drawFigures", ({ figure, id, roomname }) => {
+      socket.broadcast.emit("newFigure", { figure, id, roomname });
+    });
+    socket.on("modifyFigure", ({ figure, id, roomname }) => {
+      socket.broadcast.emit("updateFigure", { figure, id, roomname });
     });
   });
 };

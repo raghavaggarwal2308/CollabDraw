@@ -23,7 +23,7 @@ function Join(props) {
         alert(error);
       } else {
         alert(message);
-        window.location = "/board";
+        window.location = `/board/${username}/${roomname}`;
       }
     });
   };
