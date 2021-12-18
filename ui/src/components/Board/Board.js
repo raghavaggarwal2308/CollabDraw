@@ -13,9 +13,10 @@ class Board extends React.Component {
     this.isDown = false;
     this.username = window.location.pathname.split("/")[2];
     this.roomname = window.location.pathname.split("/")[3];
+    this.initialLength = 0;
   }
-
   start = (o) => {
+    this.initialLength = this.canvas._objects.length;
     this.isDown = true;
     let pointer = this.canvas.getPointer(o.e);
     this.origX = pointer.x;
@@ -88,12 +89,16 @@ class Board extends React.Component {
   };
   finish = (o) => {
     this.isDown = false;
-    this.props.setShape("selection");
+
     const figures = this.canvas._objects;
     const figure = figures[figures.length - 1];
     const id = figures[figures.length - 1].id;
+
     const roomname = this.roomname;
-    this.props.socket.emit("drawFigures", { figure, id, roomname });
+    if (this.initialLength !== figures.length)
+      this.props.socket.emit("drawFigures", { figure, id, roomname });
+    this.props.setShape("selection");
+    console.log(this.canvas._objects);
   };
   modify = (o) => {
     this.props.socket.emit("modifyFigure", {
@@ -101,6 +106,43 @@ class Board extends React.Component {
       id: o.target.id,
       roomname: this.roomname,
     });
+  };
+  addFigure = (figure, id) => {
+    switch (figure.type) {
+      case "rect":
+        this.canvas.add(
+          new fabric.Rect({
+            id: id,
+            left: figure.left,
+            top: figure.top,
+            originX: figure.originX,
+            originY: figure.originY,
+            width: figure.width,
+            height: figure.height,
+            angle: figure.angle,
+            fill: figure.fill,
+            transparentCorners: false,
+          })
+        );
+        break;
+      case "circle":
+        this.canvas.add(
+          new fabric.Circle({
+            id,
+            left: figure.left,
+            top: figure.top,
+            originX: figure.originX,
+            originY: figure.originY,
+            radius: figure.radius,
+            angle: figure.angle,
+            fill: "",
+            stroke: "red",
+            strokeWidth: 3,
+          })
+        );
+        break;
+      default:
+    }
   };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
@@ -117,50 +159,44 @@ class Board extends React.Component {
 
     this.canvas.on("object:modified", this.modify);
     this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
+      console.log();
       if (this.roomname === roomname) {
-        switch (figure.type) {
-          case "rect":
-            this.canvas.add(
-              new fabric.Rect({
-                id: id,
-                left: figure.left,
-                top: figure.top,
-                originX: figure.originX,
-                originY: figure.originY,
-                width: figure.width,
-                height: figure.height,
-                angle: figure.angle,
-                fill: figure.fill,
-                transparentCorners: false,
-              })
-            );
-            break;
-          case "circle":
-            this.canvas.add(
-              new fabric.Circle({
-                id,
-                left: figure.left,
-                top: figure.top,
-                originX: figure.originX,
-                originY: figure.originY,
-                radius: figure.radius,
-                angle: figure.angle,
-                fill: "",
-                stroke: "red",
-                strokeWidth: 3,
-              })
-            );
-            break;
-          default:
-        }
+        this.addFigure(figure, id);
       }
     });
     this.props.socket.on("updateFigure", ({ figure, id, roomname }) => {
       if (this.roomname === roomname) {
-        this.canvas._objects = this.canvas._objects.filter(
-          (object) => object.id !== id
-        );
+        // this.canvas.insertAt(
+        //   new fabric.Rect({
+        //     id: id,
+        //     left: figure.left,
+        //     top: figure.top,
+        //     originX: figure.originX,
+        //     originY: figure.originY,
+        //     width: figure.width,
+        //     height: figure.height,
+        //     angle: figure.angle,
+        //     fill: figure.fill,
+        //     transparentCorners: false,
+        //   }),
+        //   0
+        // );
+        // const object = this.canvas._objects.find((obj) => obj.id === id);
+        // console.log(object);
+        // object.set({ width: figure.width });
+        // this.canvas._objects = this.canvas._objects.filter((object) => {
+        //   console.log(object.id);
+        //   return object.id !== id;
+        // });
+        // console.log(
+        //   this.canvas._objects.filter((object) => {
+        //     console.log(object.id);
+        //     return object.id !== id;
+        //   })
+        //);
+        //this.addFigure(figure, id);
       }
+      console.log(this.canvas._objects);
     });
   }
   render() {
