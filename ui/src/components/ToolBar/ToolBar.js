@@ -25,7 +25,7 @@ function ToolBar({ setShape }) {
       <div className="rectangleContainer" onClick={() => setShape("rectangle")}>
         <Rectangle />
       </div>
-      <div className="circleContainer" onClick={() => setShape("circle")}>
+      <div className="circleContainer" onClick={() => setShape("ellipse")}>
         <Circle />
       </div>
       <div className="lineContainer">

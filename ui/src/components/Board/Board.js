@@ -7,7 +7,7 @@ class Board extends React.Component {
     super(props);
     this.canvas = null;
     this.rect = null;
-    this.circle = null;
+    this.ellipse = null;
     this.origX = null;
     this.origY = null;
     this.isDown = false;
@@ -35,20 +35,21 @@ class Board extends React.Component {
         transparentCorners: false,
       });
       this.canvas.add(this.rect);
-    } else if (this.props.shape === "circle") {
-      this.circle = new fabric.Circle({
+    } else if (this.props.shape === "ellipse") {
+      this.ellipse = new fabric.Ellipse({
         id: uuid(),
         left: this.origX,
         top: this.origY,
+        rx: pointer.x - this.origX,
+        ry: pointer.y - this.origY,
         originX: "left",
         originY: "top",
-        radius: pointer.x - this.origX,
         angle: 0,
         fill: "",
         stroke: "red",
         strokeWidth: 3,
       });
-      this.canvas.add(this.circle);
+      this.canvas.add(this.ellipse);
     }
   };
   draw = (o) => {
@@ -64,32 +65,26 @@ class Board extends React.Component {
 
       this.rect.set({ width: Math.abs(this.origX - pointer.x) });
       this.rect.set({ height: Math.abs(this.origY - pointer.y) });
-    } else if (this.props.shape === "circle") {
-      var radius =
-        Math.max(
-          Math.abs(this.origY - pointer.y),
-          Math.abs(this.origX - pointer.x)
-        ) / 2;
-      if (radius > this.circle.strokeWidth) {
-        radius -= this.circle.strokeWidth / 2;
-      }
-      this.circle.set({ radius: radius });
+    } else if (this.props.shape === "ellipse") {
+      var rx = Math.abs(this.origX - pointer.x) / 2;
+      var ry = Math.abs(this.origY - pointer.y) / 2;
+      this.ellipse.set({ rx: rx });
+      this.ellipse.set({ ry: ry });
       if (this.origX > pointer.x) {
-        this.circle.set({ originX: "right" });
+        this.ellipse.set({ originX: "right" });
       } else {
-        this.circle.set({ originX: "left" });
+        this.ellipse.set({ originX: "left" });
       }
       if (this.origY > pointer.y) {
-        this.circle.set({ originY: "bottom" });
+        this.ellipse.set({ originY: "bottom" });
       } else {
-        this.circle.set({ originY: "top" });
+        this.ellipse.set({ originY: "top" });
       }
     }
     this.canvas.renderAll();
   };
   finish = (o) => {
     this.isDown = false;
-    console.log(this.rect.left, " ", this.rect.top);
     const figures = this.canvas._objects;
     const figure = figures[figures.length - 1];
     const id = figures[figures.length - 1].id;
@@ -126,15 +121,16 @@ class Board extends React.Component {
           })
         );
         break;
-      case "circle":
+      case "ellipse":
         this.canvas.add(
-          new fabric.Circle({
+          new fabric.Ellipse({
             id,
             left: figure.left,
             top: figure.top,
             originX: figure.originX,
             originY: figure.originY,
-            radius: figure.radius,
+            rx: figure.rx,
+            ry: figure.ry,
             angle: figure.angle,
             fill: "",
             stroke: "red",
@@ -163,8 +159,6 @@ class Board extends React.Component {
     this.canvas.on("mouse:up", this.finish);
 
     this.canvas.on("selection:created", this.selection);
-    // this.canvas.on("object:moved", this.modify);
-    // this.canvas.on("object:scaled", this.modify);
     this.canvas.on("object:modified", this.modify);
     this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
       if (this.roomname === roomname) {
@@ -172,50 +166,27 @@ class Board extends React.Component {
       }
     });
     this.props.socket.on("updateFigure", ({ figure, id, roomname }) => {
-      // console.log(this.canvas._objects);
-      // console.log(figure);
       if (this.roomname === roomname) {
-        // this.canvas.insertAt(
-        //   new fabric.Rect({
-        //     id: id,
-        //     left: figure.left,
-        //     top: figure.top,
-        //     originX: figure.originX,
-        //     originY: figure.originY,
-        //     width: figure.width,
-        //     height: figure.height,
-        //     angle: figure.angle,
-        //     fill: figure.fill,
-        //     transparentCorners: false,
-        //   }),
-        //   0
-        // );
         const object = this.canvas._objects.find((obj) => obj.id === id);
         console.log(object);
-        console.log(figure.width);
+        console.log(figure);
         object.set({ left: figure.left });
         object.set({ top: figure.top });
+        if (figure.type == "ellipse") {
+          object.set({ rx: figure.rx * figure.scaleX });
+          object.set({ ry: figure.ry * figure.scaleY });
+        }
         object.set({ width: figure.width * figure.scaleX });
         object.set({ height: figure.height * figure.scaleY });
+        object.set({ angle: figure.angle });
+
         console.log(object);
         this.canvas.renderAll();
-        // this.canvas._objects = this.canvas._objects.filter((object) => {
-        //   console.log(object.id);
-        //   return object.id !== id;
-        // });
-        // console.log(
-        //   this.canvas._objects.filter((object) => {
-        //     console.log(object.id);
-        //     return object.id !== id;
-        //   })
-        // );
-        // this.addFigure(figure, id);
       }
     });
   }
   componentDidUpdate() {
     if (this.props.deselect) {
-      // console.log("object");
       this.canvas.forEachObject((o) => {
         o.selectable = false;
       });
