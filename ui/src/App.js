@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
-import { Switch, Route, useParams } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import io from "socket.io-client";
 import Join from "./components/Join/Join";
 import Container from "./components/Container/Container";

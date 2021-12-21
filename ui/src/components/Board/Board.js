@@ -95,10 +95,10 @@ class Board extends React.Component {
     const id = figures[figures.length - 1].id;
 
     const roomname = this.roomname;
-    if (this.initialLength !== figures.length)
+    if (this.initialLength !== figures.length && figures.length !== 0) {
       this.props.socket.emit("drawFigures", { figure, id, roomname });
+    }
     this.props.setShape("selection");
-    console.log(this.canvas._objects);
   };
   modify = (o) => {
     this.props.socket.emit("modifyFigure", {
@@ -144,6 +144,11 @@ class Board extends React.Component {
       default:
     }
   };
+
+  selection = (o) => {
+    this.props.setShape("selection");
+    console.log("select", this.canvas._objects);
+  };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
     this.canvas.setDimensions({
@@ -157,9 +162,10 @@ class Board extends React.Component {
 
     this.canvas.on("mouse:up", this.finish);
 
+    this.canvas.on("selection:created", this.selection);
+
     this.canvas.on("object:modified", this.modify);
     this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
-      console.log();
       if (this.roomname === roomname) {
         this.addFigure(figure, id);
       }
@@ -196,12 +202,27 @@ class Board extends React.Component {
         //);
         //this.addFigure(figure, id);
       }
-      console.log(this.canvas._objects);
+      // console.log("socket", this.canvas._objects);
     });
+  }
+  componentDidUpdate() {
+    if (this.props.deselect) {
+      console.log("object");
+      this.canvas.forEachObject((o) => {
+        o.selectable = false;
+      });
+      this.canvas.discardActiveObject().renderAll();
+      this.props.setdeselect(false);
+    }
+    if (this.props.shape === "selection") {
+      this.canvas.forEachObject(function (o) {
+        o.set({ selectable: true }).setCoords();
+      }).selection = true;
+    }
   }
   render() {
     return (
-      <div className="canvasContainer">
+      <div className="canvasContainer" id="board">
         {" "}
         <canvas id="canvas"></canvas>
       </div>
