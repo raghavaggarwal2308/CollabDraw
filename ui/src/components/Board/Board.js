@@ -89,7 +89,7 @@ class Board extends React.Component {
   };
   finish = (o) => {
     this.isDown = false;
-
+    console.log(this.rect.left, " ", this.rect.top);
     const figures = this.canvas._objects;
     const figure = figures[figures.length - 1];
     const id = figures[figures.length - 1].id;
@@ -101,6 +101,7 @@ class Board extends React.Component {
     this.props.setShape("selection");
   };
   modify = (o) => {
+    console.log(o);
     this.props.socket.emit("modifyFigure", {
       figure: o.target,
       id: o.target.id,
@@ -147,7 +148,6 @@ class Board extends React.Component {
 
   selection = (o) => {
     this.props.setShape("selection");
-    console.log("select", this.canvas._objects);
   };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
@@ -163,7 +163,8 @@ class Board extends React.Component {
     this.canvas.on("mouse:up", this.finish);
 
     this.canvas.on("selection:created", this.selection);
-
+    // this.canvas.on("object:moved", this.modify);
+    // this.canvas.on("object:scaled", this.modify);
     this.canvas.on("object:modified", this.modify);
     this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
       if (this.roomname === roomname) {
@@ -171,6 +172,8 @@ class Board extends React.Component {
       }
     });
     this.props.socket.on("updateFigure", ({ figure, id, roomname }) => {
+      // console.log(this.canvas._objects);
+      // console.log(figure);
       if (this.roomname === roomname) {
         // this.canvas.insertAt(
         //   new fabric.Rect({
@@ -187,9 +190,15 @@ class Board extends React.Component {
         //   }),
         //   0
         // );
-        // const object = this.canvas._objects.find((obj) => obj.id === id);
-        // console.log(object);
-        // object.set({ width: figure.width });
+        const object = this.canvas._objects.find((obj) => obj.id === id);
+        console.log(object);
+        console.log(figure.width);
+        object.set({ left: figure.left });
+        object.set({ top: figure.top });
+        object.set({ width: figure.width * figure.scaleX });
+        object.set({ height: figure.height * figure.scaleY });
+        console.log(object);
+        this.canvas.renderAll();
         // this.canvas._objects = this.canvas._objects.filter((object) => {
         //   console.log(object.id);
         //   return object.id !== id;
@@ -199,15 +208,14 @@ class Board extends React.Component {
         //     console.log(object.id);
         //     return object.id !== id;
         //   })
-        //);
-        //this.addFigure(figure, id);
+        // );
+        // this.addFigure(figure, id);
       }
-      // console.log("socket", this.canvas._objects);
     });
   }
   componentDidUpdate() {
     if (this.props.deselect) {
-      console.log("object");
+      // console.log("object");
       this.canvas.forEachObject((o) => {
         o.selectable = false;
       });
