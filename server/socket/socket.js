@@ -20,6 +20,9 @@ const initializeSocket = (io) => {
     socket.on("modifyFigure", ({ figure, id, roomname }) => {
       socket.broadcast.emit("updateFigure", { figure, id, roomname });
     });
+    socket.on("clear", ({ roomname }) => {
+      socket.broadcast.emit("deleteFigures", roomname);
+    });
   });
 };
 module.exports = initializeSocket;

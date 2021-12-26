@@ -2,7 +2,12 @@ import React from "react";
 import { fabric } from "fabric";
 import "./Board.css";
 import uuid from "react-uuid";
-import { addFigureAPI, updateFigure, getFigures } from "../../api/Room";
+import {
+  addFigureAPI,
+  updateFigure,
+  getFigures,
+  clearCanvas,
+} from "../../api/Room";
 class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -148,7 +153,31 @@ class Board extends React.Component {
       default:
     }
   };
-
+  updateFigure = ({ figure, id, roomname }) => {
+    if (this.roomname === roomname) {
+      const object = this.canvas._objects.find((obj) => obj.id === id);
+      object.set({ left: figure.left });
+      object.set({ top: figure.top });
+      if (figure.type === "ellipse") {
+        object.set({ rx: figure.rx * figure.scaleX });
+        object.set({ ry: figure.ry * figure.scaleY });
+      }
+      object.set({ width: figure.width * figure.scaleX });
+      object.set({ height: figure.height * figure.scaleY });
+      object.set({ angle: figure.angle });
+      this.canvas.renderAll();
+    }
+  };
+  newFigure = ({ figure, id, roomname }) => {
+    if (this.roomname === roomname) {
+      this.addFigure(figure, id);
+    }
+  };
+  deleteFigures = (roomname) => {
+    if (this.roomname === roomname) {
+      this.canvas.clear();
+    }
+  };
   selection = (o) => {
     this.props.setShape("selection");
   };
@@ -167,28 +196,13 @@ class Board extends React.Component {
 
     this.canvas.on("selection:created", this.selection);
     this.canvas.on("object:modified", this.modify);
+
+    this.props.socket.on("newFigure", this.newFigure);
+    this.props.socket.on("updateFigure", this.updateFigure);
+    this.props.socket.on("deleteFigures", this.deleteFigures);
+
     getFigures(this.roomname).then((res) => {
       res.data.figures.map((figure) => this.addFigure(figure, figure.id));
-    });
-    this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
-      if (this.roomname === roomname) {
-        this.addFigure(figure, id);
-      }
-    });
-    this.props.socket.on("updateFigure", ({ figure, id, roomname }) => {
-      if (this.roomname === roomname) {
-        const object = this.canvas._objects.find((obj) => obj.id === id);
-        object.set({ left: figure.left });
-        object.set({ top: figure.top });
-        if (figure.type === "ellipse") {
-          object.set({ rx: figure.rx * figure.scaleX });
-          object.set({ ry: figure.ry * figure.scaleY });
-        }
-        object.set({ width: figure.width * figure.scaleX });
-        object.set({ height: figure.height * figure.scaleY });
-        object.set({ angle: figure.angle });
-        this.canvas.renderAll();
-      }
     });
   }
   componentDidUpdate() {
@@ -203,6 +217,15 @@ class Board extends React.Component {
       this.canvas.forEachObject(function (o) {
         o.set({ selectable: true }).setCoords();
       }).selection = true;
+    }
+    if (this.props.shape === "clear") {
+      let ans = window.confirm("Do you want to clear canvas?");
+      this.props.setShape("rectangle");
+      if (ans) {
+        this.canvas.clear();
+        clearCanvas(this.roomname);
+        this.props.socket.emit("clear", { roomname: this.roomname });
+      }
     }
   }
   render() {

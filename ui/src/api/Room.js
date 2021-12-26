@@ -16,4 +16,9 @@ const getFigures = async (roomname) => {
     },
   });
 };
-export { addFigureAPI, updateFigure, getFigures };
+
+const clearCanvas = async (roomname) => {
+  console.log(roomname);
+  await axios.patch(`${URL}/clearCanvas`, { roomname });
+};
+export { addFigureAPI, updateFigure, getFigures, clearCanvas };

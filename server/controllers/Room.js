@@ -51,4 +51,15 @@ const getFigures = async (request, response) => {
     response.json({ message: e.message });
   }
 };
-module.exports = { addRoom, addFigure, updateFigure, getFigures };
+
+const clearCanvas = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    room.figures = [];
+    await room.save();
+    response.send({ message: "Canvas cleared" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
+module.exports = { addRoom, addFigure, updateFigure, getFigures, clearCanvas };

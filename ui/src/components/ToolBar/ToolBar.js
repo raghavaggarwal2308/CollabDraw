@@ -31,7 +31,7 @@ function ToolBar({ setShape }) {
       <div className="lineContainer">
         <Line />
       </div>
-      <div className="clearBoardContainer">
+      <div className="clearBoardContainer" onClick={() => setShape("clear")}>
         <ClearAll />
       </div>
       <div className="undoContainer">
