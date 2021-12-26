@@ -6,7 +6,12 @@ const addRoom = async (roomname, username) => {
     if (room == null) {
       room = await new Room({ roomname });
     }
-    room.users.push({ username });
+    room.users.push({
+      username,
+      lineColor: "black",
+      lineWidth: 2,
+      shape: "rectangle",
+    });
     await room.save();
     return room;
   } catch (e) {
@@ -44,9 +49,18 @@ const updateFigure = async (request, response) => {
 };
 const getFigures = async (request, response) => {
   const roomname = request.query.roomname;
+  const username = request.query.username;
   try {
     const room = await Room.findOne({ roomname });
-    if (room != null) response.send({ figures: room.figures });
+    const index = room.users.findIndex((user) => user.username === username);
+    console.log(room.users);
+    if (room != null)
+      response.send({
+        figures: room.figures,
+        lineColor: room.users[index].lineColor,
+        lineWidth: room.users[index].lineWidth,
+        shape: room.users[index].shape,
+      });
   } catch (e) {
     response.json({ message: e.message });
   }
@@ -62,4 +76,56 @@ const clearCanvas = async (request, response) => {
     response.json({ message: e.message });
   }
 };
-module.exports = { addRoom, addFigure, updateFigure, getFigures, clearCanvas };
+
+const changeLineColor = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.lineColor = request.body.lineColor;
+    await room.save();
+    response.send({ message: "Line Color updated" });
+  } catch (e) {
+    console.log(e.message);
+    response.json({ message: e.message });
+  }
+};
+
+const changeLineWidth = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.lineWidth = request.body.lineWidth;
+    await room.save();
+    response.send({ message: "Line Width updated" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
+
+const changeShape = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.shape = request.body.shape;
+    await room.save();
+    response.send({ message: "Shape updated" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
+module.exports = {
+  addRoom,
+  addFigure,
+  updateFigure,
+  getFigures,
+  clearCanvas,
+  changeLineWidth,
+  changeLineColor,
+  changeShape,
+};

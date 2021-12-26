@@ -9,8 +9,13 @@ import Eraser from "@material-ui/icons/BorderClear";
 import Undo from "@material-ui/icons/Undo";
 import Redo from "@material-ui/icons/Redo";
 import Select from "@material-ui/icons/PhotoSizeSelectSmall";
+import { changeShape } from "../../api/Room";
 
-function ToolBar({ setShape }) {
+function ToolBar({ setShape, roomname, username }) {
+  const changeShapeType = (shape) => {
+    setShape(shape);
+    changeShape(shape, roomname, username);
+  };
   return (
     <div className="topContainer">
       <div className="eraserContainer">
@@ -22,16 +27,25 @@ function ToolBar({ setShape }) {
       <div className="pencilConntainer">
         <Pencil />
       </div>
-      <div className="rectangleContainer" onClick={() => setShape("rectangle")}>
+      <div
+        className="rectangleContainer"
+        onClick={() => changeShapeType("rectangle")}
+      >
         <Rectangle />
       </div>
-      <div className="circleContainer" onClick={() => setShape("ellipse")}>
+      <div
+        className="circleContainer"
+        onClick={() => changeShapeType("ellipse")}
+      >
         <Circle />
       </div>
       <div className="lineContainer">
         <Line />
       </div>
-      <div className="clearBoardContainer" onClick={() => setShape("clear")}>
+      <div
+        className="clearBoardContainer"
+        onClick={() => changeShapeType("clear")}
+      >
         <ClearAll />
       </div>
       <div className="undoContainer">

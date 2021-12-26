@@ -8,6 +8,9 @@ const roomSchema = new mongoose.Schema(
     users: [
       {
         username: String,
+        lineColor: String,
+        lineWidth: Number,
+        shape: String,
       },
     ],
     figures: [

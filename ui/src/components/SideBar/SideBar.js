@@ -1,45 +1,37 @@
 import React from "react";
 import "./SideBar.css";
-// import { SketchPicker } from "react-color";
+import { SketchPicker } from "react-color";
+import { changeLineColor, changeLineWidth } from "../../api/Room";
 
 function SideBar({
-  setlineColor,
+  setLineColor,
   setLineWidth,
   lineWidth,
   lineColor,
-  shapeType,
+  shape,
   eraserSize,
   setEraserSize,
+  username,
+  roomname,
 }) {
-  // useEffect(() => {
-  //   const currentColor = document.querySelector("#color").style.backgroundColor;
-  //   // document.querySelector("#color").style.backgroundColor =
-  //   //   localStorage.getItem("strokeColor") === null
-  //   //     ? "black"
-  //   //     : localStorage.getItem("strokeColor");
-  //   // document.querySelector("#lineWidth").style.backgroundColor = lineColor;
-  //   if (lineColor.length === 0) {
-  //     document.querySelector("#color").style.backgroundColor = currentColor;
-  //     document.querySelector("#lineWidth").style.backgroundColor = currentColor;
-  //   }
-  // }, [lineColor]);
-
-  // function widthslider(e) {
-  //   setLineWidth(e.target.value);
-  // }
-  // function eraserSlider(e) {
-  //   setEraserSize(e.target.value);
-  //   console.log(eraserSize);
-  // }
-  // function changeLineColor(e) {
-  //   setlineColor(e.target.value);
-  // }
-  // function handleChangeComplete(color) {
-  //   setlineColor(color.hex);
-  // }
+  function widthslider(e) {
+    setLineWidth(e.target.value);
+    changeLineWidth(e.target.value, roomname, username);
+  }
+  function eraserSlider(e) {
+    setEraserSize(e.target.value);
+  }
+  function changeColor(e) {
+    setLineColor(e.target.value);
+    changeLineColor(e.target.value, roomname, username);
+  }
+  function handleChangeComplete(color) {
+    setLineColor(color.hex);
+    changeLineColor(color.hex, roomname, username);
+  }
   return (
     <div className="sideContainer">
-      {/* {shapeType === "erase" ? (
+      {shape === "erase" ? (
         <>
           <div className="lineWidthContainer">
             <p>Eraser Size:</p>
@@ -65,7 +57,7 @@ function SideBar({
                 type="text"
                 id="lineColorValue"
                 value={lineColor}
-                onChange={(e) => changeLineColor(e)}
+                onChange={(e) => changeColor(e)}
               />
 
               <div id="colorPicker">
@@ -93,11 +85,14 @@ function SideBar({
                 max="20"
                 value={lineWidth}
               />
-              <div id="lineWidth" style={{ height: lineWidth + "px" }}></div>
+              <div
+                id="lineWidth"
+                style={{ height: lineWidth + "px", backgroundColor: lineColor }}
+              ></div>
             </div>
           </div>
         </>
-      )} */}
+      )}
     </div>
   );
 }

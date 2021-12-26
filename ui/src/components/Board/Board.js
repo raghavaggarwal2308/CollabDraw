@@ -17,8 +17,8 @@ class Board extends React.Component {
     this.origX = null;
     this.origY = null;
     this.isDown = false;
-    this.username = window.location.pathname.split("/")[2];
-    this.roomname = window.location.pathname.split("/")[3];
+    this.username = this.props.username;
+    this.roomname = this.props.roomname;
     this.initialLength = 0;
   }
   start = (o) => {
@@ -37,8 +37,10 @@ class Board extends React.Component {
         width: pointer.x - this.origX,
         height: pointer.y - this.origY,
         angle: 0,
-        fill: "rgba(255,0,0,0.5)",
+        fill: "",
         transparentCorners: false,
+        stroke: this.props.lineColor,
+        strokeWidth: this.props.lineWidth,
       });
       this.canvas.add(this.rect);
     } else if (this.props.shape === "ellipse") {
@@ -52,8 +54,8 @@ class Board extends React.Component {
         originY: "top",
         angle: 0,
         fill: "",
-        stroke: "red",
-        strokeWidth: 3,
+        stroke: this.props.lineColor,
+        strokeWidth: this.props.lineWidth,
       });
       this.canvas.add(this.ellipse);
     }
@@ -130,6 +132,8 @@ class Board extends React.Component {
             angle: figure.angle,
             fill: figure.fill,
             transparentCorners: false,
+            stroke: figure.stroke,
+            strokeWidth: figure.strokeWidth,
           })
         );
         break;
@@ -145,8 +149,8 @@ class Board extends React.Component {
             ry: figure.ry,
             angle: figure.angle,
             fill: "",
-            stroke: "red",
-            strokeWidth: 3,
+            stroke: figure.stroke,
+            strokeWidth: figure.strokeWidth,
           })
         );
         break;
@@ -201,8 +205,12 @@ class Board extends React.Component {
     this.props.socket.on("updateFigure", this.updateFigure);
     this.props.socket.on("deleteFigures", this.deleteFigures);
 
-    getFigures(this.roomname).then((res) => {
+    getFigures(this.roomname, this.username).then((res) => {
+      console.log(res);
       res.data.figures.map((figure) => this.addFigure(figure, figure.id));
+      this.props.setShape(res.data.shape);
+      this.props.setLineColor(res.data.lineColor);
+      this.props.setLineWidth(res.data.lineWidth);
     });
   }
   componentDidUpdate() {

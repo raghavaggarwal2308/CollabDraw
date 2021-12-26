@@ -6,6 +6,10 @@ import SideBar from "../SideBar/SideBar";
 function Container({ socket }) {
   const [shape, setShape] = useState("rectangle");
   const [deselect, setdeselect] = useState(false);
+  const [lineWidth, setLineWidth] = useState(2);
+  const [lineColor, setLineColor] = useState("black");
+  const username = window.location.pathname.split("/")[2].trim().toLowerCase();
+  const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
   const deselectAll = (e) => {
     if (e.target.className !== "upper-canvas ") {
       setdeselect(true);
@@ -13,15 +17,29 @@ function Container({ socket }) {
   };
   return (
     <div onClick={deselectAll}>
-      <ToolBar setShape={setShape} />
+      <ToolBar setShape={setShape} username={username} roomname={roomname} />
       <Board
         shape={shape}
         setShape={setShape}
         socket={socket}
         deselect={deselect}
         setdeselect={setdeselect}
+        lineColor={lineColor}
+        lineWidth={lineWidth}
+        setLineColor={setLineColor}
+        setLineWidth={setLineWidth}
+        username={username}
+        roomname={roomname}
       />
-      <SideBar shape={shape} />
+      <SideBar
+        shape={shape}
+        setLineColor={setLineColor}
+        setLineWidth={setLineWidth}
+        lineColor={lineColor}
+        lineWidth={lineWidth}
+        username={username}
+        roomname={roomname}
+      />
     </div>
   );
 }
