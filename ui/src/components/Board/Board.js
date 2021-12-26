@@ -2,6 +2,7 @@ import React from "react";
 import { fabric } from "fabric";
 import "./Board.css";
 import uuid from "react-uuid";
+import { addFigureAPI, updateFigure, getFigures } from "../../api/Room";
 class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -90,13 +91,19 @@ class Board extends React.Component {
     const id = figures[figures.length - 1].id;
 
     const roomname = this.roomname;
+
     if (this.initialLength !== figures.length && figures.length !== 0) {
+      addFigureAPI({ figure, id, roomname });
       this.props.socket.emit("drawFigures", { figure, id, roomname });
     }
     this.props.setShape("selection");
   };
   modify = (o) => {
-    console.log(o);
+    updateFigure({
+      figure: o.target,
+      id: o.target.id,
+      roomname: this.roomname,
+    });
     this.props.socket.emit("modifyFigure", {
       figure: o.target,
       id: o.target.id,
@@ -160,6 +167,9 @@ class Board extends React.Component {
 
     this.canvas.on("selection:created", this.selection);
     this.canvas.on("object:modified", this.modify);
+    getFigures(this.roomname).then((res) => {
+      res.data.figures.map((figure) => this.addFigure(figure, figure.id));
+    });
     this.props.socket.on("newFigure", ({ figure, id, roomname }) => {
       if (this.roomname === roomname) {
         this.addFigure(figure, id);
@@ -168,19 +178,15 @@ class Board extends React.Component {
     this.props.socket.on("updateFigure", ({ figure, id, roomname }) => {
       if (this.roomname === roomname) {
         const object = this.canvas._objects.find((obj) => obj.id === id);
-        console.log(object);
-        console.log(figure);
         object.set({ left: figure.left });
         object.set({ top: figure.top });
-        if (figure.type == "ellipse") {
+        if (figure.type === "ellipse") {
           object.set({ rx: figure.rx * figure.scaleX });
           object.set({ ry: figure.ry * figure.scaleY });
         }
         object.set({ width: figure.width * figure.scaleX });
         object.set({ height: figure.height * figure.scaleY });
         object.set({ angle: figure.angle });
-
-        console.log(object);
         this.canvas.renderAll();
       }
     });

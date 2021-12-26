@@ -1,4 +1,5 @@
 const { addUser, removeUser } = require("../utils/socketUsers.js");
+const { addRoom } = require("../controllers/Room.js");
 const initializeSocket = (io) => {
   io.on("connection", (socket) => {
     console.log("connection established");
@@ -9,6 +10,7 @@ const initializeSocket = (io) => {
       const { error, message } = addUser({ username, roomname, id });
       if (message) {
         socket.join(roomname);
+        addRoom(roomname, username);
       }
       callback(error, message);
     });
