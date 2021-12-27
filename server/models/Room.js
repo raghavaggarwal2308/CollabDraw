@@ -53,6 +53,7 @@ const roomSchema = new mongoose.Schema(
         x2: Number,
         y1: Number,
         y2: Number,
+        path: Array,
       },
     ],
   },
