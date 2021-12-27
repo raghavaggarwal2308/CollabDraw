@@ -16,6 +16,7 @@ class Board extends React.Component {
     this.rect = null;
     this.ellipse = null;
     this.line = null;
+    this.pencil = null;
     this.origX = null;
     this.origY = null;
     this.isDown = false;
@@ -77,6 +78,7 @@ class Board extends React.Component {
         });
         this.canvas.add(this.line);
         break;
+
       default:
     }
   };
@@ -120,8 +122,15 @@ class Board extends React.Component {
   };
   finish = (o) => {
     this.isDown = false;
+
+    console.log(this.canvas._objects);
     const figures = this.canvas._objects;
     const figure = figures[figures.length - 1];
+    if (this.props.shape === "pencil") {
+      this.canvas.isDrawingMode = false;
+      // figure.id = uuid();
+      figures[figures.length - 1].id = uuid();
+    }
     const id = figures[figures.length - 1].id;
     const roomname = this.roomname;
 
@@ -196,17 +205,36 @@ class Board extends React.Component {
         });
         this.canvas.add(this.line);
         break;
+      case "path":
+        this.pencil = new fabric.Path(figure.path, {
+          id,
+          left: figure.left,
+          top: figure.top,
+          fill: "",
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+          originX: figure.originX,
+          originY: figure.originY,
+          angle: figure.angle,
+        });
+        this.canvas.add(this.pencil);
+        break;
       default:
     }
   };
   updateFigure = ({ figure, id, roomname }) => {
     if (this.roomname === roomname) {
       const object = this.canvas._objects.find((obj) => obj.id === id);
+      console.log(figure);
+      console.log(object);
       object.set({ left: figure.left });
       object.set({ top: figure.top });
       if (figure.type === "ellipse") {
         object.set({ rx: figure.rx * figure.scaleX });
         object.set({ ry: figure.ry * figure.scaleY });
+      } else if (figure.type === "path") {
+        object.set({ scaleX: figure.scaleX });
+        object.set({ scaleY: figure.scaleY });
       }
       object.set({ width: figure.width * figure.scaleX });
       object.set({ height: figure.height * figure.scaleY });
@@ -274,6 +302,12 @@ class Board extends React.Component {
       this.props.setdeselect(false);
     }
     switch (this.props.shape) {
+      case "pencil":
+        this.canvas.isDrawingMode = true;
+        this.canvas.freeDrawingBrush.width = this.props.lineWidth;
+        this.canvas.freeDrawingBrush.color = this.props.lineColor;
+        // this.canvas.freeDrawingBrush.id = uuid();
+        break;
       case "selection":
         this.canvas.forEachObject(function (o) {
           o.set({ selectable: true }).setCoords();
@@ -321,6 +355,7 @@ class Board extends React.Component {
         this.props.setShape("selection");
         break;
       default:
+        this.canvas.isDrawingMode = false;
     }
   }
   render() {

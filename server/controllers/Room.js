@@ -110,7 +110,11 @@ const changeShape = async (request, response) => {
     const user = room.users.find(
       (user) => user.username === request.body.username
     );
-    if (request.body.shape !== "undo" && request.body.shape !== "redo")
+    if (
+      request.body.shape !== "undo" &&
+      request.body.shape !== "redo" &&
+      request.body.shape !== "clear"
+    )
       user.shape = request.body.shape;
     else user.shape = "selection";
     await room.save();

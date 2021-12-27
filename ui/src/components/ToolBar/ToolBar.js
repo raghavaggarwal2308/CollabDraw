@@ -21,10 +21,16 @@ function ToolBar({ setShape, roomname, username }) {
       <div className="eraserContainer">
         <Eraser />
       </div>
-      <div className="selectContainer">
+      <div
+        className="selectContainer"
+        onClick={() => changeShapeType("selection")}
+      >
         <Select />
       </div>
-      <div className="pencilConntainer">
+      <div
+        className="pencilConntainer"
+        onClick={() => changeShapeType("pencil")}
+      >
         <Pencil />
       </div>
       <div
