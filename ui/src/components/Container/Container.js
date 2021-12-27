@@ -17,7 +17,12 @@ function Container({ socket }) {
   };
   return (
     <div onClick={deselectAll}>
-      <ToolBar setShape={setShape} username={username} roomname={roomname} />
+      <ToolBar
+        shape={shape}
+        setShape={setShape}
+        username={username}
+        roomname={roomname}
+      />
       <Board
         shape={shape}
         setShape={setShape}

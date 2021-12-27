@@ -7,7 +7,7 @@
   display: flex;
   padding: 5px;
   border-radius: 5px;
-  /* margin: auto; */
+  z-index: 10;
 }
 
 .topContainer div {
@@ -25,4 +25,8 @@
 .clearBoardContainer {
   background-color: rgb(206, 36, 36);
   color: white;
+}
+
+.buttonBack {
+  background-color: rgb(235, 230, 230);
 }

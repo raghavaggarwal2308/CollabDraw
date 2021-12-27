@@ -282,10 +282,10 @@ class Board extends React.Component {
   };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
-    this.canvas.setDimensions({
-      height: 400,
-      width: 550,
-    });
+    // this.canvas.setDimensions({
+    //   height: window.height,
+    //   width: window.width,
+    // });
 
     this.canvas.on("mouse:down", this.start);
 
@@ -377,7 +377,11 @@ class Board extends React.Component {
     return (
       <div className="canvasContainer" id="board">
         {" "}
-        <canvas id="canvas"></canvas>
+        <canvas
+          id="canvas"
+          width={window.innerWidth}
+          height={window.innerHeight}
+        ></canvas>
       </div>
     );
   }

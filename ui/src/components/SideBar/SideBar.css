@@ -7,6 +7,7 @@
   top: 50%;
   transform: translate(0%, -50%);
   box-sizing: border-box;
+  z-index: 10;
 }
 
 .colorPickerContainer {

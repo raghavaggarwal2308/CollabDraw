@@ -10,11 +10,13 @@ import Undo from "@material-ui/icons/Undo";
 import Redo from "@material-ui/icons/Redo";
 import Select from "@material-ui/icons/PhotoSizeSelectSmall";
 import { changeShape } from "../../api/Room";
+import shape from "@material-ui/core/styles/shape";
 
-function ToolBar({ setShape, roomname, username }) {
-  const changeShapeType = (shape) => {
+function ToolBar({ shape, setShape, roomname, username }) {
+  const changeShapeType = (shape, event) => {
     setShape(shape);
     changeShape(shape, roomname, username);
+    event.stopPropagation();
   };
   return (
     <div className="topContainer">
@@ -22,42 +24,53 @@ function ToolBar({ setShape, roomname, username }) {
         <Eraser />
       </div>
       <div
-        className="selectContainer"
-        onClick={() => changeShapeType("selection")}
+        className={`selectConntainer ${shape === "selection" && "buttonBack"}`}
+        onClick={(e) => changeShapeType("selection", e)}
       >
         <Select />
       </div>
       <div
-        className="pencilConntainer"
-        onClick={() => changeShapeType("pencil")}
+        className={`pencilConntainer ${shape === "pencil" && "buttonBack"}`}
+        onClick={(e) => changeShapeType("pencil", e)}
       >
         <Pencil />
       </div>
       <div
-        className="rectangleContainer"
-        onClick={() => changeShapeType("rectangle")}
+        className={`rectangleConntainer ${
+          shape === "rectangle" && "buttonBack"
+        }`}
+        onClick={(e) => changeShapeType("rectangle", e)}
       >
         <Rectangle />
       </div>
       <div
-        className="circleContainer"
-        onClick={() => changeShapeType("ellipse")}
+        className={`circleConntainer ${shape === "ellipse" && "buttonBack"}`}
+        onClick={(e) => changeShapeType("ellipse", e)}
       >
         <Circle />
       </div>
-      <div className="lineContainer" onClick={() => changeShapeType("line")}>
+      <div
+        className={`lineConntainer ${shape === "line" && "buttonBack"}`}
+        onClick={(e) => changeShapeType("line", e)}
+      >
         <Line />
       </div>
       <div
         className="clearBoardContainer"
-        onClick={() => changeShapeType("clear")}
+        onClick={(e) => changeShapeType("clear", e)}
       >
         <ClearAll />
       </div>
-      <div className="undoContainer" onClick={() => changeShapeType("undo")}>
+      <div
+        className="undoContainer"
+        onClick={(e) => changeShapeType("undo", e)}
+      >
         <Undo />
       </div>
-      <div className="redoContainer" onClick={() => changeShapeType("redo")}>
+      <div
+        className="redoContainer"
+        onClick={(e) => changeShapeType("redo", e)}
+      >
         <Redo />
       </div>
     </div>
