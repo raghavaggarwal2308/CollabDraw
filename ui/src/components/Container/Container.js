@@ -4,7 +4,7 @@ import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
 
 function Container({ socket }) {
-  const [shape, setShape] = useState("rectangle");
+  const [shape, setShape] = useState("pencil");
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);
   const [lineColor, setLineColor] = useState("black");
