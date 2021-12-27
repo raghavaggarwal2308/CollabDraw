@@ -7,6 +7,7 @@ import {
   updateFigure,
   getFigures,
   clearCanvas,
+  undoFigure,
 } from "../../api/Room";
 class Board extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Board extends React.Component {
     this.username = this.props.username;
     this.roomname = this.props.roomname;
     this.initialLength = 0;
+    this.redoArray = [];
   }
   start = (o) => {
     this.initialLength = this.canvas._objects.length;
@@ -102,6 +104,7 @@ class Board extends React.Component {
     if (this.initialLength !== figures.length && figures.length !== 0) {
       addFigureAPI({ figure, id, roomname });
       this.props.socket.emit("drawFigures", { figure, id, roomname });
+      this.redoArray = [];
     }
     this.props.setShape("selection");
   };
@@ -185,6 +188,15 @@ class Board extends React.Component {
   selection = (o) => {
     this.props.setShape("selection");
   };
+  undoFigure = ({ figure, roomname, id }) => {
+    if (this.roomname === roomname) {
+      this.canvas._objects.forEach((figure) => {
+        if (figure.id === id) {
+          this.canvas.remove(figure);
+        }
+      });
+    }
+  };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
     this.canvas.setDimensions({
@@ -204,6 +216,7 @@ class Board extends React.Component {
     this.props.socket.on("newFigure", this.newFigure);
     this.props.socket.on("updateFigure", this.updateFigure);
     this.props.socket.on("deleteFigures", this.deleteFigures);
+    this.props.socket.on("undoFigure", this.undoFigure);
 
     getFigures(this.roomname, this.username).then((res) => {
       console.log(res);
@@ -213,6 +226,7 @@ class Board extends React.Component {
       this.props.setLineWidth(res.data.lineWidth);
     });
   }
+
   componentDidUpdate() {
     if (this.props.deselect) {
       this.canvas.forEachObject((o) => {
@@ -221,19 +235,54 @@ class Board extends React.Component {
       this.canvas.discardActiveObject().renderAll();
       this.props.setdeselect(false);
     }
-    if (this.props.shape === "selection") {
-      this.canvas.forEachObject(function (o) {
-        o.set({ selectable: true }).setCoords();
-      }).selection = true;
-    }
-    if (this.props.shape === "clear") {
-      let ans = window.confirm("Do you want to clear canvas?");
-      this.props.setShape("rectangle");
-      if (ans) {
-        this.canvas.clear();
-        clearCanvas(this.roomname);
-        this.props.socket.emit("clear", { roomname: this.roomname });
-      }
+    switch (this.props.shape) {
+      case "selection":
+        this.canvas.forEachObject(function (o) {
+          o.set({ selectable: true }).setCoords();
+        }).selection = true;
+        break;
+      case "clear":
+        let ans = window.confirm("Do you want to clear canvas?");
+        this.props.setShape("rectangle");
+        if (ans) {
+          this.canvas.clear();
+          clearCanvas(this.roomname);
+          this.props.socket.emit("clear", { roomname: this.roomname });
+        }
+        break;
+      case "undo":
+        if (this.canvas._objects.length > 0) {
+          let undoFig = this.canvas._objects.pop();
+          this.redoArray.push(undoFig);
+          this.canvas.renderAll();
+          this.props.socket.emit("undo", {
+            figure: undoFig,
+            roomname: this.roomname,
+            id: undoFig.id,
+          });
+          undoFigure(undoFig, this.roomname, undoFig.id);
+        }
+        this.props.setShape("selection");
+        break;
+      case "redo":
+        if (this.redoArray.length > 0) {
+          let redoFigure = this.redoArray.pop();
+          this.canvas.add(redoFigure);
+          this.canvas.renderAll();
+          this.props.socket.emit("redo", {
+            figure: redoFigure,
+            roomname: this.roomname,
+            id: redoFigure.id,
+          });
+          addFigureAPI({
+            figure: redoFigure,
+            id: redoFigure.id,
+            roomname: this.roomname,
+          });
+        }
+        this.props.setShape("selection");
+        break;
+      default:
     }
   }
   render() {

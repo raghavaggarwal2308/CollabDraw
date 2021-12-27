@@ -119,6 +119,18 @@ const changeShape = async (request, response) => {
     response.json({ message: e.message });
   }
 };
+const undoFigure = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    room.figures = room.figures.filter(
+      (figure) => request.body.id !== figure.id
+    );
+    await room.save();
+    response.sed({ message: "undo successful" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
 module.exports = {
   addRoom,
   addFigure,
@@ -128,4 +140,5 @@ module.exports = {
   changeLineWidth,
   changeLineColor,
   changeShape,
+  undoFigure,
 };

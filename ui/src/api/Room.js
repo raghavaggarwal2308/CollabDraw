@@ -42,6 +42,11 @@ const changeLineWidth = async (lineWidth, roomname, username) => {
 const changeShape = async (shape, roomname, username) => {
   await axios.patch(`${URL}/changeShape`, { shape, roomname, username });
 };
+
+const undoFigure = async (figure, roomname, id) => {
+  await axios.patch(`${URL}/undoFigure`, { figure, roomname, id });
+};
+
 export {
   addFigureAPI,
   updateFigure,
@@ -50,4 +55,5 @@ export {
   changeLineColor,
   changeLineWidth,
   changeShape,
+  undoFigure,
 };

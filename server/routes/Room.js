@@ -8,6 +8,7 @@ const {
   changeLineColor,
   changeLineWidth,
   changeShape,
+  undoFigure,
 } = require("../controllers/Room.js");
 
 route.post("/addFigure", addFigure);
@@ -17,5 +18,6 @@ route.patch("/clearCanvas", clearCanvas);
 route.patch("/changeLineColor", changeLineColor);
 route.patch("/changeLineWidth", changeLineWidth);
 route.patch("/changeShape", changeShape);
+route.patch("/undoFIgure", undoFigure);
 
 module.exports = route;

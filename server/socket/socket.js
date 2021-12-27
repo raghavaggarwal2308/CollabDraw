@@ -23,6 +23,12 @@ const initializeSocket = (io) => {
     socket.on("clear", ({ roomname }) => {
       socket.broadcast.emit("deleteFigures", roomname);
     });
+    socket.on("undo", ({ figure, roomname, id }) => {
+      socket.broadcast.emit("undoFigure", { figure, roomname, id });
+    });
+    socket.on("redo", ({ figure, roomname, id }) => {
+      socket.broadcast.emit("newFigure", { figure, id, roomname });
+    });
   });
 };
 module.exports = initializeSocket;

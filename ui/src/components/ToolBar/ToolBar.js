@@ -48,10 +48,10 @@ function ToolBar({ setShape, roomname, username }) {
       >
         <ClearAll />
       </div>
-      <div className="undoContainer">
+      <div className="undoContainer" onClick={() => changeShapeType("undo")}>
         <Undo />
       </div>
-      <div className="redoContainer">
+      <div className="redoContainer" onClick={() => changeShapeType("redo")}>
         <Redo />
       </div>
     </div>
