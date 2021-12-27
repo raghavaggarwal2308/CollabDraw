@@ -19,7 +19,6 @@ const getFigures = async (roomname, username) => {
 };
 
 const clearCanvas = async (roomname) => {
-  console.log(roomname);
   await axios.patch(`${URL}/clearCanvas`, { roomname });
 };
 

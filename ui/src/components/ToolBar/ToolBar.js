@@ -39,7 +39,7 @@ function ToolBar({ setShape, roomname, username }) {
       >
         <Circle />
       </div>
-      <div className="lineContainer">
+      <div className="lineContainer" onClick={() => changeShapeType("line")}>
         <Line />
       </div>
       <div

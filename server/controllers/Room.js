@@ -53,7 +53,6 @@ const getFigures = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname });
     const index = room.users.findIndex((user) => user.username === username);
-    console.log(room.users);
     if (room != null)
       response.send({
         figures: room.figures,
@@ -87,7 +86,6 @@ const changeLineColor = async (request, response) => {
     await room.save();
     response.send({ message: "Line Color updated" });
   } catch (e) {
-    console.log(e.message);
     response.json({ message: e.message });
   }
 };
@@ -112,7 +110,9 @@ const changeShape = async (request, response) => {
     const user = room.users.find(
       (user) => user.username === request.body.username
     );
-    user.shape = request.body.shape;
+    if (request.body.shape !== "undo" && request.body.shape !== "redo")
+      user.shape = request.body.shape;
+    else user.shape = "selection";
     await room.save();
     response.send({ message: "Shape updated" });
   } catch (e) {

@@ -15,6 +15,7 @@ class Board extends React.Component {
     this.canvas = null;
     this.rect = null;
     this.ellipse = null;
+    this.line = null;
     this.origX = null;
     this.origY = null;
     this.isDown = false;
@@ -27,69 +28,93 @@ class Board extends React.Component {
     this.initialLength = this.canvas._objects.length;
     this.isDown = true;
     let pointer = this.canvas.getPointer(o.e);
+    var points = [pointer.x, pointer.y, pointer.x, pointer.y];
     this.origX = pointer.x;
     this.origY = pointer.y;
-    if (this.props.shape === "rectangle") {
-      this.rect = new fabric.Rect({
-        id: uuid(),
-        left: this.origX,
-        top: this.origY,
-        originX: "left",
-        originY: "top",
-        width: pointer.x - this.origX,
-        height: pointer.y - this.origY,
-        angle: 0,
-        fill: "",
-        transparentCorners: false,
-        stroke: this.props.lineColor,
-        strokeWidth: this.props.lineWidth,
-      });
-      this.canvas.add(this.rect);
-    } else if (this.props.shape === "ellipse") {
-      this.ellipse = new fabric.Ellipse({
-        id: uuid(),
-        left: this.origX,
-        top: this.origY,
-        rx: pointer.x - this.origX,
-        ry: pointer.y - this.origY,
-        originX: "left",
-        originY: "top",
-        angle: 0,
-        fill: "",
-        stroke: this.props.lineColor,
-        strokeWidth: this.props.lineWidth,
-      });
-      this.canvas.add(this.ellipse);
+    switch (this.props.shape) {
+      case "rectangle":
+        this.rect = new fabric.Rect({
+          id: uuid(),
+          left: this.origX,
+          top: this.origY,
+          originX: "left",
+          originY: "top",
+          width: pointer.x - this.origX,
+          height: pointer.y - this.origY,
+          angle: 0,
+          fill: "",
+          transparentCorners: false,
+          stroke: this.props.lineColor,
+          strokeWidth: this.props.lineWidth,
+        });
+        this.canvas.add(this.rect);
+        break;
+      case "ellipse":
+        this.ellipse = new fabric.Ellipse({
+          id: uuid(),
+          left: this.origX,
+          top: this.origY,
+          rx: pointer.x - this.origX,
+          ry: pointer.y - this.origY,
+          originX: "left",
+          originY: "top",
+          angle: 0,
+          fill: "",
+          stroke: this.props.lineColor,
+          strokeWidth: this.props.lineWidth,
+        });
+        this.canvas.add(this.ellipse);
+        break;
+      case "line":
+        this.line = new fabric.Line(points, {
+          id: uuid(),
+          fill: "",
+          stroke: this.props.lineColor,
+          strokeWidth: this.props.lineWidth,
+          originX: "center",
+          originY: "center",
+          angle: 0,
+        });
+        this.canvas.add(this.line);
+        break;
+      default:
     }
   };
   draw = (o) => {
     if (!this.isDown) return;
     var pointer = this.canvas.getPointer(o.e);
-    if (this.props.shape === "rectangle") {
-      if (this.origX > pointer.x) {
-        this.rect.set({ left: Math.abs(pointer.x) });
-      }
-      if (this.origY > pointer.y) {
-        this.rect.set({ top: Math.abs(pointer.y) });
-      }
+    switch (this.props.shape) {
+      case "rectangle":
+        if (this.origX > pointer.x) {
+          this.rect.set({ left: Math.abs(pointer.x) });
+        }
+        if (this.origY > pointer.y) {
+          this.rect.set({ top: Math.abs(pointer.y) });
+        }
 
-      this.rect.set({ width: Math.abs(this.origX - pointer.x) });
-      this.rect.set({ height: Math.abs(this.origY - pointer.y) });
-    } else if (this.props.shape === "ellipse") {
-      var rx = Math.abs(this.origX - pointer.x) / 2;
-      var ry = Math.abs(this.origY - pointer.y) / 2;
-      this.ellipse.set({ rx: rx });
-      this.ellipse.set({ ry: ry });
-      if (this.origX > pointer.x) {
-        this.ellipse.set({ originX: "right" });
-      } else {
-        this.ellipse.set({ originX: "left" });
-      }
-      if (this.origY > pointer.y) {
-        this.ellipse.set({ originY: "bottom" });
-      } else {
-        this.ellipse.set({ originY: "top" });
-      }
+        this.rect.set({ width: Math.abs(this.origX - pointer.x) });
+        this.rect.set({ height: Math.abs(this.origY - pointer.y) });
+        break;
+      case "ellipse":
+        var rx = Math.abs(this.origX - pointer.x) / 2;
+        var ry = Math.abs(this.origY - pointer.y) / 2;
+        this.ellipse.set({ rx: rx });
+        this.ellipse.set({ ry: ry });
+        if (this.origX > pointer.x) {
+          this.ellipse.set({ originX: "right" });
+        } else {
+          this.ellipse.set({ originX: "left" });
+        }
+        if (this.origY > pointer.y) {
+          this.ellipse.set({ originY: "bottom" });
+        } else {
+          this.ellipse.set({ originY: "top" });
+        }
+        break;
+      case "line":
+        this.line.set({ x2: pointer.x, y2: pointer.y });
+        break;
+      default:
     }
     this.canvas.renderAll();
   };
@@ -98,7 +123,6 @@ class Board extends React.Component {
     const figures = this.canvas._objects;
     const figure = figures[figures.length - 1];
     const id = figures[figures.length - 1].id;
-
     const roomname = this.roomname;
 
     if (this.initialLength !== figures.length && figures.length !== 0) {
@@ -156,6 +180,21 @@ class Board extends React.Component {
             strokeWidth: figure.strokeWidth,
           })
         );
+        break;
+      case "line":
+        let points = [figure.x1, figure.y1, figure.x2, figure.y2];
+        this.line = new fabric.Line(points, {
+          id,
+          left: figure.left,
+          top: figure.top,
+          fill: "",
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+          originX: figure.originX,
+          originY: figure.originY,
+          angle: figure.angle,
+        });
+        this.canvas.add(this.line);
         break;
       default:
     }
@@ -219,7 +258,6 @@ class Board extends React.Component {
     this.props.socket.on("undoFigure", this.undoFigure);
 
     getFigures(this.roomname, this.username).then((res) => {
-      console.log(res);
       res.data.figures.map((figure) => this.addFigure(figure, figure.id));
       this.props.setShape(res.data.shape);
       this.props.setLineColor(res.data.lineColor);
