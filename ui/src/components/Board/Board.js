@@ -2,6 +2,7 @@ import React from "react";
 import { fabric } from "fabric";
 import "./Board.css";
 import uuid from "react-uuid";
+import brush from "./FabricBrush.js";
 import {
   addFigureAPI,
   updateFigure,
@@ -142,7 +143,9 @@ class Board extends React.Component {
         this.redoArray = [];
       }
     }
+
     this.props.setShape("selection");
+    console.log(this.canvas);
   };
   modify = (o) => {
     updateFigure({
@@ -241,7 +244,131 @@ class Board extends React.Component {
       default:
     }
   };
+
+  getFigure = (figure) => {
+    switch (figure.type) {
+      case "rect":
+        const rectangle = new fabric.Rect({
+          left: figure.left,
+          top: figure.top,
+          originX: figure.originX,
+          originY: figure.originY,
+          width: figure.width,
+          height: figure.height,
+          angle: figure.angle,
+          fill: figure.fill,
+          scaleX: figure.scaleX,
+          scaleY: figure.scaleY,
+          flipX: figure.flipX,
+          flipY: figure.flipY,
+          transparentCorners: false,
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+        });
+        return rectangle;
+      case "ellipse":
+        const ellipse = new fabric.Ellipse({
+          left: figure.left,
+          top: figure.top,
+          originX: figure.originX,
+          originY: figure.originY,
+          rx: figure.rx,
+          ry: figure.ry,
+          scaleX: figure.scaleX,
+          scaleY: figure.scaleY,
+          flipX: figure.flipX,
+          flipY: figure.flipY,
+          angle: figure.angle,
+          fill: "",
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+        });
+        return ellipse;
+      case "line":
+        let points = [figure.x1, figure.y1, figure.x2, figure.y2];
+        const line = new fabric.Line(points, {
+          left: figure.left,
+          top: figure.top,
+          fill: "",
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+          originX: figure.originX,
+          originY: figure.originY,
+          scaleX: figure.scaleX,
+          scaleY: figure.scaleY,
+          flipX: figure.flipX,
+          flipY: figure.flipY,
+          angle: figure.angle,
+        });
+        return line;
+      case "path":
+        const path = new fabric.Path(figure.path, {
+          left: figure.left,
+          top: figure.top,
+          fill: "",
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+          originX: figure.originX,
+          originY: figure.originY,
+          scaleX: figure.scaleX,
+          scaleY: figure.scaleY,
+          flipX: figure.flipX,
+          flipY: figure.flipY,
+          angle: figure.angle,
+        });
+        return path;
+      default:
+    }
+  };
+
+  getFigArray = (objects) => {
+    return objects.map((object) => this.getFigure(object));
+  };
+
+  createClipPath = (clipPath) => {
+    let figArray = this.getFigArray(clipPath.objects);
+    let group = new fabric.Group(figArray, {
+      left: clipPath.left,
+      top: clipPath.top,
+      angle: clipPath.angle,
+      absolutePositioned: clipPath.absolutePositioned,
+      backgroundColor: clipPath.backgroundColor,
+      erasable: clipPath.erasable,
+      eraser: clipPath.eraser,
+      fill: clipPath.fill,
+      fillRule: clipPath.fillRule,
+      flipX: clipPath.flipX,
+      flipY: clipPath.flipY,
+      globalCompositeOperation: clipPath.globalCompositeOperation,
+      height: clipPath.height,
+      inverted: clipPath.inverted,
+      left: clipPath.left,
+      opacity: clipPath.opacity,
+      originX: clipPath.originX,
+      originY: clipPath.originY,
+      paintFirst: clipPath.paintFirst,
+      scaleX: clipPath.scaleX,
+      scaleY: clipPath.scaleY,
+      shadow: clipPath.shadow,
+      skewX: clipPath.skewX,
+      skewY: clipPath.skewY,
+      stroke: clipPath.stroke,
+      strokeDashArray: clipPath.strokeDashArray,
+      strokeDashOffset: clipPath.strokeDashOffset,
+      strokeLineCap: clipPath.strokeLineCap,
+      strokeLineJoin: clipPath.strokeLineJoin,
+      strokeMiterLimit: clipPath.strokeMiterLimit,
+      strokeUniform: clipPath.strokeUniform,
+      strokeWidth: clipPath.strokeWidth,
+      type: clipPath.type,
+      version: clipPath.version,
+      visible: clipPath.visible,
+      width: clipPath.width,
+    });
+    return group;
+  };
   updateFigure = ({ figure, id, roomname }) => {
+    console.log(figure);
     if (this.roomname === roomname) {
       const object = this.canvas._objects.find((obj) => obj.id === id);
       object.set({ left: figure.left });
@@ -253,6 +380,14 @@ class Board extends React.Component {
       object.set({ angle: figure.angle });
       object.set({ flipX: figure.flipX });
       object.set({ flipY: figure.flipY });
+      if (figure.clipPath) {
+        const clipPath = this.createClipPath(figure.clipPath);
+        object.set({ erasable: figure.erasable });
+        object.set({ clipPath: clipPath });
+        object.set({
+          globalCompositeOperation: figure.globalCompositeOperation,
+        });
+      }
 
       this.canvas.renderAll();
     }
@@ -281,11 +416,22 @@ class Board extends React.Component {
   };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
-    // this.canvas.setDimensions({
-    //   height: window.height,
-    //   width: window.width,
-    // });
+    this.canvas.setDimensions({
+      height: 400,
+      width: 500,
+    });
+    brush();
+    this.canvas.on("erasing:end", (o) => {
+      o.targets.forEach((target) => {
+        this.props.socket.emit("modifyFigure", {
+          figure: target,
+          id: target.id,
+          roomname: this.roomname,
+        });
+      });
 
+      console.log(o);
+    });
     this.canvas.on("mouse:down", this.start);
 
     this.canvas.on("mouse:move", this.draw);
@@ -317,6 +463,11 @@ class Board extends React.Component {
       this.props.setdeselect(false);
     }
     switch (this.props.shape) {
+      case "eraser":
+        this.canvas.freeDrawingBrush = new fabric.EraserBrush(this.canvas);
+        this.canvas.freeDrawingBrush.width = 10;
+        this.canvas.isDrawingMode = true;
+        break;
       case "pencil":
         this.canvas.isDrawingMode = true;
         this.canvas.freeDrawingBrush.width = this.props.lineWidth;
@@ -376,11 +527,7 @@ class Board extends React.Component {
     return (
       <div className="canvasContainer" id="board">
         {" "}
-        <canvas
-          id="canvas"
-          width={window.innerWidth}
-          height={window.innerHeight}
-        ></canvas>
+        <canvas id="canvas"></canvas>
       </div>
     );
   }

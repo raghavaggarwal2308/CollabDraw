@@ -18,6 +18,7 @@ const initializeSocket = (io) => {
       socket.broadcast.emit("newFigure", { figure, id, roomname });
     });
     socket.on("modifyFigure", ({ figure, id, roomname }) => {
+      console.log(figure);
       socket.broadcast.emit("updateFigure", { figure, id, roomname });
     });
     socket.on("clear", ({ roomname }) => {
