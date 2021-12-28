@@ -4,7 +4,6 @@ const addUser = async (request, response) => {
   try {
     const newUser = new User(currentUser);
     const token = await newUser.getAuthToken();
-    console.log(newUser);
     response.status(200).send({ user: newUser, token });
   } catch (error) {
     response.json({ message: error.message });

@@ -31,7 +31,6 @@ function Login() {
   };
   return (
     <form onSubmit={submitHandler} className="logIn">
-      {/* <label>Email</label> */}
       <input
         value={email}
         name="email"
@@ -41,7 +40,6 @@ function Login() {
         className="loginEmail"
         required
       />
-      {/* <label>Password</label> */}
       <input
         name="password"
         type="password"

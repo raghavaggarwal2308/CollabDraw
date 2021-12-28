@@ -10,13 +10,11 @@ import Undo from "@material-ui/icons/Undo";
 import Redo from "@material-ui/icons/Redo";
 import Select from "@material-ui/icons/PhotoSizeSelectSmall";
 import { changeShape } from "../../api/Room";
-import shape from "@material-ui/core/styles/shape";
 
 function ToolBar({ shape, setShape, roomname, username }) {
   const changeShapeType = (shape, event) => {
     setShape(shape);
     changeShape(shape, roomname, username);
-    event.stopPropagation();
   };
   return (
     <div className="topContainer">

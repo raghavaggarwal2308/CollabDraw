@@ -142,7 +142,6 @@ class Board extends React.Component {
         this.redoArray = [];
       }
     }
-
     this.props.setShape("selection");
   };
   modify = (o) => {
