@@ -42,10 +42,15 @@ const changeShape = async (shape, roomname, username) => {
   await axios.patch(`${URL}/changeShape`, { shape, roomname, username });
 };
 
-const undoFigure = async (figure, roomname, id) => {
-  await axios.patch(`${URL}/undoFigure`, { figure, roomname, id });
+// const undoFigure = async (figure, roomname, id) => {
+//   await axios.patch(`${URL}/undoFigure`, { figure, roomname, id });
+// };
+const undoFigure = async (figures, roomname) => {
+  await axios.patch(`${URL}/undoFigure`, { figures, roomname });
 };
-
+const redoFigure = async (figures, roomname) => {
+  await axios.patch(`${URL}/redoFigure`, { figures, roomname });
+};
 export {
   addFigureAPI,
   updateFigure,
@@ -55,4 +60,5 @@ export {
   changeLineWidth,
   changeShape,
   undoFigure,
+  redoFigure,
 };

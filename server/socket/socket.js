@@ -24,11 +24,17 @@ const initializeSocket = (io) => {
     socket.on("clear", ({ roomname }) => {
       socket.broadcast.emit("deleteFigures", roomname);
     });
-    socket.on("undo", ({ figure, roomname, id }) => {
-      socket.broadcast.emit("undoFigure", { figure, roomname, id });
+    // socket.on("undo", ({ figure, roomname, id }) => {
+    //   socket.broadcast.emit("undoFigure", { figure, roomname, id });
+    // });
+    socket.on("undo", ({ figures }) => {
+      socket.broadcast.emit("undoFigure", figures);
     });
-    socket.on("redo", ({ figure, roomname, id }) => {
-      socket.broadcast.emit("newFigure", { figure, id, roomname });
+    // socket.on("redo", ({ figure, roomname, id }) => {
+    //   socket.broadcast.emit("newFigure", { figure, id, roomname });
+    // });
+    socket.on("redo", ({ figures }) => {
+      socket.broadcast.emit("redoFigure", figures);
     });
   });
 };

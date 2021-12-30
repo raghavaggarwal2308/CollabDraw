@@ -123,18 +123,30 @@ const changeShape = async (request, response) => {
     response.json({ message: e.message });
   }
 };
+// const undoFigure = async (request, response) => {
+//   try {
+//     const room = await Room.findOne({ roomname: request.body.roomname });
+//     room.figures = room.figures.filter(
+//       (figure) => request.body.id !== figure.id
+//     );
+//     await room.save();
+//     response.sed({ message: "undo successful" });
+//   } catch (e) {
+//     response.json({ message: e.message });
+//   }
+// };
 const undoFigure = async (request, response) => {
+  console.log(request.body.figures);
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    room.figures = room.figures.filter(
-      (figure) => request.body.id !== figure.id
-    );
+    room.figures = request.body.figures;
     await room.save();
-    response.sed({ message: "undo successful" });
+    response.send({ message: "undo successful" });
   } catch (e) {
     response.json({ message: e.message });
   }
 };
+
 module.exports = {
   addRoom,
   addFigure,

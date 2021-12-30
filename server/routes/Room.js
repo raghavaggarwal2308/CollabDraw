@@ -19,5 +19,6 @@ route.patch("/changeLineColor", changeLineColor);
 route.patch("/changeLineWidth", changeLineWidth);
 route.patch("/changeShape", changeShape);
 route.patch("/undoFIgure", undoFigure);
+route.patch("/redoFigure", undoFigure);
 
 module.exports = route;
