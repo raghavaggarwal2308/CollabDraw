@@ -437,19 +437,23 @@ class Board extends React.Component {
   //     });
   //   }
   // };
-  undoFigure = (figures) => {
+  undoFigure = ({ figures, undo, redo }) => {
     this.change = true;
-    this.redo.push(
-      JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-    );
+    this.redo = redo;
+    this.undo = undo;
+    // this.redo.push(
+    //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+    // );
     this.canvas.loadFromJSON(figures).renderAll();
     this.change = false;
   };
-  redoFigure = (figures) => {
+  redoFigure = ({ figures, undo, redo }) => {
     this.change = true;
-    this.undo.push(
-      JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-    );
+    this.redo = redo;
+    this.undo = undo;
+    // this.undo.push(
+    //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+    // );
     this.canvas.loadFromJSON(figures).renderAll();
     this.change = false;
   };
@@ -582,12 +586,17 @@ class Board extends React.Component {
         if (this.undo.length > 0) {
           this.change = true;
           const last = this.undo.pop();
-          console.log(this.canvas.loadFromJSON(last)._objects);
+          //console.log(this.canvas.loadFromJSON(last)._objects);
+          console.log(
+            JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+          );
           this.redo.push(
             JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
           );
           this.props.socket.emit("undo", {
             figures: last,
+            undo: this.undo,
+            redo: this.redo,
           });
           // console.log(this.undo.length);
           console.log(this.canvas.loadFromJSON(last));
@@ -620,6 +629,8 @@ class Board extends React.Component {
           );
           this.props.socket.emit("redo", {
             figures: last,
+            undo: this.undo,
+            redo: this.redo,
           });
           const temp = this.canvas.loadFromJSON(last);
           temp.renderAll();

@@ -27,14 +27,14 @@ const initializeSocket = (io) => {
     // socket.on("undo", ({ figure, roomname, id }) => {
     //   socket.broadcast.emit("undoFigure", { figure, roomname, id });
     // });
-    socket.on("undo", ({ figures }) => {
-      socket.broadcast.emit("undoFigure", figures);
+    socket.on("undo", ({ figures, undo, redo }) => {
+      socket.broadcast.emit("undoFigure", { figures, undo, redo });
     });
     // socket.on("redo", ({ figure, roomname, id }) => {
     //   socket.broadcast.emit("newFigure", { figure, id, roomname });
     // });
-    socket.on("redo", ({ figures }) => {
-      socket.broadcast.emit("redoFigure", figures);
+    socket.on("redo", ({ figures, undo, redo }) => {
+      socket.broadcast.emit("redoFigure", { figures, undo, redo });
     });
   });
 };
