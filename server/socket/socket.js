@@ -17,9 +17,13 @@ const initializeSocket = (io) => {
     socket.on("drawFigures", ({ figure, id, roomname }) => {
       socket.broadcast.emit("newFigure", { figure, id, roomname });
     });
-    socket.on("modifyFigure", ({ figure, id, roomname }) => {
-      console.log(figure);
-      socket.broadcast.emit("updateFigure", { figure, id, roomname });
+    // socket.on("modifyFigure", ({ figure, id, roomname }) => {
+    //   console.log(figure);
+    //   socket.broadcast.emit("updateFigure", { figure, id, roomname });
+    // });
+    socket.on("modifyFigure", ({ figures, roomname }) => {
+      console.log(figures);
+      socket.broadcast.emit("updateFigure", { figures, roomname });
     });
     socket.on("clear", ({ roomname }) => {
       socket.broadcast.emit("deleteFigures", roomname);

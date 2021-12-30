@@ -127,14 +127,6 @@ class Board extends React.Component {
     this.canvas.renderAll();
   };
   finish = (o) => {
-    // console.log(
-    //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-    // );
-    // console.log(
-    //   this.canvas.loadFromJSON(
-    //     JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-    //   )
-    // );
     this.isDown = false;
 
     const figures = this.canvas._objects;
@@ -159,18 +151,22 @@ class Board extends React.Component {
     }
 
     this.props.setShape("selection");
-    console.log(this.canvas);
   };
   modify = (o) => {
-    console.log(o);
+    const figures = JSON.stringify(
+      this.canvas.toDatalessJSON(this.canvas.extraProps)
+    );
     updateFigure({
-      figure: o.target,
-      id: o.target.id,
+      figures: this.canvas.toDatalessJSON(this.canvas.extraProps).objects,
       roomname: this.roomname,
     });
+    // this.props.socket.emit("modifyFigure", {
+    //   figure: o.target,
+    //   id: o.target.id,
+    //   roomname: this.roomname,
+    // });
     this.props.socket.emit("modifyFigure", {
-      figure: o.target,
-      id: o.target.id,
+      figures,
       roomname: this.roomname,
     });
   };
@@ -260,7 +256,11 @@ class Board extends React.Component {
     }
     this.saveAction();
   };
-
+  updateFigure = ({ figures, roomname }) => {
+    if (this.roomname === roomname) {
+      this.canvas.loadFromJSON(figures).renderAll();
+    }
+  };
   // getFigure = (figure) => {
   //   switch (figure.type) {
   //     case "rect":
@@ -385,35 +385,36 @@ class Board extends React.Component {
   //   });
   //   return group;
   // };
-  updateFigure = ({ figure, id, roomname }) => {
-    console.log(figure);
-    if (this.roomname === roomname) {
-      const object = this.canvas._objects.find((obj) => obj.id === id);
-      if (object) {
-        object.set({ left: figure.left });
-        object.set({ top: figure.top });
-        object.set({ originY: figure.originY });
-        object.set({ originX: figure.originX });
-        object.set({ scaleX: figure.scaleX });
-        object.set({ scaleY: figure.scaleY });
-        object.set({ angle: figure.angle });
-        object.set({ flipX: figure.flipX });
-        object.set({ flipY: figure.flipY });
-        this.saveAction();
-        // if (figure.clipPath) {
-        //   const clipPath = this.createClipPath(figure.clipPath);
-        //   console.log(clipPath);
-        //   object.set({ erasable: figure.erasable });
-        //   object.set({ clipPath: clipPath });
-        //   object.set({
-        //     globalCompositeOperation: figure.globalCompositeOperation,
-        //   });
-        // }
-      }
-      this.canvas.renderAll();
-      console.log(this.canvas._objects);
-    }
-  };
+  // updateFigure = ({ figure, id, roomname }) => {
+  //   console.log(figure);
+  //   if (this.roomname === roomname) {
+  //     const object = this.canvas._objects.find((obj) => obj.id === id);
+  //     if (object) {
+  //       object.set({ left: figure.left });
+  //       object.set({ top: figure.top });
+  //       object.set({ originY: figure.originY });
+  //       object.set({ originX: figure.originX });
+  //       object.set({ scaleX: figure.scaleX });
+  //       object.set({ scaleY: figure.scaleY });
+  //       object.set({ angle: figure.angle });
+  //       object.set({ flipX: figure.flipX });
+  //       object.set({ flipY: figure.flipY });
+  //       this.saveAction();
+  //       // if (figure.clipPath) {
+  //       //   const clipPath = this.createClipPath(figure.clipPath);
+  //       //   console.log(clipPath);
+  //       //   object.set({ erasable: figure.erasable });
+  //       //   object.set({ clipPath: clipPath });
+  //       //   object.set({
+  //       //     globalCompositeOperation: figure.globalCompositeOperation,
+  //       //   });
+  //       // }
+  //     }
+  //     this.canvas.renderAll();
+  //     console.log(this.canvas._objects);
+  //   }
+  // };
+
   newFigure = ({ figure, id, roomname }) => {
     if (this.roomname === roomname) {
       this.addFigure(figure, id);
@@ -462,9 +463,7 @@ class Board extends React.Component {
     }
   };
   deleteSelectedFigure = (e) => {
-    console.log(e);
     if (e.keyCode === 8) {
-      //this.redoArray.push(this.canvas.getActiveObjects());
       this.canvas.getActiveObjects().forEach((object) => {
         this.canvas.remove(object);
       });
@@ -485,9 +484,7 @@ class Board extends React.Component {
   };
   saveAction = () => {
     if (this.change) return;
-    console.log("save");
     this.undo.push(this.currentStatus);
-    console.log(this.undo);
     this.currentStatus = JSON.stringify(
       this.canvas.toDatalessJSON(this.canvas.extraProps)
     );
@@ -584,10 +581,6 @@ class Board extends React.Component {
         if (this.undo.length > 0) {
           this.change = true;
           const last = this.undo.pop();
-          //console.log(this.canvas.loadFromJSON(last)._objects);
-          console.log(
-            JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-          );
           this.redo.push(
             JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
           );
@@ -597,11 +590,8 @@ class Board extends React.Component {
             redo: this.redo,
             roomname: this.roomname,
           });
-          // console.log(this.undo.length);
-          console.log(this.canvas.loadFromJSON(last));
           const temp = this.canvas.loadFromJSON(last);
           temp.renderAll();
-          console.log(this.redo);
           this.change = false;
           undoFigure(temp._objects, this.roomname);
         }
@@ -622,7 +612,6 @@ class Board extends React.Component {
         if (this.redo.length > 0) {
           this.change = true;
           const last = this.redo.pop();
-          console.log(this.redo);
           this.undo.push(
             JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
           );

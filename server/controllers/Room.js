@@ -33,14 +33,15 @@ const addFigure = async (request, response) => {
   }
 };
 const updateFigure = async (request, response) => {
-  const figure = request.body.figure;
+  const figures = request.body.figures;
   const roomname = request.body.roomname;
-  const id = request.body.id;
-  figure.id = id;
+  console.log(figures);
   try {
     const room = await Room.findOne({ roomname });
-    const index = room.figures.findIndex((figure) => figure.id === id);
-    room.figures[index] = figure;
+    // const index = room.figures.findIndex((figure) => figure.id === id);
+    // room.figures[index] = figure;
+    console.log(roomname);
+    room.figures = figures;
     await room.save();
     response.send({ message: "Figure updated successfully" });
   } catch (e) {
