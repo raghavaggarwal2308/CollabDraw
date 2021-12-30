@@ -437,56 +437,55 @@ class Board extends React.Component {
   //     });
   //   }
   // };
-  undoFigure = ({ figures, undo, redo }) => {
-    this.change = true;
-    this.redo = redo;
-    this.undo = undo;
-    // this.redo.push(
-    //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-    // );
-    this.canvas.loadFromJSON(figures).renderAll();
-    this.change = false;
+  undoFigure = ({ figures, undo, redo, roomname }) => {
+    if (this.roomname === roomname) {
+      this.change = true;
+      this.redo = redo;
+      this.undo = undo;
+      // this.redo.push(
+      //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+      // );
+      this.canvas.loadFromJSON(figures).renderAll();
+      this.change = false;
+    }
   };
-  redoFigure = ({ figures, undo, redo }) => {
-    this.change = true;
-    this.redo = redo;
-    this.undo = undo;
-    // this.undo.push(
-    //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-    // );
-    this.canvas.loadFromJSON(figures).renderAll();
-    this.change = false;
+  redoFigure = ({ figures, undo, redo, roomname }) => {
+    if (this.roomname === roomname) {
+      this.change = true;
+      this.redo = redo;
+      this.undo = undo;
+      // this.undo.push(
+      //   JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+      // );
+      this.canvas.loadFromJSON(figures).renderAll();
+      this.change = false;
+    }
   };
   deleteSelectedFigure = (e) => {
     console.log(e);
     if (e.keyCode === 8) {
-      this.redoArray.push(this.canvas.getActiveObjects());
+      //this.redoArray.push(this.canvas.getActiveObjects());
       this.canvas.getActiveObjects().forEach((object) => {
-        this.props.socket.emit("undo", {
-          figure: object,
-          id: object.id,
-          roomname: this.roomname,
-        });
-
         this.canvas.remove(object);
       });
 
       this.canvas.discardActiveObject().renderAll();
+
+      this.saveAction();
+      this.props.socket.emit("undo", {
+        figures: JSON.stringify(
+          this.canvas.toDatalessJSON(this.canvas.extraProps)
+        ),
+        undo: this.undo,
+        redo: this.redo,
+        roomname: this.roomname,
+      });
+      undoFigure(this.canvas._objects, this.roomname);
     }
-  };
-  deleteSelected = (figures) => {
-    console.log(figures);
-    figures.forEach((figure) =>
-      this.canvas._objects.forEach((obj) => {
-        if (obj.id === figure.id) {
-          this.canvas.remove(obj);
-        }
-      })
-    );
   };
   saveAction = () => {
     if (this.change) return;
-
+    console.log("save");
     this.undo.push(this.currentStatus);
     console.log(this.undo);
     this.currentStatus = JSON.stringify(
@@ -503,7 +502,7 @@ class Board extends React.Component {
       this.canvas.toDatalessJSON(this.canvas.extraProps)
     );
     //this.canvas.on("object:added", this.saveAction);
-    this.canvas.on("object:removed", this.saveAction);
+    //this.canvas.on("object:removed", this.saveAction);
     //this.canvas.on("object:modified", this.saveAction);
     // brush();
     // this.canvas.on("erasing:end", (o) => {
@@ -539,7 +538,6 @@ class Board extends React.Component {
     this.props.socket.on("deleteFigures", this.deleteFigures);
     this.props.socket.on("undoFigure", this.undoFigure);
     this.props.socket.on("redoFigure", this.redoFigure);
-    this.props.socket.on("deleteSelected", this.deleteSelected);
 
     getFigures(this.roomname, this.username).then((res) => {
       res.data.figures.map((figure) => this.addFigure(figure, figure.id));
@@ -597,6 +595,7 @@ class Board extends React.Component {
             figures: last,
             undo: this.undo,
             redo: this.redo,
+            roomname: this.roomname,
           });
           // console.log(this.undo.length);
           console.log(this.canvas.loadFromJSON(last));
@@ -631,6 +630,7 @@ class Board extends React.Component {
             figures: last,
             undo: this.undo,
             redo: this.redo,
+            roomname: this.roomname,
           });
           const temp = this.canvas.loadFromJSON(last);
           temp.renderAll();
