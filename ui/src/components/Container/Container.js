@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Board from "../Board/Board";
 import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
 import { Redirect } from "react-router-dom";
 
 function Container({ socket }) {
+  window.onbeforeunload = function (e) {
+    return "Do you want to refresh?";
+  };
   const [shape, setShape] = useState("pencil");
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);
