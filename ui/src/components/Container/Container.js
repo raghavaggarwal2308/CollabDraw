@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Board from "../Board/Board";
 import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
+import { Redirect } from "react-router-dom";
 
 function Container({ socket }) {
   const [shape, setShape] = useState("pencil");
@@ -15,37 +16,44 @@ function Container({ socket }) {
       setdeselect(true);
     }
   };
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
-    <div onClick={deselectAll}>
-      <ToolBar
-        shape={shape}
-        setShape={setShape}
-        username={username}
-        roomname={roomname}
-      />
-      <Board
-        shape={shape}
-        setShape={setShape}
-        socket={socket}
-        deselect={deselect}
-        setdeselect={setdeselect}
-        lineColor={lineColor}
-        lineWidth={lineWidth}
-        setLineColor={setLineColor}
-        setLineWidth={setLineWidth}
-        username={username}
-        roomname={roomname}
-      />
-      <SideBar
-        shape={shape}
-        setLineColor={setLineColor}
-        setLineWidth={setLineWidth}
-        lineColor={lineColor}
-        lineWidth={lineWidth}
-        username={username}
-        roomname={roomname}
-      />
-    </div>
+    <>
+      {isAuthenticated === "true" ? (
+        <div onClick={deselectAll}>
+          <ToolBar
+            shape={shape}
+            setShape={setShape}
+            username={username}
+            roomname={roomname}
+          />
+          <Board
+            shape={shape}
+            setShape={setShape}
+            socket={socket}
+            deselect={deselect}
+            setdeselect={setdeselect}
+            lineColor={lineColor}
+            lineWidth={lineWidth}
+            setLineColor={setLineColor}
+            setLineWidth={setLineWidth}
+            username={username}
+            roomname={roomname}
+          />
+          <SideBar
+            shape={shape}
+            setLineColor={setLineColor}
+            setLineWidth={setLineWidth}
+            lineColor={lineColor}
+            lineWidth={lineWidth}
+            username={username}
+            roomname={roomname}
+          />
+        </div>
+      ) : (
+        <Redirect to="/login" />
+      )}
+    </>
   );
 }
 

@@ -18,19 +18,19 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path="/" exact>
+        <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/login" exact>
+        <Route path="/login">
           <Login />
         </Route>
-        <Route path="/signup" exact>
+        <Route path="/signup">
           <SignUp />
         </Route>
-        <Route path="/join" exact>
+        <Route path="/join">
           <Join socket={socket} />
         </Route>
-        <Route path="/board/:username/:roomname" exact>
+        <Route path="/board/:username/:roomname">
           <Container socket={socket} />
         </Route>
       </Switch>

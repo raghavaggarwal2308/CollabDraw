@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { loginUser } from "../../api/User";
+//import history from "../../history.js";
 import "./Login.css";
 
 function Login() {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(() => {
+    const form = document.getElementById("loginForm");
+    form.addEventListener("submit", submitHandler);
+    return () => {
+      form.removeEventListener("submit", submitHandler);
+    };
+  });
   const changeHandler = (e) => {
     const name = e.target.name;
     switch (name) {
@@ -22,7 +32,11 @@ function Login() {
     try {
       const user = await loginUser({ email, password });
       console.log(user);
-      window.location = "/join";
+      localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("token", user.data.token);
+      history.push("/join");
+      //window.history.pushState("", "New Page Title", "/join");
+      //window.location = "/join";
     } catch (e) {
       alert(e.message);
     }
@@ -30,7 +44,7 @@ function Login() {
     setPassword("");
   };
   return (
-    <form onSubmit={submitHandler} className="logIn">
+    <form id="loginForm" className="logIn">
       <input
         value={email}
         name="email"

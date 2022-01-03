@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "./Join.css";
+import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 function Join(props) {
+  const history = useHistory();
   const [username, setUsername] = useState("");
   const [roomname, setRoomname] = useState("");
   const changeHandler = (e) => {
@@ -23,32 +26,40 @@ function Join(props) {
         alert(error);
       } else {
         alert(message);
-        window.location = `/board/${username}/${roomname}`;
+        history.push(`/board/${username}/${roomname}`);
+        //window.location = `/board/${username}/${roomname}`;
       }
     });
   };
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
-    <form onSubmit={submitHandler} className="joinRoom">
-      {/* <label>Name</label> */}
-      <input
-        value={username}
-        name="username"
-        type="text"
-        onChange={changeHandler}
-        placeholder="Username"
-        className="username"
-      />
-      {/* <label>Room name</label> */}
-      <input
-        value={roomname}
-        name="roomname"
-        type="text"
-        onChange={changeHandler}
-        placeholder="Room Name"
-        className="roomName"
-      />
-      <input type="submit" value="Join" className="submitJoin" />
-    </form>
+    <>
+      {isAuthenticated === "true" ? (
+        <form onSubmit={submitHandler} className="joinRoom">
+          {/* <label>Name</label> */}
+          <input
+            value={username}
+            name="username"
+            type="text"
+            onChange={changeHandler}
+            placeholder="Username"
+            className="username"
+          />
+          {/* <label>Room name</label> */}
+          <input
+            value={roomname}
+            name="roomname"
+            type="text"
+            onChange={changeHandler}
+            placeholder="Room Name"
+            className="roomName"
+          />
+          <input type="submit" value="Join" className="submitJoin" />
+        </form>
+      ) : (
+        <Redirect to="/login" />
+      )}
+    </>
   );
 }
 

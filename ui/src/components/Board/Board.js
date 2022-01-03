@@ -2,7 +2,7 @@ import React from "react";
 import { fabric } from "fabric";
 import "./Board.css";
 import uuid from "react-uuid";
-import brush from "./FabricBrush.js";
+// import brush from "./FabricBrush.js";
 import {
   addFigureAPI,
   updateFigure,
@@ -491,28 +491,26 @@ class Board extends React.Component {
   };
   componentDidMount() {
     this.canvas = new fabric.Canvas("canvas");
-    this.canvas.setDimensions({
-      height: 400,
-      width: 500,
-    });
+    // this.canvas.setDimensions({
+    //   height: 400,
+    //   width: 500,
+    // });
     this.currentStatus = JSON.stringify(
       this.canvas.toDatalessJSON(this.canvas.extraProps)
     );
-    //this.canvas.on("object:added", this.saveAction);
-    //this.canvas.on("object:removed", this.saveAction);
-    //this.canvas.on("object:modified", this.saveAction);
-    // brush();
+    //brush();
     // this.canvas.on("erasing:end", (o) => {
-    //   console.log(o);
-    //   o.targets.forEach((target) => {
-    //     this.props.socket.emit("modifyFigure", {
-    //       figure: target,
-    //       id: target.id,
-    //       roomname: this.roomname,
-    //     });
-    //   });
+    //   this.modify(o);
+    //   // console.log(o);
+    //   // o.targets.forEach((target) => {
+    //   //   this.props.socket.emit("modifyFigure", {
+    //   //     figure: target,
+    //   //     id: target.id,
+    //   //     roomname: this.roomname,
+    //   //   });
+    //   // });
 
-    //   console.log(o);
+    //   // console.log(o);
     // });
     // this.props.socket.on("eraseFigure", ({ figure, id, roomname }) => {
     //   const object = this.canvas._objects.find((obj) => obj.id === id);
@@ -554,11 +552,13 @@ class Board extends React.Component {
     }
     switch (this.props.shape) {
       // case "eraser":
+      //   this.canvas.isDrawingMode = false;
       //   this.canvas.freeDrawingBrush = new fabric.EraserBrush(this.canvas);
       //   this.canvas.freeDrawingBrush.width = 10;
       //   this.canvas.isDrawingMode = true;
       //   break;
       case "pencil":
+        this.canvas.isDrawingMode = false;
         this.canvas.isDrawingMode = true;
         this.canvas.freeDrawingBrush.width = this.props.lineWidth;
         this.canvas.freeDrawingBrush.color = this.props.lineColor;
@@ -652,7 +652,7 @@ class Board extends React.Component {
     return (
       <div className="canvasContainer" id="board">
         {" "}
-        <canvas id="canvas"></canvas>
+        <canvas id="canvas" height={1500} width={3000}></canvas>
       </div>
     );
   }

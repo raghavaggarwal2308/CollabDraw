@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { addUser } from "../../api/User";
+import { useHistory } from "react-router-dom";
 import "./SignUp.css";
 
 function SignUp() {
+  const history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  useEffect(() => {
+    const form = document.getElementById("signupForm");
+    form.addEventListener("submit", addUserDetails);
+    return () => {
+      form.removeEventListener("submit", addUserDetails);
+    };
+  });
   const addUserDetails = async (e) => {
     e.preventDefault();
     const user = { firstName, lastName, email, password, confirmPassword };
     try {
       const res = await addUser(user);
       console.log(res);
-      window.location = "/join";
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("isAuthenticated", true);
+      history.push("/join");
+      // window.location = "/join";
     } catch (e) {
       alert(e.message);
     }
@@ -41,7 +53,7 @@ function SignUp() {
     }
   };
   return (
-    <form onSubmit={addUserDetails} className="signUp">
+    <form id="signupForm" className="signUp">
       {/* <label>First Name</label> */}
       <input
         value={firstName}
