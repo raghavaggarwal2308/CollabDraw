@@ -10,6 +10,9 @@ const roomSchema = new mongoose.Schema(
         username: String,
         lineColor: String,
         lineWidth: Number,
+        fillColor: String,
+        opacity: Number,
+        strokeDashArray: Number,
         shape: String,
       },
     ],
@@ -17,7 +20,7 @@ const roomSchema = new mongoose.Schema(
       {
         type: String,
         version: String,
-        strokeDashArray: String,
+        strokeDashArray: Array,
         strokeLineCap: String,
         strokeDashOffset: Number,
         strokeLineJoin: String,

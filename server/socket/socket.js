@@ -7,12 +7,14 @@ const initializeSocket = (io) => {
       username = username.trim().toLowerCase();
       roomname = roomname.trim().toLowerCase();
       const id = socket.id;
-      const { error, message } = addUser({ username, roomname, id });
-      if (message) {
-        socket.join(roomname);
-        addRoom(roomname, username);
-      }
-      callback(error, message);
+      addUser({ username, roomname, id }).then((res) => {
+        const { error, message } = res;
+        if (message) {
+          socket.join(roomname);
+          addRoom(roomname, username);
+        }
+        callback(error, message);
+      });
     });
     socket.on("drawFigures", ({ figure, id, roomname }) => {
       socket.broadcast.emit("newFigure", { figure, id, roomname });
@@ -39,6 +41,9 @@ const initializeSocket = (io) => {
     // });
     socket.on("redo", ({ figures, undo, redo, roomname }) => {
       socket.broadcast.emit("redoFigure", { figures, undo, redo, roomname });
+    });
+    socket.on("disconnectUser", ({ username, roomname }) => {
+      removeUser(username, roomname);
     });
   });
 };

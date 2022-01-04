@@ -1,20 +1,27 @@
-let users = [];
-const addUser = ({ username, roomname, id }) => {
+// let users = [];
+const Room = require("../models/Room.js");
+const addUser = async ({ username, roomname, id }) => {
   if (username === "" || roomname === "") {
     return { error: "Invalid UserName or RoomName" };
   }
-  const user = users.find(
-    (user) => user.username === username && user.roomname === roomname
-  );
-  if (user) {
-    return { error: `${username} already exists in ${roomname}` };
+  const room = await Room.findOne({ roomname });
+  if (room) {
+    const users = room.users;
+    const user = users.find((user) => user.username === username);
+    if (user) {
+      return { error: `${username} already exists in ${roomname}` };
+    }
+    //users.push({ username, roomname, id });
   }
-  users.push({ username, roomname, id });
   return { message: "User added succesfully" };
 };
 
-const removeUser = (id) => {
-  users = users.filter((user) => user.id !== id);
+const removeUser = async (username, roomname) => {
+  const room = await Room.findOne({ roomname });
+
+  room.users = room.users.filter((user) => user.username !== username);
+  if (room.users.length === 0) await Room.deleteOne({ roomname });
+  else await room.save();
   return { message: "user removed successfully" };
 };
 

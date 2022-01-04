@@ -51,6 +51,27 @@ const undoFigure = async (figures, roomname) => {
 const redoFigure = async (figures, roomname) => {
   await axios.patch(`${URL}/redoFigure`, { figures, roomname });
 };
+const changeFillColor = async (fillColor, roomname, username) => {
+  await axios.patch(`${URL}/changeFillColor`, {
+    fillColor,
+    roomname,
+    username,
+  });
+};
+const changeStyleSlider = async (strokeDashArray, roomname, username) => {
+  await axios.patch(`${URL}/changeStyleSlider`, {
+    strokeDashArray,
+    roomname,
+    username,
+  });
+};
+const changeOpacity = async (opacity, roomname, username) => {
+  await axios.patch(`${URL}/changeOpacity`, {
+    opacity,
+    roomname,
+    username,
+  });
+};
 export {
   addFigureAPI,
   updateFigure,
@@ -61,4 +82,7 @@ export {
   changeShape,
   undoFigure,
   redoFigure,
+  changeFillColor,
+  changeStyleSlider,
+  changeOpacity,
 };

@@ -1,7 +1,13 @@
 import React from "react";
 import "./SideBar.css";
 import { SketchPicker } from "react-color";
-import { changeLineColor, changeLineWidth } from "../../api/Room";
+import {
+  changeLineColor,
+  changeLineWidth,
+  changeFillColor,
+  changeStyleSlider,
+  changeOpacity,
+} from "../../api/Room";
 
 function SideBar({
   setLineColor,
@@ -13,13 +19,35 @@ function SideBar({
   setEraserSize,
   username,
   roomname,
+  fillColor,
+  setFillColor,
+  lineStyle,
+  setLineStyle,
+  opacity,
+  setOpacity,
 }) {
+  function styleslider(e) {
+    setLineStyle(e.target.value);
+    changeStyleSlider(e.target.value, roomname, username);
+  }
   function widthslider(e) {
     setLineWidth(e.target.value);
     changeLineWidth(e.target.value, roomname, username);
   }
+  function opacityslider(e) {
+    setOpacity(e.target.value);
+    changeOpacity(e.target.value, roomname, username);
+  }
   function eraserSlider(e) {
     setEraserSize(e.target.value);
+  }
+  function fillChangeColor(e) {
+    setFillColor(e.target.value);
+    changeFillColor(e.target.value, roomname, username);
+  }
+  function fillHandleChangeComplete(color) {
+    setFillColor(color.hex);
+    changeFillColor(color.hex, roomname, username);
   }
   function changeColor(e) {
     setLineColor(e.target.value);
@@ -51,7 +79,7 @@ function SideBar({
       ) : (
         <>
           <div className="colorPickerContainer">
-            <p>Line Color:</p>
+            <p>Stroke Color:</p>
             <div className="colorPickerInput">
               <input
                 type="text"
@@ -74,15 +102,65 @@ function SideBar({
               </div>
             </div>
           </div>
+          {shape !== "pencil" && (
+            <div className="colorPickerContainer">
+              <p>Fill color:</p>
+              <div className="colorPickerInput">
+                <input
+                  type="text"
+                  id="fillColorValue"
+                  value={fillColor}
+                  onChange={(e) => fillChangeColor(e)}
+                />
+
+                <div id="fillColorPicker">
+                  <div
+                    id="fillColor"
+                    style={{ backgroundColor: `${fillColor}` }}
+                  ></div>
+                  <div id="fillPicker">
+                    <SketchPicker
+                      color={fillColor}
+                      onChangeComplete={fillHandleChangeComplete}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {shape !== "pencil" && (
+            <div className="lineWidthContainer">
+              <p>Opacity :</p>
+              <div className="lineWidthInput">
+                <input
+                  type="range"
+                  onChange={opacityslider}
+                  id="opacitySlider"
+                  min="0.1"
+                  max="1"
+                  step="0.1"
+                  value={opacity}
+                />
+                <div
+                  id="opacity"
+                  style={{
+                    opacity: opacity,
+                    height: lineWidth + "px",
+                    backgroundColor: lineColor,
+                  }}
+                ></div>
+              </div>
+            </div>
+          )}
           <div className="lineWidthContainer">
-            <p>Line Width:</p>
+            <p>Stroke Width:</p>
             <div className="lineWidthInput">
               <input
                 type="range"
                 onChange={widthslider}
                 id="lineWidthSlider"
                 min="1"
-                max="20"
+                max="7"
                 value={lineWidth}
               />
               <div
@@ -91,6 +169,30 @@ function SideBar({
               ></div>
             </div>
           </div>
+          {shape !== "pencil" && (
+            <div className="lineWidthContainer">
+              <p>Stroke Style : </p>
+              <div className="lineWidthInput">
+                <input
+                  type="range"
+                  onChange={styleslider}
+                  id="lineStyleSlider"
+                  min="1"
+                  max="7"
+                  value={lineStyle}
+                />
+                <div
+                  id="lineStyle"
+                  style={{
+                    boxSizing: "border-box",
+                    borderTop: `${lineStyle}px dashed ${lineColor}`,
+                    height: "0px",
+                    backgroundColor: "transparent",
+                  }}
+                ></div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

@@ -8,9 +8,12 @@ const addRoom = async (roomname, username) => {
     }
     room.users.push({
       username,
+      fillColor: "",
       lineColor: "black",
       lineWidth: 2,
       shape: "rectangle",
+      opacity: 1,
+      strokeDashArray: 0,
     });
     await room.save();
     return room;
@@ -20,6 +23,7 @@ const addRoom = async (roomname, username) => {
 };
 const addFigure = async (request, response) => {
   const figure = request.body.figure;
+  console.log(figure);
   const roomname = request.body.roomname;
   const id = request.body.id;
   figure.id = id;
@@ -29,6 +33,7 @@ const addFigure = async (request, response) => {
     await room.save();
     response.send({ message: "Figure added successfully" });
   } catch (e) {
+    console.log(e.message);
     response.send({ message: e.message });
   }
 };
@@ -90,6 +95,19 @@ const changeLineColor = async (request, response) => {
     response.json({ message: e.message });
   }
 };
+const changeFillColor = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.fillColor = request.body.fillColor;
+    await room.save();
+    response.send({ message: "Fill Color updated" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
 
 const changeLineWidth = async (request, response) => {
   try {
@@ -100,6 +118,33 @@ const changeLineWidth = async (request, response) => {
     user.lineWidth = request.body.lineWidth;
     await room.save();
     response.send({ message: "Line Width updated" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
+
+const changeStyleSlider = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.strokeDashArray = request.body.strokeDashArray;
+    await room.save();
+    response.send({ message: "stroke Style updated" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
+const changeOpacity = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.opacity = request.body.opacity;
+    await room.save();
+    response.send({ message: "opacity updated" });
   } catch (e) {
     response.json({ message: e.message });
   }
@@ -158,4 +203,7 @@ module.exports = {
   changeLineColor,
   changeShape,
   undoFigure,
+  changeFillColor,
+  changeStyleSlider,
+  changeOpacity,
 };

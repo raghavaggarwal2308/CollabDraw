@@ -21,7 +21,8 @@
   justify-content: space-between;
 }
 
-#lineColorValue {
+#lineColorValue,
+#fillColorValue {
   margin-right: 5px;
   height: 23px;
   border-radius: 4px;
@@ -30,12 +31,14 @@
   outline: none;
 }
 
-#colorPicker {
+#colorPicker,
+#fillColorPicker {
   position: relative;
   cursor: pointer;
 }
 
-#color {
+#color,
+#fillColor {
   width: 25px;
   height: 25px;
   border-radius: 5px;
@@ -43,12 +46,14 @@
   border: 1px dotted grey;
 }
 
-#picker {
+#picker,
+#fillPicker {
   display: none;
   position: absolute;
 }
 
-#colorPicker:hover #picker {
+#colorPicker:hover #picker,
+#fillColorPicker:hover #fillPicker {
   display: block;
 }
 
@@ -63,7 +68,9 @@
   justify-content: space-between;
 }
 
-#lineWidth {
+#lineWidth,
+#opacity,
+#lineStyle {
   width: 20%;
   background-color: black;
   border-radius: 5px;
