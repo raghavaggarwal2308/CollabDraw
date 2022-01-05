@@ -163,7 +163,8 @@ const changeShape = async (request, response) => {
     if (
       request.body.shape !== "undo" &&
       request.body.shape !== "redo" &&
-      request.body.shape !== "clear"
+      request.body.shape !== "clear" &&
+      request.body.shape !== "download"
     )
       user.shape = request.body.shape;
     else user.shape = "selection";

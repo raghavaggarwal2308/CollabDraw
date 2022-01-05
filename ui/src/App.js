@@ -6,6 +6,7 @@ import { Switch, Route } from "react-router-dom";
 import io from "socket.io-client";
 import Join from "./components/Join/Join";
 import Container from "./components/Container/Container";
+import P404 from "./components/404/404";
 
 function App() {
   // let socket;
@@ -32,6 +33,9 @@ function App() {
         </Route>
         <Route path="/board/:username/:roomname">
           <Container socket={socket} />
+        </Route>
+        <Route path="/*">
+          <P404 />
         </Route>
       </Switch>
     </div>

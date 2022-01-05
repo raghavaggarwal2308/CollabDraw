@@ -19,6 +19,7 @@ class Board extends React.Component {
     this.ellipse = null;
     this.line = null;
     this.pencil = null;
+    this.text = null;
     this.origX = null;
     this.origY = null;
     this.isDown = false;
@@ -39,6 +40,18 @@ class Board extends React.Component {
     this.origX = pointer.x;
     this.origY = pointer.y;
     switch (this.props.shape) {
+      case "text":
+        this.text = new fabric.IText("", {
+          id: uuid(),
+          left: this.origX,
+          top: this.origY,
+          fontFamily: "arial black",
+          fill: "#333",
+          fontSize: 50,
+        });
+        this.canvas.add(this.text);
+        this.text.enterEditing();
+        break;
       case "rectangle":
         this.rect = new fabric.Rect({
           id: uuid(),
@@ -559,7 +572,16 @@ class Board extends React.Component {
       this.props.setFillColor(res.data.fillColor);
     });
   }
+  downloadCanvas = function () {
+    var link = document.createElement("a");
 
+    link.href = this.canvas.toDataURL({
+      format: "png",
+    });
+    console.log(link.href);
+    link.download = "canvas.png";
+    link.click();
+  };
   componentDidUpdate() {
     if (this.props.deselect) {
       this.canvas.forEachObject((o) => {
@@ -569,6 +591,10 @@ class Board extends React.Component {
       this.props.setdeselect(false);
     }
     switch (this.props.shape) {
+      case "download":
+        this.downloadCanvas();
+        this.props.setShape("selection");
+        break;
       // case "eraser":
       //   this.canvas.isDrawingMode = false;
       //   this.canvas.freeDrawingBrush = new fabric.EraserBrush(this.canvas);

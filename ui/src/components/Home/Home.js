@@ -7,7 +7,7 @@ function Home() {
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
     <>
-      {isAuthenticated === "false" ? (
+      {isAuthenticated === "false" || isAuthenticated === null ? (
         <div>
           <nav className="navbar">
             <div className="loginButton">

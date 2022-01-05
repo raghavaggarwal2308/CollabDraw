@@ -9,6 +9,9 @@ import Eraser from "@material-ui/icons/BorderClear";
 import Undo from "@material-ui/icons/Undo";
 import Redo from "@material-ui/icons/Redo";
 import Select from "@material-ui/icons/PhotoSizeSelectSmall";
+import TextFormat from "@material-ui/icons/TextFormat";
+import Download from "@material-ui/icons/CloudDownload";
+
 import { changeShape } from "../../api/Room";
 
 function ToolBar({ shape, setShape, roomname, username }) {
@@ -57,6 +60,12 @@ function ToolBar({ shape, setShape, roomname, username }) {
         <Line />
       </div>
       <div
+        className={`textContainer ${shape === "text" && "buttonBack"}`}
+        onClick={(e) => changeShapeType("text", e)}
+      >
+        <TextFormat />
+      </div>
+      <div
         className="clearBoardContainer"
         onClick={(e) => changeShapeType("clear", e)}
       >
@@ -73,6 +82,12 @@ function ToolBar({ shape, setShape, roomname, username }) {
         onClick={(e) => changeShapeType("redo", e)}
       >
         <Redo />
+      </div>
+      <div
+        className="redoContainer"
+        onClick={(e) => changeShapeType("download", e)}
+      >
+        <Download />
       </div>
     </div>
   );
