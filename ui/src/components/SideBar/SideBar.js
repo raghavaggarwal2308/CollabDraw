@@ -27,16 +27,16 @@ function SideBar({
   setOpacity,
 }) {
   function styleslider(e) {
-    setLineStyle(e.target.value);
-    changeStyleSlider(e.target.value, roomname, username);
+    setLineStyle(parseInt(e.target.value));
+    changeStyleSlider(parseInt(e.target.value), roomname, username);
   }
   function widthslider(e) {
-    setLineWidth(e.target.value);
-    changeLineWidth(e.target.value, roomname, username);
+    setLineWidth(parseInt(e.target.value));
+    changeLineWidth(parseInt(e.target.value), roomname, username);
   }
   function opacityslider(e) {
-    setOpacity(e.target.value);
-    changeOpacity(e.target.value, roomname, username);
+    setOpacity(parseFloat(e.target.value));
+    changeOpacity(parseFloat(e.target.value), roomname, username);
   }
   function eraserSlider(e) {
     setEraserSize(e.target.value);

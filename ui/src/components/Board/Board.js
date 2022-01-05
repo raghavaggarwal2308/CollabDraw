@@ -54,7 +54,7 @@ class Board extends React.Component {
           stroke: this.props.lineColor,
           strokeWidth: this.props.lineWidth,
           opacity: this.props.opacity,
-          // strokeDashArray: [this.props.lineStyle],
+          strokeDashArray: [this.props.lineStyle],
         });
         this.canvas.add(this.rect);
         break;
@@ -149,7 +149,6 @@ class Board extends React.Component {
       const id = figures[figures.length - 1].id;
       const roomname = this.roomname;
       if (this.initialLength !== figures.length && figures.length !== 0) {
-        console.log("Figure added");
         this.saveAction();
         addFigureAPI({ figure, id, roomname });
         this.props.socket.emit("drawFigures", { figure, id, roomname });
@@ -179,7 +178,6 @@ class Board extends React.Component {
   };
   addFigure = (figure, id) => {
     console.log(figure);
-    console.log(figure.strokeDashArray);
     switch (figure.type) {
       case "rect":
         this.canvas.add(
@@ -200,7 +198,7 @@ class Board extends React.Component {
             transparentCorners: false,
             stroke: figure.stroke,
             strokeWidth: figure.strokeWidth,
-            // strokeDashArray: figure.strokeDashArray,
+            strokeDashArray: figure.strokeDashArray,
             opacity: figure.opacity,
           })
         );
@@ -254,7 +252,7 @@ class Board extends React.Component {
           id,
           left: figure.left,
           top: figure.top,
-          fill: figure.fill,
+          fill: "",
           stroke: figure.stroke,
           strokeWidth: figure.strokeWidth,
           originX: figure.originX,
@@ -264,8 +262,8 @@ class Board extends React.Component {
           flipX: figure.flipX,
           flipY: figure.flipY,
           angle: figure.angle,
-          strokeDashArray: figure.strokeDashArray,
-          opacity: figure.opacity,
+          // strokeDashArray: figure.strokeDashArray,
+          // opacity: figure.opacity,
         });
         this.canvas.add(this.pencil);
         break;
@@ -552,7 +550,6 @@ class Board extends React.Component {
     this.props.socket.on("redoFigure", this.redoFigure);
 
     getFigures(this.roomname, this.username).then((res) => {
-      console.log(res);
       res.data.figures.map((figure) => this.addFigure(figure, figure.id));
       this.props.setShape(res.data.shape);
       this.props.setLineColor(res.data.lineColor);
@@ -583,9 +580,6 @@ class Board extends React.Component {
         this.canvas.isDrawingMode = true;
         this.canvas.freeDrawingBrush.width = this.props.lineWidth;
         this.canvas.freeDrawingBrush.color = this.props.lineColor;
-        this.canvas.freeDrawingBrush.fill = this.props.fillColor;
-        this.canvas.freeDrawingBrush.opacity = this.props.opacity;
-        this.canvas.freeDrawingBrush.strokeDashArray = [this.props.lineStyle];
         break;
       case "selection":
         this.canvas.forEachObject(function (o) {

@@ -6,22 +6,22 @@ import { Redirect } from "react-router-dom";
 
 function Container({ socket }) {
   window.addEventListener("click", () => {
-    console.log("clicked");
+    // console.log("clicked");
   });
   window.onclose = function () {
-    console.log("called");
+    // console.log("called");
   };
   window.onbeforeunload = function (e) {
-    console.log(e.currentTarget);
-    console.log(performance.navigation.TYPE_RELOAD);
-    console.log(window.onclose);
+    // console.log(e.currentTarget);
+    // console.log(performance.navigation.TYPE_RELOAD);
+    // console.log(window.onclose);
     sessionStorage.setItem("reloaded", true);
     return "Do you want to refresh?";
   };
   window.addEventListener("popstate", () => {
-    console.log(window.location.href);
+    // console.log(window.location.href);
     if (window.location.href === "http://localhost:3000/join") {
-      console.log("disconnected");
+      // console.log("disconnected");
       socket.emit("disconnectUser", { username, roomname });
     }
   });
