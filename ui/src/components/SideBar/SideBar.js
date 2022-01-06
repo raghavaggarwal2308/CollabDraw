@@ -18,7 +18,7 @@ function SideBar({
   lineColor,
   shape,
   // eraserSize,
-  setEraserSize,
+  // setEraserSize,
   username,
   roomname,
   fillColor,
@@ -29,7 +29,6 @@ function SideBar({
   setOpacity,
   showSidebar,
 }) {
-  //const [state, setState] = useState({ x: 0.3 });
   const [opac, setopac] = useState(opacity);
   const [width, setWidth] = useState(lineWidth);
   const [style, setStyle] = useState(lineStyle);
@@ -106,7 +105,7 @@ function SideBar({
       ) : ( */}
         <>
           <div className="colorPickerContainer">
-            <p>Stroke Color:</p>
+            <p style={{ marginTop: "0" }}>Stroke Color:</p>
             <div className="colorPickerInput">
               <input
                 type="text"

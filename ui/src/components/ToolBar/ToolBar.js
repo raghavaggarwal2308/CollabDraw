@@ -48,7 +48,7 @@ function ToolBar({
         <Eraser />
       </div> */}
       <div
-        className={`lockContainer ${shape === "lock" && "buttonBack"}`}
+        className={`lockContainer ${lock && "buttonBack"}`}
         onClick={(e) => changeLock(e)}
       >
         {lock ? <Locked /> : <Lock />}
