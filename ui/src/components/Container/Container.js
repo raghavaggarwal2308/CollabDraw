@@ -31,6 +31,7 @@ function Container({ socket }) {
   const [lineStyle, setLineStyle] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [showSidebar, setshowSidebar] = useState(false);
+  const [lock, setlock] = useState(false);
   const username = window.location.pathname.split("/")[2].trim().toLowerCase();
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
   const deselectAll = (e) => {
@@ -51,6 +52,8 @@ function Container({ socket }) {
             roomname={roomname}
             setshowSidebar={setshowSidebar}
             deselectAll={deselectAll}
+            lock={lock}
+            setlock={setlock}
           />
           <Board
             showSidebar={showSidebar}
@@ -72,6 +75,8 @@ function Container({ socket }) {
             setLineStyle={setLineStyle}
             opacity={opacity}
             setOpacity={setOpacity}
+            lock={lock}
+            setlock={setlock}
           />
           <SideBar
             showSidebar={showSidebar}

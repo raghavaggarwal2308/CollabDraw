@@ -172,7 +172,9 @@ class Board extends React.Component {
       this.props.setshowSidebar(false);
     }
     this.canvas.isDrawingMode = false;
-    this.props.setShape("selection");
+    if (this.props.lock === false) {
+      this.props.setShape("selection");
+    }
   };
   modify = (o) => {
     const figures = JSON.stringify(
@@ -622,7 +624,11 @@ class Board extends React.Component {
   };
   componentDidUpdate(prevProps) {
     this.changeSelectedItem(prevProps);
-
+    if (this.props.lock === true) {
+      this.canvas.selection = false;
+    } else {
+      this.canvas.selection = true;
+    }
     if (this.props.deselect) {
       this.canvas.forEachObject((o) => {
         o.selectable = false;

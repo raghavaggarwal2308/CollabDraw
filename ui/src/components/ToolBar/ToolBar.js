@@ -11,6 +11,8 @@ import Select from "@mui/icons-material/PhotoSizeSelectSmall";
 // import Text from "@mui/icons-material/TextFormat";
 // import Text from "@mui/icons-material/Abc";
 import Download from "@mui/icons-material/Download";
+import Lock from "@mui/icons-material/LockOpen";
+import Locked from "@mui/icons-material/Lock";
 
 import { changeShape } from "../../api/Room";
 
@@ -21,10 +23,16 @@ function ToolBar({
   username,
   deselectAll,
   setshowSidebar,
+  lock,
+  setlock,
 }) {
+  const changeLock = (e) => {
+    setlock(!lock);
+  };
   const changeShapeType = (shape, event) => {
     setShape(shape);
     changeShape(shape, roomname, username);
+
     if (shape !== "selection") {
       setshowSidebar(true);
     } else {
@@ -39,6 +47,12 @@ function ToolBar({
       >
         <Eraser />
       </div> */}
+      <div
+        className={`lockContainer ${shape === "lock" && "buttonBack"}`}
+        onClick={(e) => changeLock(e)}
+      >
+        {lock ? <Locked /> : <Lock />}
+      </div>
       <div
         className={`selectContainer ${shape === "selection" && "buttonBack"}`}
         onClick={(e) => changeShapeType("selection", e)}
