@@ -168,7 +168,9 @@ class Board extends React.Component {
         this.redo = [];
       }
     }
-
+    if (this.props.shape !== "selection") {
+      this.props.setshowSidebar(false);
+    }
     this.props.setShape("selection");
   };
   modify = (o) => {
@@ -454,6 +456,10 @@ class Board extends React.Component {
   };
   selection = (o) => {
     this.props.setShape("selection");
+    this.props.setshowSidebar(true);
+  };
+  deselection = (o) => {
+    this.props.setshowSidebar(false);
   };
   // undoFigure = ({ figure, roomname, id }) => {
   //   console.log(id);
@@ -548,7 +554,7 @@ class Board extends React.Component {
     this.canvas.on("mouse:move", this.draw);
 
     this.canvas.on("mouse:up", this.finish);
-
+    this.canvas.on("selection:cleared", this.deselection);
     this.canvas.on("selection:created", this.selection);
     this.canvas.on("object:modified", (o) => {
       this.modify(o);
@@ -637,6 +643,7 @@ class Board extends React.Component {
       });
       this.canvas.discardActiveObject().renderAll();
       this.props.setdeselect(false);
+      // this.props.setshowSidebar(false);
     }
     switch (this.props.shape) {
       case "download":

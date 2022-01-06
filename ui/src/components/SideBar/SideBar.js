@@ -27,6 +27,7 @@ function SideBar({
   setLineStyle,
   opacity,
   setOpacity,
+  showSidebar,
 }) {
   //const [state, setState] = useState({ x: 0.3 });
   const [opac, setopac] = useState(opacity);
@@ -83,8 +84,9 @@ function SideBar({
     setStyle(e);
   }
   return (
-    <div className="sideContainer">
-      {shape === "erase" ? (
+    showSidebar && (
+      <div className="sideContainer">
+        {/* {shape === "erase" ? (
         <>
           <div className="lineWidthContainer">
             <p>Eraser Size:</p>
@@ -101,7 +103,7 @@ function SideBar({
             </div>
           </div>
         </>
-      ) : (
+      ) : ( */}
         <>
           <div className="colorPickerContainer">
             <p>Stroke Color:</p>
@@ -245,8 +247,9 @@ function SideBar({
             </div>
           )}
         </>
-      )}
-    </div>
+        {/* )} */}
+      </div>
+    )
   );
 }
 

@@ -5,12 +5,12 @@ import SideBar from "../SideBar/SideBar";
 import { Redirect } from "react-router-dom";
 
 function Container({ socket }) {
-  window.addEventListener("click", () => {
-    // console.log("clicked");
-  });
-  window.onclose = function () {
-    // console.log("called");
-  };
+  // window.addEventListener("click", () => {
+  //   // console.log("clicked");
+  // });
+  // window.onclose = function () {
+  //   // console.log("called");
+  // };
   window.onbeforeunload = function (e) {
     // console.log(e.currentTarget);
     // console.log(performance.navigation.TYPE_RELOAD);
@@ -32,6 +32,7 @@ function Container({ socket }) {
   const [fillColor, setFillColor] = useState("");
   const [lineStyle, setLineStyle] = useState(0);
   const [opacity, setOpacity] = useState(1);
+  const [showSidebar, setshowSidebar] = useState(false);
   const username = window.location.pathname.split("/")[2].trim().toLowerCase();
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
   const deselectAll = (e) => {
@@ -39,6 +40,7 @@ function Container({ socket }) {
       setdeselect(true);
     }
   };
+
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
     <>
@@ -49,9 +51,12 @@ function Container({ socket }) {
             setShape={setShape}
             username={username}
             roomname={roomname}
+            setshowSidebar={setshowSidebar}
             deselectAll={deselectAll}
           />
           <Board
+            showSidebar={showSidebar}
+            setshowSidebar={setshowSidebar}
             shape={shape}
             setShape={setShape}
             socket={socket}
@@ -71,6 +76,7 @@ function Container({ socket }) {
             setOpacity={setOpacity}
           />
           <SideBar
+            showSidebar={showSidebar}
             shape={shape}
             setLineColor={setLineColor}
             setLineWidth={setLineWidth}
