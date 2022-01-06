@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./SideBar.css";
 import { SketchPicker } from "react-color";
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
 import {
   changeLineColor,
   changeLineWidth,
@@ -26,17 +28,31 @@ function SideBar({
   opacity,
   setOpacity,
 }) {
+  //const [state, setState] = useState({ x: 0.3 });
+  const [opac, setopac] = useState(opacity);
+  const [width, setWidth] = useState(lineWidth);
+  const [style, setStyle] = useState(lineStyle);
+  useEffect(() => {
+    setopac(opacity);
+  }, [opacity]);
+  useEffect(() => {
+    setWidth(lineWidth);
+  }, [lineWidth]);
+  useEffect(() => {
+    setStyle(lineStyle);
+  }, [lineStyle]);
+
   function styleslider(e) {
-    setLineStyle(parseInt(e.target.value));
-    changeStyleSlider(parseInt(e.target.value), roomname, username);
+    setLineStyle(parseInt(e));
+    changeStyleSlider(parseInt(e), roomname, username);
   }
   function widthslider(e) {
-    setLineWidth(parseInt(e.target.value));
-    changeLineWidth(parseInt(e.target.value), roomname, username);
+    setLineWidth(parseInt(e));
+    changeLineWidth(parseInt(e), roomname, username);
   }
   function opacityslider(e) {
-    setOpacity(parseFloat(e.target.value));
-    changeOpacity(parseFloat(e.target.value), roomname, username);
+    setOpacity(parseFloat(e));
+    changeOpacity(parseFloat(e), roomname, username);
   }
   function eraserSlider(e) {
     setEraserSize(e.target.value);
@@ -56,6 +72,15 @@ function SideBar({
   function handleChangeComplete(color) {
     setLineColor(color.hex);
     changeLineColor(color.hex, roomname, username);
+  }
+  function opacityHandler(e) {
+    setopac(e);
+  }
+  function widthHandler(e) {
+    setWidth(e);
+  }
+  function styleHandler(e) {
+    setStyle(e);
   }
   return (
     <div className="sideContainer">
@@ -132,7 +157,7 @@ function SideBar({
             <div className="lineWidthContainer">
               <p>Opacity :</p>
               <div className="lineWidthInput">
-                <input
+                {/* <input
                   type="range"
                   onChange={opacityslider}
                   id="opacitySlider"
@@ -140,11 +165,21 @@ function SideBar({
                   max="1"
                   step="0.1"
                   value={opacity}
+                /> */}
+                <Slider
+                  onAfterChange={opacityslider}
+                  min={0.1}
+                  max={1}
+                  step={0.1}
+                  onChange={opacityHandler}
+                  value={opac}
+                  className="slider"
                 />
+
                 <div
                   id="opacity"
                   style={{
-                    opacity: opacity,
+                    opacity: opac,
                     height: lineWidth + "px",
                     backgroundColor: lineColor,
                   }}
@@ -155,13 +190,21 @@ function SideBar({
           <div className="lineWidthContainer">
             <p>Stroke Width:</p>
             <div className="lineWidthInput">
-              <input
+              {/* <input
                 type="range"
                 onChange={widthslider}
                 id="lineWidthSlider"
                 min="1"
                 max="7"
                 value={lineWidth}
+              /> */}
+              <Slider
+                onAfterChange={widthslider}
+                min={1}
+                max={7}
+                onChange={widthHandler}
+                value={width}
+                className="slider"
               />
               <div
                 id="lineWidth"
@@ -173,13 +216,21 @@ function SideBar({
             <div className="lineWidthContainer">
               <p>Stroke Style : </p>
               <div className="lineWidthInput">
-                <input
+                {/* <input
                   type="range"
                   onChange={styleslider}
                   id="lineStyleSlider"
                   min="0"
                   max="7"
                   value={lineStyle}
+                /> */}
+                <Slider
+                  onAfterChange={styleslider}
+                  min={0}
+                  max={5}
+                  onChange={styleHandler}
+                  value={style}
+                  className="slider"
                 />
                 <div
                   id="lineStyle"
