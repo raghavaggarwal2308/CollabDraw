@@ -21,6 +21,7 @@ function Container({ socket }) {
   window.addEventListener("popstate", () => {
     if (window.location.href === "http://localhost:3000/join") {
       socket.emit("disconnectUser", { username, roomname });
+      console.log("disconnected");
     }
   });
   const [shape, setShape] = useState("pencil");

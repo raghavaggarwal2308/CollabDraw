@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Join.css";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import uuid from "react-uuid";
 
 function Join(props) {
   const history = useHistory();
@@ -31,31 +32,53 @@ function Join(props) {
       }
     });
   };
+  const joinSigleRoom = (e) => {
+    let room = localStorage.getItem("roomname");
+    let user = localStorage.getItem("username");
+    props.socket.emit(
+      "join",
+      { roomname: room, username: user },
+      (error, message) => {
+        if (error) {
+          alert(error);
+        } else {
+          alert(message);
+          history.push(`/board/${user}/${room}`);
+          //window.location = `/board/${username}/${roomname}`;
+        }
+      }
+    );
+  };
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
     <>
       {isAuthenticated === "true" ? (
-        <form onSubmit={submitHandler} className="joinRoom">
-          {/* <label>Name</label> */}
-          <input
-            value={username}
-            name="username"
-            type="text"
-            onChange={changeHandler}
-            placeholder="Username"
-            className="username"
-          />
-          {/* <label>Room name</label> */}
-          <input
-            value={roomname}
-            name="roomname"
-            type="text"
-            onChange={changeHandler}
-            placeholder="Room Name"
-            className="roomName"
-          />
-          <input type="submit" value="Join" className="submitJoin" />
-        </form>
+        <div className="joinRoomContainer">
+          <form onSubmit={submitHandler} className="joinRoom">
+            {/* <label>Name</label> */}
+            <input
+              value={username}
+              name="username"
+              type="text"
+              onChange={changeHandler}
+              placeholder="Username"
+              className="username"
+            />
+            {/* <label>Room name</label> */}
+            <input
+              value={roomname}
+              name="roomname"
+              type="text"
+              onChange={changeHandler}
+              placeholder="Room Name"
+              className="roomName"
+            />
+            <input type="submit" value="Join" className="submitJoin" />
+          </form>
+          <p className="singleRoom" onClick={joinSigleRoom}>
+            Join sigle room &gt;&gt;
+          </p>
+        </div>
       ) : (
         <Redirect to="/login" />
       )}

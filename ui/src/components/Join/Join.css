@@ -1,19 +1,20 @@
-.joinRoom {
+.joinRoomContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  /* background-color: rgb(34, 32, 32); */
   background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  /* background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
-    linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(0, 0, 0, 0.25) 200%
-    );
-  background-blend-mode: multiply; */
+}
+
+.joinRoom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* background-image: linear-gradient(60deg, #29323c 0%, #485563 100%); */
 }
 
 .joinRoom input {
@@ -25,28 +26,11 @@
 }
 
 .submitJoin {
-  /* background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(0, 0, 0, 0.15) 100%
-    ),
-    radial-gradient(
-        at top center,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(0, 0, 0, 0.4) 120%
-      )
-      #989898;
-  background-blend-mode: multiply, multiply;*/
   color: rgb(235, 230, 230);
   background-image: linear-gradient(-20deg, #616161 0%, #9bc5c3 100%);
-  /* background-image: linear-gradient(
-    to top,
-    #4fb576 0%,
-    #44c489 30%,
-    #28a9ae 46%,
-    #28a2b7 59%,
-    #4c7788 71%,
-    #6c4f63 86%,
-    #432c39 100%
-  ); */
+}
+
+.singleRoom {
+  margin: 0%;
+  color: rgb(223, 219, 219);
 }

@@ -6,6 +6,7 @@ const addRoom = async (roomname, username) => {
     if (room == null) {
       room = await new Room({ roomname });
     }
+
     room.users.push({
       username,
       fillColor: "",
@@ -17,9 +18,11 @@ const addRoom = async (roomname, username) => {
       lock: false,
       showSidebar: false,
     });
+    // console.log(room.users);
     await room.save();
     return room;
   } catch (e) {
+    console.log(e.message);
     return { error: "Something went wrong" };
   }
 };
@@ -134,7 +137,6 @@ const changeLock = async (request, response) => {
       (user) => user.username === request.body.username
     );
     user.lock = request.body.lock;
-    console.log(request.body.lock);
     await room.save();
     response.send({ message: "Lock updated" });
   } catch (e) {

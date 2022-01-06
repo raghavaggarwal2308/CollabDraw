@@ -34,6 +34,8 @@ function Login() {
       console.log(user);
       localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("token", user.data.token);
+      localStorage.setItem("username", user.data.user.firstName);
+      localStorage.setItem("roomname", user.data.user._id);
       history.push("/join");
       //window.history.pushState("", "New Page Title", "/join");
       //window.location = "/join";

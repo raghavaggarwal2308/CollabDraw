@@ -16,12 +16,21 @@ const addUser = async ({ username, roomname, id }) => {
   return { message: "User added succesfully" };
 };
 
+const ObjectId = require("mongoose").Types.ObjectId;
+function isValidObjectId(id) {
+  if (ObjectId.isValid(id)) {
+    if (String(new ObjectId(id)) === id) return true;
+    return false;
+  }
+  return false;
+}
+
 const removeUser = async (username, roomname) => {
   const room = await Room.findOne({ roomname });
-
   room.users = room.users.filter((user) => user.username !== username);
-  if (room.users.length === 0) await Room.deleteOne({ roomname });
-  else await room.save();
+  if (room.users.length === 0 && !isValidObjectId(roomname)) {
+    await Room.deleteOne({ roomname });
+  } else await room.save();
   return { message: "user removed successfully" };
 };
 

@@ -566,15 +566,17 @@ class Board extends React.Component {
     this.props.socket.on("redoFigure", this.redoFigure);
 
     getFigures(this.roomname, this.username).then((res) => {
-      res.data.figures.map((figure) => this.addFigure(figure, figure.id));
-      this.props.setShape(res.data.shape);
-      this.props.setLineColor(res.data.lineColor);
-      this.props.setLineWidth(res.data.lineWidth);
-      this.props.setOpacity(res.data.opacity);
-      this.props.setLineStyle(res.data.lineStyle);
-      this.props.setFillColor(res.data.fillColor);
-      this.props.setlock(res.data.lock);
-      this.props.setshowSidebar(res.data.showSidebar);
+      if (res !== undefined) {
+        res.data.figures.map((figure) => this.addFigure(figure, figure.id));
+        this.props.setShape(res.data.shape);
+        this.props.setLineColor(res.data.lineColor);
+        this.props.setLineWidth(res.data.lineWidth);
+        this.props.setOpacity(res.data.opacity);
+        this.props.setLineStyle(res.data.lineStyle);
+        this.props.setFillColor(res.data.fillColor);
+        this.props.setlock(res.data.lock);
+        this.props.setshowSidebar(res.data.showSidebar);
+      }
     });
   }
   downloadCanvas = function () {
