@@ -171,6 +171,7 @@ class Board extends React.Component {
     if (this.props.shape !== "selection") {
       this.props.setshowSidebar(false);
     }
+    this.canvas.isDrawingMode = false;
     this.props.setShape("selection");
   };
   modify = (o) => {
@@ -192,7 +193,6 @@ class Board extends React.Component {
     });
   };
   addFigure = (figure, id) => {
-    console.log(figure);
     switch (figure.type) {
       case "rect":
         this.canvas.add(
@@ -347,7 +347,6 @@ class Board extends React.Component {
   //       });
   //       return line;
   //     case "path":
-  //       console.log(figure);
   //       const path = new fabric.Path(figure.path, {
   //         left: figure.left,
   //         top: figure.top,
@@ -368,13 +367,11 @@ class Board extends React.Component {
   // };
 
   // getFigArray = (objects) => {
-  //   console.log(objects);
   //   return objects.map((object) => this.getFigure(object));
   // };
 
   // createClipPath = (clipPath) => {
   //   let figArray = this.getFigArray(clipPath.objects);
-  //   console.log(figArray);
   //   let group = new fabric.Group(figArray, {
   //     left: clipPath.left,
   //     top: clipPath.top,
@@ -415,7 +412,6 @@ class Board extends React.Component {
   //   return group;
   // };
   // updateFigure = ({ figure, id, roomname }) => {
-  //   console.log(figure);
   //   if (this.roomname === roomname) {
   //     const object = this.canvas._objects.find((obj) => obj.id === id);
   //     if (object) {
@@ -431,7 +427,6 @@ class Board extends React.Component {
   //       this.saveAction();
   //       // if (figure.clipPath) {
   //       //   const clipPath = this.createClipPath(figure.clipPath);
-  //       //   console.log(clipPath);
   //       //   object.set({ erasable: figure.erasable });
   //       //   object.set({ clipPath: clipPath });
   //       //   object.set({
@@ -440,7 +435,6 @@ class Board extends React.Component {
   //       // }
   //     }
   //     this.canvas.renderAll();
-  //     console.log(this.canvas._objects);
   //   }
   // };
 
@@ -459,10 +453,9 @@ class Board extends React.Component {
     this.props.setshowSidebar(true);
   };
   deselection = (o) => {
-    this.props.setshowSidebar(false);
+    if (this.props.shape === "selection") this.props.setshowSidebar(false);
   };
   // undoFigure = ({ figure, roomname, id }) => {
-  //   console.log(id);
   //   if (this.roomname === roomname) {
   //     this.canvas._objects.forEach((figure) => {
   //       if (figure.id === id) {
@@ -534,7 +527,6 @@ class Board extends React.Component {
     //brush();
     // this.canvas.on("erasing:end", (o) => {
     //   this.modify(o);
-    //   // console.log(o);
     //   // o.targets.forEach((target) => {
     //   //   this.props.socket.emit("modifyFigure", {
     //   //     figure: target,
@@ -543,11 +535,9 @@ class Board extends React.Component {
     //   //   });
     //   // });
 
-    //   // console.log(o);
     // });
     // this.props.socket.on("eraseFigure", ({ figure, id, roomname }) => {
     //   const object = this.canvas._objects.find((obj) => obj.id === id);
-    //   console.log(object);
     // });
     this.canvas.on("mouse:down", this.start);
 
@@ -583,7 +573,6 @@ class Board extends React.Component {
     link.href = this.canvas.toDataURL({
       format: "png",
     });
-    console.log(link.href);
     link.download = "canvas.png";
     link.click();
   };
@@ -632,11 +621,8 @@ class Board extends React.Component {
     }
   };
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
     this.changeSelectedItem(prevProps);
 
-    //console.log(prevState);
-    //console.log(prevProps);
     if (this.props.deselect) {
       this.canvas.forEachObject((o) => {
         o.selectable = false;
@@ -666,6 +652,7 @@ class Board extends React.Component {
         this.canvas.forEachObject(function (o) {
           o.set({ selectable: true }).setCoords();
         }).selection = true;
+        this.canvas.isDrawingMode = false;
         break;
       case "clear":
         let ans = window.confirm("Do you want to clear canvas?");

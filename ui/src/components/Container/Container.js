@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Board from "../Board/Board";
 import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
@@ -19,9 +19,7 @@ function Container({ socket }) {
     return "Do you want to refresh?";
   };
   window.addEventListener("popstate", () => {
-    // console.log(window.location.href);
     if (window.location.href === "http://localhost:3000/join") {
-      // console.log("disconnected");
       socket.emit("disconnectUser", { username, roomname });
     }
   });

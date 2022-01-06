@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./SideBar.css";
 import { SketchPicker } from "react-color";
-import Slider, { Range } from "rc-slider";
+import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import {
   changeLineColor,
@@ -17,7 +17,7 @@ function SideBar({
   lineWidth,
   lineColor,
   shape,
-  eraserSize,
+  // eraserSize,
   setEraserSize,
   username,
   roomname,
@@ -55,9 +55,9 @@ function SideBar({
     setOpacity(parseFloat(e));
     changeOpacity(parseFloat(e), roomname, username);
   }
-  function eraserSlider(e) {
-    setEraserSize(e.target.value);
-  }
+  // function eraserSlider(e) {
+  //   setEraserSize(e.target.value);
+  // }
   function fillChangeColor(e) {
     setFillColor(e.target.value);
     changeFillColor(e.target.value, roomname, username);
@@ -204,6 +204,7 @@ function SideBar({
                 onAfterChange={widthslider}
                 min={1}
                 max={7}
+                step={0.5}
                 onChange={widthHandler}
                 value={width}
                 className="slider"
@@ -229,20 +230,59 @@ function SideBar({
                 <Slider
                   onAfterChange={styleslider}
                   min={0}
-                  max={5}
+                  max={8}
+                  step={1}
                   onChange={styleHandler}
                   value={style}
                   className="slider"
                 />
-                <div
-                  id="lineStyle"
-                  style={{
-                    boxSizing: "border-box",
-                    borderTop: `${lineStyle}px dashed ${lineColor}`,
-                    height: "0px",
-                    backgroundColor: "transparent",
-                  }}
-                ></div>
+                <div id="lineStyle">
+                  <div
+                    style={{
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                      width: lineStyle,
+                      marginLeft: lineStyle / 2,
+                      marginRight: lineStyle / 2,
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                      width: lineStyle,
+                      marginLeft: lineStyle / 2,
+                      marginRight: lineStyle / 2,
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                      width: lineStyle,
+                      marginLeft: lineStyle / 2,
+                      marginRight: lineStyle / 2,
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                      width: lineStyle,
+                      marginLeft: lineStyle / 2,
+                      marginRight: lineStyle / 2,
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                      width: lineStyle,
+                      marginLeft: lineStyle / 2,
+                      marginRight: lineStyle / 2,
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           )}

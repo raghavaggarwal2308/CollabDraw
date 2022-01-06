@@ -23,7 +23,6 @@ const addRoom = async (roomname, username) => {
 };
 const addFigure = async (request, response) => {
   const figure = request.body.figure;
-  console.log(figure);
   const roomname = request.body.roomname;
   const id = request.body.id;
   figure.id = id;
@@ -40,12 +39,10 @@ const addFigure = async (request, response) => {
 const updateFigure = async (request, response) => {
   const figures = request.body.figures;
   const roomname = request.body.roomname;
-  // console.log(figures);
   try {
     const room = await Room.findOne({ roomname });
     // const index = room.figures.findIndex((figure) => figure.id === id);
     // room.figures[index] = figure;
-    // console.log(roomname);
     room.figures = figures;
     await room.save();
     response.send({ message: "Figure updated successfully" });
@@ -187,7 +184,6 @@ const changeShape = async (request, response) => {
 //   }
 // };
 const undoFigure = async (request, response) => {
-  // console.log(request.body.figures);
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
     room.figures = request.body.figures;

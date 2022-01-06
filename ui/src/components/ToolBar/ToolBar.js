@@ -1,16 +1,16 @@
 import React from "react";
 import "./ToolBar.css";
-import Pencil from "@material-ui/icons/Create";
-import Rectangle from "@material-ui/icons/CropDin";
-import Circle from "@material-ui/icons/RadioButtonUnchecked";
-import Line from "@material-ui/icons/Remove";
-import ClearAll from "@material-ui/icons/DeleteSweep";
-import Eraser from "@material-ui/icons/BorderClear";
-import Undo from "@material-ui/icons/Undo";
-import Redo from "@material-ui/icons/Redo";
-import Select from "@material-ui/icons/PhotoSizeSelectSmall";
-import TextFormat from "@material-ui/icons/TextFormat";
-import Download from "@material-ui/icons/CloudDownload";
+import Pencil from "@mui/icons-material/Create";
+import Rectangle from "@mui/icons-material/CropDin";
+import Circle from "@mui/icons-material/RadioButtonUnchecked";
+import Line from "@mui/icons-material/Remove";
+import ClearAll from "@mui/icons-material/DeleteSweep";
+import Undo from "@mui/icons-material/Undo";
+import Redo from "@mui/icons-material/Redo";
+import Select from "@mui/icons-material/PhotoSizeSelectSmall";
+// import Text from "@mui/icons-material/TextFormat";
+// import Text from "@mui/icons-material/Abc";
+import Download from "@mui/icons-material/Download";
 
 import { changeShape } from "../../api/Room";
 
@@ -33,12 +33,12 @@ function ToolBar({
   };
   return (
     <div className="topContainer" onClick={deselectAll}>
-      <div
+      {/* <div
         className={`eraserContainer ${shape === "eraser" && "buttonBack"}`}
         onClick={(e) => changeShapeType("eraser", e)}
       >
         <Eraser />
-      </div>
+      </div> */}
       <div
         className={`selectContainer ${shape === "selection" && "buttonBack"}`}
         onClick={(e) => changeShapeType("selection", e)}
@@ -75,7 +75,8 @@ function ToolBar({
         className={`textContainer ${shape === "text" && "buttonBack"}`}
         onClick={(e) => changeShapeType("text", e)}
       >
-        <TextFormat />
+        {/* <Text /> */}
+        <span style={{ fontSize: "21px", fontWeight: "450" }}>A</span>
       </div>
       <div
         className="clearBoardContainer"
