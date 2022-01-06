@@ -275,8 +275,6 @@ class Board extends React.Component {
           flipX: figure.flipX,
           flipY: figure.flipY,
           angle: figure.angle,
-          // strokeDashArray: figure.strokeDashArray,
-          // opacity: figure.opacity,
         });
         this.canvas.add(this.pencil);
         break;
@@ -287,6 +285,7 @@ class Board extends React.Component {
   updateFigure = ({ figures, roomname }) => {
     if (this.roomname === roomname) {
       this.canvas.loadFromJSON(figures).renderAll();
+      this.saveAction();
     }
   };
   // getFigure = (figure) => {
@@ -582,7 +581,56 @@ class Board extends React.Component {
     link.download = "canvas.png";
     link.click();
   };
-  componentDidUpdate() {
+  changeSelectedItem = (prevProps) => {
+    let flag = false;
+    if (prevProps.lineColor !== this.props.lineColor) {
+      this.canvas.getActiveObjects().forEach((obj) => {
+        obj.set({ stroke: this.props.lineColor });
+      });
+      flag = true;
+    } else if (prevProps.opacity !== this.props.opacity) {
+      this.canvas.getActiveObjects().forEach((obj) => {
+        obj.set({ opacity: this.props.opacity });
+      });
+      flag = true;
+    } else if (prevProps.lineWidth !== this.props.lineWidth) {
+      this.canvas.getActiveObjects().forEach((obj) => {
+        obj.set({ strokeWidth: this.props.lineWidth });
+      });
+      flag = true;
+    } else if (prevProps.fillColor !== this.props.fillColor) {
+      this.canvas.getActiveObjects().forEach((obj) => {
+        obj.set({ fill: this.props.fillColor });
+      });
+      flag = true;
+    } else if (prevProps.lineStyle !== this.props.lineStyle) {
+      this.canvas.getActiveObjects().forEach((obj) => {
+        obj.set({ strokeDashArray: [this.props.lineStyle] });
+      });
+      flag = true;
+    }
+    if (flag) {
+      this.canvas.renderAll();
+      const figures = JSON.stringify(
+        this.canvas.toDatalessJSON(this.props.extraProps)
+      );
+      updateFigure({
+        figures: this.canvas.toDatalessJSON(this.canvas.extraProps).objects,
+        roomname: this.roomname,
+      });
+      this.saveAction();
+      this.props.socket.emit("modifyFigure", {
+        figures,
+        roomname: this.roomname,
+      });
+    }
+  };
+  componentDidUpdate(prevProps) {
+    console.log(prevProps);
+    this.changeSelectedItem(prevProps);
+
+    //console.log(prevState);
+    //console.log(prevProps);
     if (this.props.deselect) {
       this.canvas.forEachObject((o) => {
         o.selectable = false;

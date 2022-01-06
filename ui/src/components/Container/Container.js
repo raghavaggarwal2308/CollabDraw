@@ -43,12 +43,13 @@ function Container({ socket }) {
   return (
     <>
       {isAuthenticated === "true" ? (
-        <div onClick={deselectAll}>
+        <div>
           <ToolBar
             shape={shape}
             setShape={setShape}
             username={username}
             roomname={roomname}
+            deselectAll={deselectAll}
           />
           <Board
             shape={shape}

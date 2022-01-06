@@ -177,7 +177,7 @@ function SideBar({
                   type="range"
                   onChange={styleslider}
                   id="lineStyleSlider"
-                  min="1"
+                  min="0"
                   max="7"
                   value={lineStyle}
                 />

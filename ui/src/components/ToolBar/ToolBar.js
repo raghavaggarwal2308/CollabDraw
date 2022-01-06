@@ -14,13 +14,13 @@ import Download from "@material-ui/icons/CloudDownload";
 
 import { changeShape } from "../../api/Room";
 
-function ToolBar({ shape, setShape, roomname, username }) {
+function ToolBar({ shape, setShape, roomname, username, deselectAll }) {
   const changeShapeType = (shape, event) => {
     setShape(shape);
     changeShape(shape, roomname, username);
   };
   return (
-    <div className="topContainer">
+    <div className="topContainer" onClick={deselectAll}>
       <div
         className={`eraserContainer ${shape === "eraser" && "buttonBack"}`}
         onClick={(e) => changeShapeType("eraser", e)}
