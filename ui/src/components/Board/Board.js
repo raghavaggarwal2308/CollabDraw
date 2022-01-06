@@ -10,6 +10,7 @@ import {
   clearCanvas,
   undoFigure,
   redoFigure,
+  changeshowSidebar,
 } from "../../api/Room";
 class Board extends React.Component {
   constructor(props) {
@@ -170,6 +171,7 @@ class Board extends React.Component {
     }
     if (this.props.shape !== "selection") {
       this.props.setshowSidebar(false);
+      changeshowSidebar(false, this.roomname, this.username);
     }
     this.canvas.isDrawingMode = false;
     if (this.props.lock === false) {
@@ -453,9 +455,13 @@ class Board extends React.Component {
   selection = (o) => {
     this.props.setShape("selection");
     this.props.setshowSidebar(true);
+    changeshowSidebar(true, this.roomname, this.username);
   };
   deselection = (o) => {
-    if (this.props.shape === "selection") this.props.setshowSidebar(false);
+    if (this.props.shape === "selection") {
+      this.props.setshowSidebar(false);
+      changeshowSidebar(false, this.roomname, this.username);
+    }
   };
   // undoFigure = ({ figure, roomname, id }) => {
   //   if (this.roomname === roomname) {
@@ -567,6 +573,8 @@ class Board extends React.Component {
       this.props.setOpacity(res.data.opacity);
       this.props.setLineStyle(res.data.lineStyle);
       this.props.setFillColor(res.data.fillColor);
+      this.props.setlock(res.data.lock);
+      this.props.setshowSidebar(res.data.showSidebar);
     });
   }
   downloadCanvas = function () {

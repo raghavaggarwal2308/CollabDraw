@@ -14,6 +14,8 @@ const addRoom = async (roomname, username) => {
       shape: "rectangle",
       opacity: 1,
       strokeDashArray: 0,
+      lock: false,
+      showSidebar: false,
     });
     await room.save();
     return room;
@@ -65,6 +67,8 @@ const getFigures = async (request, response) => {
         lineStyle: room.users[index].strokeDashArray,
         lineWidth: room.users[index].lineWidth,
         shape: room.users[index].shape,
+        lock: room.users[index].lock,
+        showSidebar: room.users[index].showSidebar,
       });
   } catch (e) {
     response.json({ message: e.message });
@@ -118,6 +122,36 @@ const changeLineWidth = async (request, response) => {
     user.lineWidth = request.body.lineWidth;
     await room.save();
     response.send({ message: "Line Width updated" });
+  } catch (e) {
+    response.json({ message: e.message });
+  }
+};
+
+const changeLock = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.lock = request.body.lock;
+    console.log(request.body.lock);
+    await room.save();
+    response.send({ message: "Lock updated" });
+  } catch (e) {
+    console.log(e.message);
+    response.json({ message: e.message });
+  }
+};
+
+const changeshowSidebar = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const user = room.users.find(
+      (user) => user.username === request.body.username
+    );
+    user.showSidebar = request.body.showSidebar;
+    await room.save();
+    response.send({ message: "Sidebar updated" });
   } catch (e) {
     response.json({ message: e.message });
   }
@@ -207,4 +241,6 @@ module.exports = {
   changeFillColor,
   changeStyleSlider,
   changeOpacity,
+  changeLock,
+  changeshowSidebar,
 };

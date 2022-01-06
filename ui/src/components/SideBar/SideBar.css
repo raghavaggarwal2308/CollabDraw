@@ -79,6 +79,7 @@
   overflow-x: hidden;
   justify-content: center;
   align-items: center;
+  border-radius: 0px;
 }
 #lineStyle div {
   flex-shrink: 0;

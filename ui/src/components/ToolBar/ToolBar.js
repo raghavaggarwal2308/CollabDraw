@@ -14,7 +14,7 @@ import Download from "@mui/icons-material/Download";
 import Lock from "@mui/icons-material/LockOpen";
 import Locked from "@mui/icons-material/Lock";
 
-import { changeShape } from "../../api/Room";
+import { changeShape, changeLock, changeshowSidebar } from "../../api/Room";
 
 function ToolBar({
   shape,
@@ -26,17 +26,27 @@ function ToolBar({
   lock,
   setlock,
 }) {
-  const changeLock = (e) => {
-    setlock(!lock);
+  const updateLock = (e) => {
+    let temp = !lock;
+    setlock(temp);
+    changeLock(temp, roomname, username);
   };
   const changeShapeType = (shape, event) => {
     setShape(shape);
     changeShape(shape, roomname, username);
 
-    if (shape !== "selection") {
+    if (
+      shape !== "selection" &&
+      shape !== "redo" &&
+      shape !== "undo" &&
+      shape !== "clear" &&
+      shape !== "download"
+    ) {
       setshowSidebar(true);
+      changeshowSidebar(true, roomname, username);
     } else {
       setshowSidebar(false);
+      changeshowSidebar(false, roomname, username);
     }
   };
   return (
@@ -49,7 +59,7 @@ function ToolBar({
       </div> */}
       <div
         className={`lockContainer ${lock && "buttonBack"}`}
-        onClick={(e) => changeLock(e)}
+        onClick={(e) => updateLock(e)}
       >
         {lock ? <Locked /> : <Lock />}
       </div>

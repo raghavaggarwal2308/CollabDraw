@@ -72,6 +72,20 @@ const changeOpacity = async (opacity, roomname, username) => {
     username,
   });
 };
+const changeLock = async (lock, roomname, username) => {
+  await axios.patch(`${URL}/changeLock`, {
+    lock,
+    roomname,
+    username,
+  });
+};
+const changeshowSidebar = async (showSidebar, roomname, username) => {
+  await axios.patch(`${URL}/changeshowSidebar`, {
+    showSidebar,
+    roomname,
+    username,
+  });
+};
 export {
   addFigureAPI,
   updateFigure,
@@ -85,4 +99,6 @@ export {
   changeFillColor,
   changeStyleSlider,
   changeOpacity,
+  changeLock,
+  changeshowSidebar,
 };

@@ -12,6 +12,8 @@ const {
   changeFillColor,
   changeStyleSlider,
   changeOpacity,
+  changeLock,
+  changeshowSidebar,
 } = require("../controllers/Room.js");
 
 route.post("/addFigure", addFigure);
@@ -26,5 +28,7 @@ route.patch("/changeStyleSlider", changeStyleSlider);
 route.patch("/changeOpacity", changeOpacity);
 route.patch("/undoFIgure", undoFigure);
 route.patch("/redoFigure", undoFigure);
+route.patch("/changeLock", changeLock);
+route.patch("/changeshowSidebar", changeshowSidebar);
 
 module.exports = route;

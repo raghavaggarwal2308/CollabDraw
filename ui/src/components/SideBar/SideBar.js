@@ -83,9 +83,10 @@ function SideBar({
     setStyle(e);
   }
   return (
-    showSidebar && (
-      <div className="sideContainer">
-        {/* {shape === "erase" ? (
+    <>
+      {showSidebar && (
+        <div className="sideContainer">
+          {/* {shape === "erase" ? (
         <>
           <div className="lineWidthContainer">
             <p>Eraser Size:</p>
@@ -103,62 +104,62 @@ function SideBar({
           </div>
         </>
       ) : ( */}
-        <>
-          <div className="colorPickerContainer">
-            <p style={{ marginTop: "0" }}>Stroke Color:</p>
-            <div className="colorPickerInput">
-              <input
-                type="text"
-                id="lineColorValue"
-                value={lineColor}
-                onChange={(e) => changeColor(e)}
-              />
-
-              <div id="colorPicker">
-                <div
-                  id="color"
-                  style={{ backgroundColor: `${lineColor}` }}
-                ></div>
-                <div id="picker">
-                  <SketchPicker
-                    color={lineColor}
-                    onChangeComplete={handleChangeComplete}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          {shape !== "pencil" && (
+          <>
             <div className="colorPickerContainer">
-              <p>Fill color:</p>
+              <p style={{ marginTop: "0" }}>Stroke Color:</p>
               <div className="colorPickerInput">
                 <input
                   type="text"
-                  id="fillColorValue"
-                  value={fillColor}
-                  onChange={(e) => fillChangeColor(e)}
+                  id="lineColorValue"
+                  value={lineColor}
+                  onChange={(e) => changeColor(e)}
                 />
 
-                <div id="fillColorPicker">
+                <div id="colorPicker">
                   <div
-                    id="fillColor"
-                    style={{ backgroundColor: `${fillColor}` }}
+                    id="color"
+                    style={{ backgroundColor: `${lineColor}` }}
                   ></div>
-                  <div id="fillPicker">
+                  <div id="picker">
                     <SketchPicker
-                      color={fillColor}
-                      onChangeComplete={fillHandleChangeComplete}
+                      color={lineColor}
+                      onChangeComplete={handleChangeComplete}
                     />
                   </div>
                 </div>
               </div>
             </div>
-          )}
-          {shape !== "pencil" && (
-            <div className="lineWidthContainer">
-              <p>Opacity :</p>
-              <div className="lineWidthInput">
-                {/* <input
+            {shape !== "pencil" && (
+              <div className="colorPickerContainer">
+                <p>Fill color:</p>
+                <div className="colorPickerInput">
+                  <input
+                    type="text"
+                    id="fillColorValue"
+                    value={fillColor}
+                    onChange={(e) => fillChangeColor(e)}
+                  />
+
+                  <div id="fillColorPicker">
+                    <div
+                      id="fillColor"
+                      style={{ backgroundColor: `${fillColor}` }}
+                    ></div>
+                    <div id="fillPicker">
+                      <SketchPicker
+                        color={fillColor}
+                        onChangeComplete={fillHandleChangeComplete}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {shape !== "pencil" && (
+              <div className="lineWidthContainer">
+                <p>Opacity :</p>
+                <div className="lineWidthInput">
+                  {/* <input
                   type="range"
                   onChange={opacityslider}
                   id="opacitySlider"
@@ -167,31 +168,31 @@ function SideBar({
                   step="0.1"
                   value={opacity}
                 /> */}
-                <Slider
-                  onAfterChange={opacityslider}
-                  min={0.1}
-                  max={1}
-                  step={0.1}
-                  onChange={opacityHandler}
-                  value={opac}
-                  className="slider"
-                />
+                  <Slider
+                    onAfterChange={opacityslider}
+                    min={0.1}
+                    max={1}
+                    step={0.1}
+                    onChange={opacityHandler}
+                    value={opac}
+                    className="slider"
+                  />
 
-                <div
-                  id="opacity"
-                  style={{
-                    opacity: opac,
-                    height: lineWidth + "px",
-                    backgroundColor: lineColor,
-                  }}
-                ></div>
+                  <div
+                    id="opacity"
+                    style={{
+                      opacity: opac,
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                    }}
+                  ></div>
+                </div>
               </div>
-            </div>
-          )}
-          <div className="lineWidthContainer">
-            <p>Stroke Width:</p>
-            <div className="lineWidthInput">
-              {/* <input
+            )}
+            <div className="lineWidthContainer">
+              <p>Stroke Width:</p>
+              <div className="lineWidthInput">
+                {/* <input
                 type="range"
                 onChange={widthslider}
                 id="lineWidthSlider"
@@ -199,26 +200,29 @@ function SideBar({
                 max="7"
                 value={lineWidth}
               /> */}
-              <Slider
-                onAfterChange={widthslider}
-                min={1}
-                max={7}
-                step={0.5}
-                onChange={widthHandler}
-                value={width}
-                className="slider"
-              />
-              <div
-                id="lineWidth"
-                style={{ height: lineWidth + "px", backgroundColor: lineColor }}
-              ></div>
+                <Slider
+                  onAfterChange={widthslider}
+                  min={1}
+                  max={7}
+                  step={0.5}
+                  onChange={widthHandler}
+                  value={width}
+                  className="slider"
+                />
+                <div
+                  id="lineWidth"
+                  style={{
+                    height: lineWidth + "px",
+                    backgroundColor: lineColor,
+                  }}
+                ></div>
+              </div>
             </div>
-          </div>
-          {shape !== "pencil" && (
-            <div className="lineWidthContainer">
-              <p>Stroke Style : </p>
-              <div className="lineWidthInput">
-                {/* <input
+            {shape !== "pencil" && (
+              <div className="lineWidthContainer">
+                <p>Stroke Style : </p>
+                <div className="lineWidthInput">
+                  {/* <input
                   type="range"
                   onChange={styleslider}
                   id="lineStyleSlider"
@@ -226,69 +230,70 @@ function SideBar({
                   max="7"
                   value={lineStyle}
                 /> */}
-                <Slider
-                  onAfterChange={styleslider}
-                  min={0}
-                  max={8}
-                  step={1}
-                  onChange={styleHandler}
-                  value={style}
-                  className="slider"
-                />
-                <div id="lineStyle">
-                  <div
-                    style={{
-                      height: lineWidth + "px",
-                      backgroundColor: lineColor,
-                      width: lineStyle,
-                      marginLeft: lineStyle / 2,
-                      marginRight: lineStyle / 2,
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      height: lineWidth + "px",
-                      backgroundColor: lineColor,
-                      width: lineStyle,
-                      marginLeft: lineStyle / 2,
-                      marginRight: lineStyle / 2,
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      height: lineWidth + "px",
-                      backgroundColor: lineColor,
-                      width: lineStyle,
-                      marginLeft: lineStyle / 2,
-                      marginRight: lineStyle / 2,
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      height: lineWidth + "px",
-                      backgroundColor: lineColor,
-                      width: lineStyle,
-                      marginLeft: lineStyle / 2,
-                      marginRight: lineStyle / 2,
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      height: lineWidth + "px",
-                      backgroundColor: lineColor,
-                      width: lineStyle,
-                      marginLeft: lineStyle / 2,
-                      marginRight: lineStyle / 2,
-                    }}
-                  ></div>
+                  <Slider
+                    onAfterChange={styleslider}
+                    min={0}
+                    max={8}
+                    step={1}
+                    onChange={styleHandler}
+                    value={style}
+                    className="slider"
+                  />
+                  <div id="lineStyle">
+                    <div
+                      style={{
+                        height: lineWidth + "px",
+                        backgroundColor: lineColor,
+                        width: lineStyle,
+                        marginLeft: lineStyle / 2,
+                        marginRight: lineStyle / 2,
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        height: lineWidth + "px",
+                        backgroundColor: lineColor,
+                        width: lineStyle,
+                        marginLeft: lineStyle / 2,
+                        marginRight: lineStyle / 2,
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        height: lineWidth + "px",
+                        backgroundColor: lineColor,
+                        width: lineStyle,
+                        marginLeft: lineStyle / 2,
+                        marginRight: lineStyle / 2,
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        height: lineWidth + "px",
+                        backgroundColor: lineColor,
+                        width: lineStyle,
+                        marginLeft: lineStyle / 2,
+                        marginRight: lineStyle / 2,
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        height: lineWidth + "px",
+                        backgroundColor: lineColor,
+                        width: lineStyle,
+                        marginLeft: lineStyle / 2,
+                        marginRight: lineStyle / 2,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </>
-        {/* )} */}
-      </div>
-    )
+            )}
+          </>
+          {/* )} */}
+        </div>
+      )}
+    </>
   );
 }
 

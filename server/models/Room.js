@@ -14,6 +14,8 @@ const roomSchema = new mongoose.Schema(
         opacity: Number,
         strokeDashArray: Number,
         shape: String,
+        lock: Boolean,
+        showSidebar: Boolean,
       },
     ],
     figures: [
