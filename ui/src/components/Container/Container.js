@@ -37,6 +37,7 @@ function Container({ socket }) {
   const [lineStyle, setLineStyle] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [showSidebar, setshowSidebar] = useState(false);
+  const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
   const username = window.location.pathname.split("/")[2].trim().toLowerCase();
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
@@ -83,10 +84,12 @@ function Container({ socket }) {
             setOpacity={setOpacity}
             lock={lock}
             setlock={setlock}
+            imageType={imageType}
           />
           <SideBar
             showSidebar={showSidebar}
             shape={shape}
+            setShape={setShape}
             setLineColor={setLineColor}
             setLineWidth={setLineWidth}
             lineColor={lineColor}
@@ -99,6 +102,7 @@ function Container({ socket }) {
             setLineStyle={setLineStyle}
             opacity={opacity}
             setOpacity={setOpacity}
+            setimageType={setimageType}
           />
         </div>
       ) : (

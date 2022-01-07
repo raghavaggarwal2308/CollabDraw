@@ -581,7 +581,22 @@ class Board extends React.Component {
       }
     });
   }
-  downloadCanvas = function () {
+  downloadCanvasPNG = function () {
+    // var link = document.createElement("a");
+
+    // link.href =
+    //   "data:image/svg+xml;utf8," + encodeURIComponent(this.canvas.toSVG());
+    // link.download = "canvas.svg";
+    // link.click();
+    var link = document.createElement("a");
+
+    link.href = this.canvas.toDataURL({
+      format: "png",
+    });
+    link.download = "canvas.png";
+    link.click();
+  };
+  downloadCanvasSVG = function () {
     var link = document.createElement("a");
 
     link.href =
@@ -658,8 +673,16 @@ class Board extends React.Component {
     switch (this.props.shape) {
       case "download":
         this.props.setshowSidebar(true);
-        //this.downloadCanvas();
+        // this.downloadCanvas();
         //this.props.setShape("selection");
+        break;
+      case "downloadpng":
+        this.downloadCanvasPNG();
+        this.props.setShape("selection");
+        break;
+      case "downloadsvg":
+        this.downloadCanvasSVG();
+        this.props.setShape("selection");
         break;
       // case "eraser":
       //   this.canvas.isDrawingMode = false;

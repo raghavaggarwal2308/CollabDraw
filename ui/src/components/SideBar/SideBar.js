@@ -17,6 +17,7 @@ function SideBar({
   lineWidth,
   lineColor,
   shape,
+  setShape,
   // eraserSize,
   // setEraserSize,
   username,
@@ -28,6 +29,7 @@ function SideBar({
   opacity,
   setOpacity,
   showSidebar,
+  setimageType,
 }) {
   const [opac, setopac] = useState(opacity);
   const [width, setWidth] = useState(lineWidth);
@@ -105,31 +107,33 @@ function SideBar({
         </>
       ) : ( */}
           <>
-            <div className="colorPickerContainer">
-              <p style={{ marginTop: "0" }}>Stroke Color:</p>
-              <div className="colorPickerInput">
-                <input
-                  type="text"
-                  id="lineColorValue"
-                  value={lineColor}
-                  onChange={(e) => changeColor(e)}
-                />
+            {shape !== "download" && (
+              <div className="colorPickerContainer">
+                <p style={{ marginTop: "0" }}>Stroke Color:</p>
+                <div className="colorPickerInput">
+                  <input
+                    type="text"
+                    id="lineColorValue"
+                    value={lineColor}
+                    onChange={(e) => changeColor(e)}
+                  />
 
-                <div id="colorPicker">
-                  <div
-                    id="color"
-                    style={{ backgroundColor: `${lineColor}` }}
-                  ></div>
-                  <div id="picker">
-                    <SketchPicker
-                      color={lineColor}
-                      onChangeComplete={handleChangeComplete}
-                    />
+                  <div id="colorPicker">
+                    <div
+                      id="color"
+                      style={{ backgroundColor: `${lineColor}` }}
+                    ></div>
+                    <div id="picker">
+                      <SketchPicker
+                        color={lineColor}
+                        onChangeComplete={handleChangeComplete}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            {shape !== "pencil" && (
+            )}
+            {shape !== "pencil" && shape !== "download" && (
               <div className="colorPickerContainer">
                 <p>Fill color:</p>
                 <div className="colorPickerInput">
@@ -155,19 +159,10 @@ function SideBar({
                 </div>
               </div>
             )}
-            {shape !== "pencil" && (
+            {shape !== "pencil" && shape !== "download" && (
               <div className="lineWidthContainer">
                 <p>Opacity :</p>
                 <div className="lineWidthInput">
-                  {/* <input
-                  type="range"
-                  onChange={opacityslider}
-                  id="opacitySlider"
-                  min="0.1"
-                  max="1"
-                  step="0.1"
-                  value={opacity}
-                /> */}
                   <Slider
                     onAfterChange={opacityslider}
                     min={0.1}
@@ -189,47 +184,33 @@ function SideBar({
                 </div>
               </div>
             )}
-            <div className="lineWidthContainer">
-              <p>Stroke Width:</p>
-              <div className="lineWidthInput">
-                {/* <input
-                type="range"
-                onChange={widthslider}
-                id="lineWidthSlider"
-                min="1"
-                max="7"
-                value={lineWidth}
-              /> */}
-                <Slider
-                  onAfterChange={widthslider}
-                  min={1}
-                  max={7}
-                  step={0.5}
-                  onChange={widthHandler}
-                  value={width}
-                  className="slider"
-                />
-                <div
-                  id="lineWidth"
-                  style={{
-                    height: lineWidth + "px",
-                    backgroundColor: lineColor,
-                  }}
-                ></div>
+            {shape !== "download" && (
+              <div className="lineWidthContainer">
+                <p>Stroke Width:</p>
+                <div className="lineWidthInput">
+                  <Slider
+                    onAfterChange={widthslider}
+                    min={1}
+                    max={7}
+                    step={0.5}
+                    onChange={widthHandler}
+                    value={width}
+                    className="slider"
+                  />
+                  <div
+                    id="lineWidth"
+                    style={{
+                      height: lineWidth + "px",
+                      backgroundColor: lineColor,
+                    }}
+                  ></div>
+                </div>
               </div>
-            </div>
-            {shape !== "pencil" && (
+            )}
+            {shape !== "pencil" && shape !== "download" && (
               <div className="lineWidthContainer">
                 <p>Stroke Style : </p>
                 <div className="lineWidthInput">
-                  {/* <input
-                  type="range"
-                  onChange={styleslider}
-                  id="lineStyleSlider"
-                  min="0"
-                  max="7"
-                  value={lineStyle}
-                /> */}
                   <Slider
                     onAfterChange={styleslider}
                     min={0}
@@ -287,6 +268,26 @@ function SideBar({
                     ></div>
                   </div>
                 </div>
+              </div>
+            )}
+            {shape === "download" && (
+              <div className="downloadType">
+                <button
+                  onClick={() => {
+                    setimageType("svg");
+                    setShape("downloadsvg");
+                  }}
+                >
+                  .svg
+                </button>
+                <button
+                  onClick={() => {
+                    setimageType("png");
+                    setShape("downloadpng");
+                  }}
+                >
+                  .png
+                </button>
               </div>
             )}
           </>
