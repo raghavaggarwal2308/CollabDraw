@@ -566,7 +566,6 @@ class Board extends React.Component {
     this.props.socket.on("redoFigure", this.redoFigure);
 
     getFigures(this.roomname, this.username).then((res) => {
-      console.log(res);
       if (res !== undefined) {
         const figures = res.data.figures;
         figures &&
@@ -585,11 +584,17 @@ class Board extends React.Component {
   downloadCanvas = function () {
     var link = document.createElement("a");
 
-    link.href = this.canvas.toDataURL({
-      format: "png",
-    });
-    link.download = "canvas.png";
+    link.href =
+      "data:image/svg+xml;utf8," + encodeURIComponent(this.canvas.toSVG());
+    link.download = "canvas.svg";
     link.click();
+    // var link = document.createElement("a");
+
+    // link.href = this.canvas.toDataURL({
+    //   format: "png",
+    // });
+    // link.download = "canvas.png";
+    // link.click();
   };
   changeSelectedItem = (prevProps) => {
     let flag = false;
@@ -652,8 +657,9 @@ class Board extends React.Component {
     }
     switch (this.props.shape) {
       case "download":
-        this.downloadCanvas();
-        this.props.setShape("selection");
+        this.props.setshowSidebar(true);
+        //this.downloadCanvas();
+        //this.props.setShape("selection");
         break;
       // case "eraser":
       //   this.canvas.isDrawingMode = false;

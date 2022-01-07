@@ -4,10 +4,7 @@ const initializeSocket = (io) => {
   io.on("connection", (socket) => {
     console.log("connection established");
     socket.on("join", ({ username, roomname, singleroom }, callback) => {
-      // username = username.trim().toLowerCase();
-      // roomname = roomname.trim().toLowerCase();
       const id = socket.id;
-      console.log(singleroom);
       if (singleroom) {
         socket.join(roomname);
         addRoom(roomname, username, singleroom);

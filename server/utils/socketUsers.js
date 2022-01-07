@@ -28,7 +28,6 @@ function isValidObjectId(id) {
 const removeUser = async (username, roomname) => {
   try {
     const room = await Room.findOne({ roomname });
-    console.log(room.singleroom);
     if (room.singleroom) {
     } else {
       room.users = room.users.filter((user) => user.username !== username);
@@ -40,11 +39,10 @@ const removeUser = async (username, roomname) => {
         await room.save();
       }
     }
-
-    // console.log("xfghtyhjgu", room);
     return { message: "user removed successfully" };
   } catch (e) {
     console.log(e.message);
+    return { message: e.message };
   }
 };
 

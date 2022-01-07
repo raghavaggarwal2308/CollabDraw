@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Join.css";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import uuid from "react-uuid";
 
 function Join(props) {
   const history = useHistory();

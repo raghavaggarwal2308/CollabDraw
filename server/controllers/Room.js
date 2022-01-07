@@ -26,7 +26,6 @@ const addRoom = async (roomname, username, singleroom) => {
         room.users = users;
         await room.save();
       }
-      console.log(room);
       return room;
     } else {
       let room = await Room.findOne({ roomname });
@@ -90,7 +89,6 @@ const getFigures = async (request, response) => {
   const username = request.query.username.trim().toLowerCase();
   try {
     const room = await Room.findOne({ roomname });
-    console.log(room);
     const index = room.users.findIndex((user) => user.username === username);
     if (room != null)
       response.send({

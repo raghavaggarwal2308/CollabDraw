@@ -18,6 +18,7 @@ function Container({ socket }) {
     sessionStorage.setItem("reloaded", true);
     return "Do you want to refresh?";
   };
+
   useEffect(() => {
     window.addEventListener("popstate", () => {
       if (window.location.href === "http://localhost:3000/join") {
@@ -25,6 +26,7 @@ function Container({ socket }) {
         console.log("disconnected");
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   const [shape, setShape] = useState("pencil");
