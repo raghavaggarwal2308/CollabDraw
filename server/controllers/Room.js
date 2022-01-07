@@ -4,27 +4,53 @@ const addRoom = async (roomname, username, singleroom) => {
   try {
     roomname = roomname.trim().toLowerCase();
     username = username.trim().toLowerCase();
-    let room = await Room.findOne({ roomname });
-    if (room == null) {
-      room = await new Room({ roomname });
-    }
-    room.singleroom = singleroom;
-    let users = room.users;
+    if (singleroom) {
+      let room = await Room.findOne({ roomname });
 
-    users.push({
-      username,
-      fillColor: "",
-      lineColor: "black",
-      lineWidth: 2,
-      shape: "rectangle",
-      opacity: 1,
-      strokeDashArray: 0,
-      lock: false,
-      showSidebar: false,
-    });
-    room.users = users;
-    await room.save();
-    return room;
+      if (room == null) {
+        room = await new Room({ roomname });
+        room.singleroom = singleroom;
+        let users = room.users;
+
+        users.push({
+          username,
+          fillColor: "",
+          lineColor: "black",
+          lineWidth: 2,
+          shape: "rectangle",
+          opacity: 1,
+          strokeDashArray: 0,
+          lock: false,
+          showSidebar: false,
+        });
+        room.users = users;
+        await room.save();
+      }
+      console.log(room);
+      return room;
+    } else {
+      let room = await Room.findOne({ roomname });
+      if (room == null) {
+        room = await new Room({ roomname });
+      }
+      room.singleroom = singleroom;
+      let users = room.users;
+
+      users.push({
+        username,
+        fillColor: "",
+        lineColor: "black",
+        lineWidth: 2,
+        shape: "rectangle",
+        opacity: 1,
+        strokeDashArray: 0,
+        lock: false,
+        showSidebar: false,
+      });
+      room.users = users;
+      await room.save();
+      return room;
+    }
   } catch (e) {
     console.log(e.message);
     return { error: "Something went wrong" };

@@ -29,14 +29,18 @@ const removeUser = async (username, roomname) => {
   try {
     const room = await Room.findOne({ roomname });
     console.log(room.singleroom);
-    room.users = room.users.filter((user) => user.username !== username);
-    console.log(room);
-    if (room.users.length === 0) {
-      if (room.singleroom) await room.save();
-      else await Room.deleteOne({ roomname });
+    if (room.singleroom) {
     } else {
-      await room.save();
+      room.users = room.users.filter((user) => user.username !== username);
+      if (room.users.length === 0) {
+        // if (room.singleroom) await room.save();
+        // else
+        await Room.deleteOne({ roomname });
+      } else {
+        await room.save();
+      }
     }
+
     // console.log("xfghtyhjgu", room);
     return { message: "user removed successfully" };
   } catch (e) {

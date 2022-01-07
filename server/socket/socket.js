@@ -7,14 +7,21 @@ const initializeSocket = (io) => {
       // username = username.trim().toLowerCase();
       // roomname = roomname.trim().toLowerCase();
       const id = socket.id;
-      addUser({ username, roomname, id }).then((res) => {
-        const { error, message } = res;
-        if (message) {
-          socket.join(roomname);
-          addRoom(roomname, username, singleroom);
-        }
-        callback(error, message);
-      });
+      console.log(singleroom);
+      if (singleroom) {
+        socket.join(roomname);
+        addRoom(roomname, username, singleroom);
+        callback(null, "User added");
+      } else {
+        addUser({ username, roomname, id }).then((res) => {
+          const { error, message } = res;
+          if (message) {
+            socket.join(roomname);
+            addRoom(roomname, username, singleroom);
+          }
+          callback(error, message);
+        });
+      }
     });
     socket.on("drawFigures", ({ figure, id, roomname }) => {
       socket.broadcast.emit("newFigure", { figure, id, roomname });
