@@ -566,8 +566,11 @@ class Board extends React.Component {
     this.props.socket.on("redoFigure", this.redoFigure);
 
     getFigures(this.roomname, this.username).then((res) => {
+      console.log(res);
       if (res !== undefined) {
-        res.data.figures.map((figure) => this.addFigure(figure, figure.id));
+        const figures = res.data.figures;
+        figures &&
+          res.data.figures.map((figure) => this.addFigure(figure, figure.id));
         this.props.setShape(res.data.shape);
         this.props.setLineColor(res.data.lineColor);
         this.props.setLineWidth(res.data.lineWidth);

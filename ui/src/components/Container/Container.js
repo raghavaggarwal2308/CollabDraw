@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Board from "../Board/Board";
 import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
@@ -18,12 +18,15 @@ function Container({ socket }) {
     sessionStorage.setItem("reloaded", true);
     return "Do you want to refresh?";
   };
-  window.addEventListener("popstate", () => {
-    if (window.location.href === "http://localhost:3000/join") {
-      socket.emit("disconnectUser", { username, roomname });
-      console.log("disconnected");
-    }
-  });
+  useEffect(() => {
+    window.addEventListener("popstate", () => {
+      if (window.location.href === "http://localhost:3000/join") {
+        socket.emit("disconnectUser", { username, roomname });
+        console.log("disconnected");
+      }
+    });
+  }, []);
+
   const [shape, setShape] = useState("pencil");
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);

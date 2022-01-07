@@ -22,22 +22,27 @@ function Join(props) {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    props.socket.emit("join", { roomname, username }, (error, message) => {
-      if (error) {
-        alert(error);
-      } else {
-        alert(message);
-        history.push(`/board/${username}/${roomname}`);
-        //window.location = `/board/${username}/${roomname}`;
-      }
-    });
-  };
-  const joinSigleRoom = (e) => {
-    let room = localStorage.getItem("roomname");
-    let user = localStorage.getItem("username");
     props.socket.emit(
       "join",
-      { roomname: room, username: user },
+      { roomname, username, singleroom: false },
+      (error, message) => {
+        if (error) {
+          alert(error);
+        } else {
+          alert(message);
+          history.push(`/board/${username}/${roomname}`);
+          //window.location = `/board/${username}/${roomname}`;
+        }
+      }
+    );
+  };
+  const joinSigleRoom = (e) => {
+    let room = localStorage.getItem("roomname").trim().toLowerCase();
+    let user = localStorage.getItem("username").trim().toLowerCase();
+
+    props.socket.emit(
+      "join",
+      { roomname: room, username: user, singleroom: true },
       (error, message) => {
         if (error) {
           alert(error);

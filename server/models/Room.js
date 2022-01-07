@@ -5,6 +5,7 @@ const roomSchema = new mongoose.Schema(
       $type: String,
       required: true,
     },
+    singleroom: { $type: Boolean },
     users: [
       {
         username: String,

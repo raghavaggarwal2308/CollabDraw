@@ -1,13 +1,17 @@
 const Room = require("../models/Room.js");
 
-const addRoom = async (roomname, username) => {
+const addRoom = async (roomname, username, singleroom) => {
   try {
+    roomname = roomname.trim().toLowerCase();
+    username = username.trim().toLowerCase();
     let room = await Room.findOne({ roomname });
     if (room == null) {
       room = await new Room({ roomname });
     }
+    room.singleroom = singleroom;
+    let users = room.users;
 
-    room.users.push({
+    users.push({
       username,
       fillColor: "",
       lineColor: "black",
@@ -18,7 +22,7 @@ const addRoom = async (roomname, username) => {
       lock: false,
       showSidebar: false,
     });
-    // console.log(room.users);
+    room.users = users;
     await room.save();
     return room;
   } catch (e) {
@@ -56,10 +60,11 @@ const updateFigure = async (request, response) => {
   }
 };
 const getFigures = async (request, response) => {
-  const roomname = request.query.roomname;
-  const username = request.query.username;
+  const roomname = request.query.roomname.trim().toLowerCase();
+  const username = request.query.username.trim().toLowerCase();
   try {
     const room = await Room.findOne({ roomname });
+    console.log(room);
     const index = room.users.findIndex((user) => user.username === username);
     if (room != null)
       response.send({
@@ -74,6 +79,7 @@ const getFigures = async (request, response) => {
         showSidebar: room.users[index].showSidebar,
       });
   } catch (e) {
+    console.log(e.message);
     response.json({ message: e.message });
   }
 };

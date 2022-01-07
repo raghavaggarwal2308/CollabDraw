@@ -26,12 +26,22 @@ function isValidObjectId(id) {
 }
 
 const removeUser = async (username, roomname) => {
-  const room = await Room.findOne({ roomname });
-  room.users = room.users.filter((user) => user.username !== username);
-  if (room.users.length === 0 && !isValidObjectId(roomname)) {
-    await Room.deleteOne({ roomname });
-  } else await room.save();
-  return { message: "user removed successfully" };
+  try {
+    const room = await Room.findOne({ roomname });
+    console.log(room.singleroom);
+    room.users = room.users.filter((user) => user.username !== username);
+    console.log(room);
+    if (room.users.length === 0) {
+      if (room.singleroom) await room.save();
+      else await Room.deleteOne({ roomname });
+    } else {
+      await room.save();
+    }
+    // console.log("xfghtyhjgu", room);
+    return { message: "user removed successfully" };
+  } catch (e) {
+    console.log(e.message);
+  }
 };
 
 module.exports = {
