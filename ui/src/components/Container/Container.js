@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Board from "../Board/Board";
 import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
+import RoomUsers from "../RoomUsers/RoomUsers";
 import { Redirect } from "react-router-dom";
 
 function Container({ socket }) {
@@ -39,6 +40,12 @@ function Container({ socket }) {
   const [showSidebar, setshowSidebar] = useState(false);
   const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
+  const [roomUsers, setroomUsers] = useState([
+    "ram",
+    "shyam",
+    "ghanshyam",
+    "raghav",
+  ]);
   const username = window.location.pathname.split("/")[2].trim().toLowerCase();
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
   const deselectAll = (e) => {
@@ -46,6 +53,13 @@ function Container({ socket }) {
       setdeselect(true);
     }
   };
+
+  socket.on("newUser", ({ user, room }) => {
+    if (roomname === room) {
+      console.log("user added");
+      setroomUsers([...roomUsers, user]);
+    }
+  });
 
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
@@ -104,6 +118,7 @@ function Container({ socket }) {
             setOpacity={setOpacity}
             setimageType={setimageType}
           />
+          <RoomUsers roomUsers={roomUsers} username={username} />
         </div>
       ) : (
         <Redirect to="/login" />
