@@ -16,15 +16,6 @@ const addUser = async ({ username, roomname, id }) => {
   return { message: "User added succesfully" };
 };
 
-const ObjectId = require("mongoose").Types.ObjectId;
-function isValidObjectId(id) {
-  if (ObjectId.isValid(id)) {
-    if (String(new ObjectId(id)) === id) return true;
-    return false;
-  }
-  return false;
-}
-
 const removeUser = async (username, roomname) => {
   try {
     const room = await Room.findOne({ roomname });

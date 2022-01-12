@@ -10,9 +10,9 @@ function RoomUsers({ roomUsers, username }) {
       </p>
       {roomUsers.map(
         (user) =>
-          username !== user && (
+          username !== user.username && (
             <p>
-              <ArrowRightIcon /> {user}
+              <ArrowRightIcon /> {user.username}
             </p>
           )
       )}

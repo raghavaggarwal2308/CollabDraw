@@ -48,7 +48,7 @@ const addRoom = async (roomname, username, singleroom) => {
       });
       room.users = users;
       await room.save();
-      return room;
+      return room.users;
     }
   } catch (e) {
     console.log(e.message);
@@ -101,6 +101,7 @@ const getFigures = async (request, response) => {
         shape: room.users[index].shape,
         lock: room.users[index].lock,
         showSidebar: room.users[index].showSidebar,
+        users: room.users,
       });
   } catch (e) {
     console.log(e.message);

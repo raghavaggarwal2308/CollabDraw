@@ -14,7 +14,9 @@ const initializeSocket = (io) => {
           const { error, message } = res;
           if (message) {
             socket.join(roomname);
-            addRoom(roomname, username, singleroom);
+            addRoom(roomname, username, singleroom).then((res) => {
+              io.emit("users", { roomname, users: res });
+            });
           }
           callback(error, message);
         });

@@ -578,6 +578,7 @@ class Board extends React.Component {
         this.props.setFillColor(res.data.fillColor);
         this.props.setlock(res.data.lock);
         this.props.setshowSidebar(res.data.showSidebar);
+        this.props.setroomUsers(res.data.users);
       }
     });
   }

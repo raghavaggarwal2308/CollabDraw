@@ -16,7 +16,7 @@ function Container({ socket }) {
     // console.log(e.currentTarget);
     // console.log(performance.navigation.TYPE_RELOAD);
     // console.log(window.onclose);
-    sessionStorage.setItem("reloaded", true);
+    //sessionStorage.setItem("reloaded", true);
     return "Do you want to refresh?";
   };
 
@@ -27,9 +27,14 @@ function Container({ socket }) {
         console.log("disconnected");
       }
     });
+
     // eslint-disable-next-line
   }, []);
-
+  socket.on("users", ({ users, roomname: room }) => {
+    if (roomname === room) {
+      setroomUsers([...users]);
+    }
+  });
   const [shape, setShape] = useState("pencil");
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);
@@ -40,12 +45,7 @@ function Container({ socket }) {
   const [showSidebar, setshowSidebar] = useState(false);
   const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
-  const [roomUsers, setroomUsers] = useState([
-    "ram",
-    "shyam",
-    "ghanshyam",
-    "raghav",
-  ]);
+  const [roomUsers, setroomUsers] = useState([]);
   const username = window.location.pathname.split("/")[2].trim().toLowerCase();
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
   const deselectAll = (e) => {
@@ -53,13 +53,6 @@ function Container({ socket }) {
       setdeselect(true);
     }
   };
-
-  socket.on("newUser", ({ user, room }) => {
-    if (roomname === room) {
-      console.log("user added");
-      setroomUsers([...roomUsers, user]);
-    }
-  });
 
   const isAuthenticated = localStorage.getItem("isAuthenticated");
   return (
@@ -99,6 +92,7 @@ function Container({ socket }) {
             lock={lock}
             setlock={setlock}
             imageType={imageType}
+            setroomUsers={setroomUsers}
           />
           <SideBar
             showSidebar={showSidebar}
