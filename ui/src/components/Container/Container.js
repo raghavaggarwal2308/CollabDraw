@@ -4,6 +4,7 @@ import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
 import RoomUsers from "../RoomUsers/RoomUsers";
 import { Redirect } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 function Container({ socket }) {
   // window.addEventListener("click", () => {
@@ -19,8 +20,13 @@ function Container({ socket }) {
     //sessionStorage.setItem("reloaded", true);
     return "Do you want to refresh?";
   };
+  const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
+    if (!location.state) {
+      history.push("/404");
+    }
     window.addEventListener("popstate", () => {
       if (window.location.href === "http://localhost:3000/join") {
         socket.emit("disconnectUser", { username, roomname });

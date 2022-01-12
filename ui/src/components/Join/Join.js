@@ -29,7 +29,11 @@ function Join(props) {
           alert(error);
         } else {
           alert(message);
-          history.push(`/board/${username}/${roomname}`);
+          history.push({
+            pathname: `/board/${username}/${roomname}`,
+            state: { valid: true },
+          });
+          //history.push(`/board/${username}/${roomname}`);
           //window.location = `/board/${username}/${roomname}`;
         }
       }
@@ -47,7 +51,11 @@ function Join(props) {
           alert(error);
         } else {
           alert(message);
-          history.push(`/board/${user}/${room}`);
+          history.push({
+            pathname: `/board/${user}/${room}`,
+            state: { valid: true },
+          });
+          //history.push(`/board/${user}/${room}`);
           //window.location = `/board/${username}/${roomname}`;
         }
       }
