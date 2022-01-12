@@ -69,6 +69,7 @@ class Board extends React.Component {
           strokeWidth: this.props.lineWidth,
           opacity: this.props.opacity,
           strokeDashArray: [this.props.lineStyle],
+          strokeUniform: true,
         });
         this.canvas.add(this.rect);
         break;
@@ -87,6 +88,7 @@ class Board extends React.Component {
           strokeWidth: this.props.lineWidth,
           strokeDashArray: [this.props.lineStyle],
           opacity: this.props.opacity,
+          strokeUniform: true,
         });
         this.canvas.add(this.ellipse);
         break;
@@ -101,6 +103,7 @@ class Board extends React.Component {
           originY: "center",
           angle: 0,
           opacity: this.props.opacity,
+          strokeUniform: true,
         });
         this.canvas.add(this.line);
         break;
@@ -219,6 +222,7 @@ class Board extends React.Component {
             strokeWidth: figure.strokeWidth,
             strokeDashArray: figure.strokeDashArray,
             opacity: figure.opacity,
+            strokeUniform: figure.strokeUniform,
           })
         );
         break;
@@ -242,6 +246,7 @@ class Board extends React.Component {
             strokeWidth: figure.strokeWidth,
             strokeDashArray: figure.strokeDashArray,
             opacity: figure.opacity,
+            strokeUniform: figure.strokeUniform,
           })
         );
         break;
@@ -263,6 +268,7 @@ class Board extends React.Component {
           angle: figure.angle,
           strokeDashArray: figure.strokeDashArray,
           opacity: figure.opacity,
+          strokeUniform: figure.strokeUniform,
         });
         this.canvas.add(this.line);
         break;
@@ -281,6 +287,7 @@ class Board extends React.Component {
           flipX: figure.flipX,
           flipY: figure.flipY,
           angle: figure.angle,
+          strokeUniform: figure.strokeUniform,
         });
         this.canvas.add(this.pencil);
         break;
