@@ -12,6 +12,7 @@ import {
   redoFigure,
   changeshowSidebar,
 } from "../../api/Room";
+import { ThirtyFpsRounded } from "@mui/icons-material";
 class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +25,7 @@ class Board extends React.Component {
     this.origX = null;
     this.origY = null;
     this.isDown = false;
+    this.clipboard = null;
     this.username = this.props.username;
     this.roomname = this.props.roomname;
     this.initialLength = 0;
@@ -429,15 +431,18 @@ class Board extends React.Component {
             text: object.text,
             textLines: object.textLines,
             id: object.id,
+            roomname: this.roomname,
           });
         }
       }
     });
-    this.props.socket.on("textUpdate", ({ text, textLines, id }) => {
-      const obj = this.canvas._objects.find((object) => object.id === id);
-      if (obj != null) {
-        obj.set({ text, textLines });
-        this.canvas.renderAll();
+    this.props.socket.on("textUpdate", ({ text, textLines, id, roomname }) => {
+      if (this.roomname === roomname) {
+        const obj = this.canvas._objects.find((object) => object.id === id);
+        if (obj != null) {
+          obj.set({ text, textLines });
+          this.canvas.renderAll();
+        }
       }
     });
     this.props.socket.on("newFigure", this.newFigure);
@@ -524,6 +529,38 @@ class Board extends React.Component {
       });
     }
   };
+  copy = () => {
+    this.canvas.getActiveObject().clone((cloned) => {
+      this.clipboard = cloned;
+    });
+  };
+
+  paste = () => {
+    console.log(this.clipboard);
+    this.clipboard.clone((clonedObj) => {
+      this.canvas.discardActiveObject();
+      clonedObj.set({
+        left: clonedObj.left + 10,
+        top: clonedObj.top + 10,
+        evented: true,
+      });
+      if (clonedObj.type === "activeSelection") {
+        // active selection needs a reference to the canvas.
+        clonedObj.canvas = this.canvas;
+        clonedObj.forEachObject((obj) => {
+          this.canvas.add(obj);
+        });
+        // this should solve the unselectability
+        clonedObj.setCoords();
+      } else {
+        this.canvas.add(clonedObj);
+      }
+      this.clipboard.top += 10;
+      this.clipboard.left += 10;
+      this.canvas.setActiveObject(clonedObj);
+      this.canvas.requestRenderAll();
+    });
+  };
   componentDidUpdate(prevProps) {
     this.changeSelectedItem(prevProps);
     if (this.props.lock === true) {
@@ -539,6 +576,13 @@ class Board extends React.Component {
       this.props.setdeselect(false);
     }
     switch (this.props.shape) {
+      case "copy":
+        console.log("copy");
+        this.copy();
+        this.paste();
+        this.modify();
+        this.props.setShape("selection");
+        break;
       case "download":
         this.props.setshowSidebar(true);
         break;

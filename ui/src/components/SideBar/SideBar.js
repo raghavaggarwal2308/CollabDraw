@@ -290,6 +290,8 @@ function SideBar({
                 </button>
               </div>
             )}
+            <button onClick={() => setShape("copy")}>Copy</button>
+            {/* <button>Copy</button> */}
           </>
           {/* )} */}
         </div>

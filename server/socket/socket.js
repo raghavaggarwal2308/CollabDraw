@@ -41,8 +41,8 @@ const initializeSocket = (io) => {
       socket.broadcast.emit("redoFigure", { figures, undo, redo, roomname });
     });
 
-    socket.on("text", ({ text, textLines, id }) => {
-      socket.broadcast.emit("textUpdate", { text, textLines, id });
+    socket.on("text", ({ text, textLines, id, roomname }) => {
+      socket.broadcast.emit("textUpdate", { text, textLines, id, roomname });
     });
 
     socket.on("disconnectUser", ({ username, roomname }) => {
