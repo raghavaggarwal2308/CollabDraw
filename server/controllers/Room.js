@@ -78,6 +78,7 @@ const updateFigure = async (request, response) => {
     // const index = room.figures.findIndex((figure) => figure.id === id);
     // room.figures[index] = figure;
     room.figures = figures;
+    console.log(figures);
     await room.save();
     response.send({ message: "Figure updated successfully" });
   } catch (e) {

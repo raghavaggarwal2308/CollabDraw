@@ -22,6 +22,9 @@ const roomSchema = new mongoose.Schema(
     figures: [
       {
         type: String,
+        text: String,
+        fontFamily: String,
+        fontSize: Number,
         version: String,
         strokeDashArray: Array,
         strokeLineCap: String,

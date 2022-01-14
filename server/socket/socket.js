@@ -40,6 +40,11 @@ const initializeSocket = (io) => {
     socket.on("redo", ({ figures, undo, redo, roomname }) => {
       socket.broadcast.emit("redoFigure", { figures, undo, redo, roomname });
     });
+
+    socket.on("text", ({ text, textLines, id }) => {
+      socket.broadcast.emit("textUpdate", { text, textLines, id });
+    });
+
     socket.on("disconnectUser", ({ username, roomname }) => {
       removeUser(username, roomname);
     });
