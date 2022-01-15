@@ -536,7 +536,6 @@ class Board extends React.Component {
   };
 
   paste = () => {
-    console.log(this.clipboard);
     this.clipboard.clone((clonedObj) => {
       this.canvas.discardActiveObject();
       clonedObj.set({
@@ -577,9 +576,9 @@ class Board extends React.Component {
     }
     switch (this.props.shape) {
       case "copy":
-        console.log("copy");
         this.copy();
         this.paste();
+        this.saveAction();
         this.modify();
         this.props.setShape("selection");
         break;

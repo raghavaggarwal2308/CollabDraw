@@ -4,7 +4,7 @@ import { loginUser } from "../../api/User";
 //import history from "../../history.js";
 import "./Login.css";
 
-function Login() {
+function Login({ setisAuthenticated }) {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +35,7 @@ function Login() {
       localStorage.setItem("token", user.data.token);
       localStorage.setItem("username", user.data.user.firstName);
       localStorage.setItem("roomname", user.data.user._id);
+      setisAuthenticated("true");
       history.push("/join");
     } catch (e) {
       alert(e.message);

@@ -7,17 +7,7 @@ import { Redirect } from "react-router-dom";
 import { useLocation, useHistory } from "react-router-dom";
 
 function Container({ socket }) {
-  // window.addEventListener("click", () => {
-  //   // console.log("clicked");
-  // });
-  // window.onclose = function () {
-  //   // console.log("called");
-  // };
   window.onbeforeunload = function (e) {
-    // console.log(e.currentTarget);
-    // console.log(performance.navigation.TYPE_RELOAD);
-    // console.log(window.onclose);
-    //sessionStorage.setItem("reloaded", true);
     return "Do you want to refresh?";
   };
   const location = useLocation();
@@ -26,8 +16,14 @@ function Container({ socket }) {
   useEffect(() => {
     if (!location.state) {
       history.push("/404");
+    } else if (location.state.valid === false) {
+      history.push("/join");
+    } else {
+      const state = { ...history.location.state };
+      state.valid = false;
+      history.replace({ ...history.location, state });
     }
-    window.addEventListener("popstate", () => {
+    window.addEventListener("popstate", (e) => {
       if (window.location.href === "http://localhost:3000/join") {
         socket.emit("disconnectUser", { username, roomname });
         console.log("disconnected");

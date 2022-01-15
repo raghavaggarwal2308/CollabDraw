@@ -27,7 +27,9 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.getAuthToken = async function () {
   const user = this;
-  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "24h",
+  });
   user.tokens = user.tokens.concat({ token });
   await user.save();
 
@@ -35,7 +37,6 @@ userSchema.methods.getAuthToken = async function () {
 };
 userSchema.statics.findUser = async (email, password) => {
   const user = await User.findOne({ email });
-  console.log(password);
   if (!user) {
     throw new Error("Unable to Login");
   }
@@ -47,7 +48,6 @@ userSchema.statics.findUser = async (email, password) => {
 };
 userSchema.pre("save", async function (next) {
   const user = this;
-  console.log(this);
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }

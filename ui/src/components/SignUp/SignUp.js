@@ -3,7 +3,7 @@ import { addUser } from "../../api/User";
 import { useHistory } from "react-router-dom";
 import "./SignUp.css";
 
-function SignUp() {
+function SignUp({ setisAuthenticated }) {
   const history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -25,6 +25,7 @@ function SignUp() {
       console.log(res);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("isAuthenticated", true);
+      setisAuthenticated("true");
       history.push("/join");
       // window.location = "/join";
     } catch (e) {
