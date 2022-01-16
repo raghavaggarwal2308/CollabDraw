@@ -12,7 +12,6 @@ import {
   redoFigure,
   changeshowSidebar,
 } from "../../api/Room";
-import { ThirtyFpsRounded } from "@mui/icons-material";
 class Board extends React.Component {
   constructor(props) {
     super(props);

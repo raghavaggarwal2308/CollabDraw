@@ -16,12 +16,12 @@ const addUser = async ({ username, roomname, id }) => {
   return { message: "User added succesfully" };
 };
 
-const removeUser = async (username, roomname) => {
+const removeUser = async (roomname, id) => {
   try {
     const room = await Room.findOne({ roomname });
     if (room.singleroom) {
     } else {
-      room.users = room.users.filter((user) => user.username !== username);
+      room.users = room.users.filter((user) => user.socketId !== id);
       if (room.users.length === 0) {
         // if (room.singleroom) await room.save();
         // else

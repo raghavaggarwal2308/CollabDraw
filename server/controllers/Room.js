@@ -1,9 +1,7 @@
 const Room = require("../models/Room.js");
 
-const addRoom = async (roomname, username, singleroom) => {
+const addRoom = async (roomname, username, singleroom, socketId) => {
   try {
-    roomname = roomname.trim().toLowerCase();
-    username = username.trim().toLowerCase();
     if (singleroom) {
       let room = await Room.findOne({ roomname });
 
@@ -22,6 +20,7 @@ const addRoom = async (roomname, username, singleroom) => {
           strokeDashArray: 0,
           lock: false,
           showSidebar: false,
+          socketId,
         });
         room.users = users;
         await room.save();
@@ -45,6 +44,7 @@ const addRoom = async (roomname, username, singleroom) => {
         strokeDashArray: 0,
         lock: false,
         showSidebar: false,
+        socketId,
       });
       room.users = users;
       await room.save();

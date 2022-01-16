@@ -7,22 +7,29 @@ import { Redirect } from "react-router-dom";
 import { useLocation, useHistory } from "react-router-dom";
 
 function Container({ socket }) {
+  window.onunload = function (e) {
+    alert("hi");
+    console.log(e);
+  };
   window.onbeforeunload = function (e) {
+    console.log(e);
     return "Do you want to refresh?";
   };
   const location = useLocation();
   const history = useHistory();
 
   useEffect(() => {
+    console.log(history);
     if (!location.state) {
       history.push("/404");
-    } else if (location.state.valid === false) {
-      history.push("/join");
-    } else {
-      const state = { ...history.location.state };
-      state.valid = false;
-      history.replace({ ...history.location, state });
     }
+    // else if (location.state.valid === false) {
+    //   history.push("/join");
+    // } else {
+    //   const state = { ...history.location.state };
+    //   state.valid = false;
+    //   history.replace({ ...history.location, state });
+    // }
     window.addEventListener("popstate", (e) => {
       if (window.location.href === "http://localhost:3000/join") {
         socket.emit("disconnectUser", { username, roomname });
