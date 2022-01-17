@@ -51,7 +51,7 @@ const initializeSocket = (io) => {
     });
 
     socket.on("disconnectUser", ({ username, roomname }) => {
-      removeUser(roomname, socket.id);
+      removeUser(username, roomname);
     });
     // io.of("/").adapter.on("leave-room", (room, id) => {
     //   console.log(`socket ${id} has joined room ${room}`);

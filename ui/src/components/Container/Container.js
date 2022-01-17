@@ -5,19 +5,53 @@ import SideBar from "../SideBar/SideBar";
 import RoomUsers from "../RoomUsers/RoomUsers";
 import { Redirect } from "react-router-dom";
 import { useLocation, useHistory } from "react-router-dom";
+import { remove, add } from "../../api/Room";
 
 function Container({ socket }) {
   window.onunload = function (e) {
-    alert("hi");
     console.log(e);
   };
-  window.onbeforeunload = function (e) {
-    return "Do you want to refresh?";
-  };
+
   const location = useLocation();
   const history = useHistory();
 
+  socket.on("users", ({ users, roomname: room }) => {
+    if (roomname === room) {
+      setroomUsers([...users]);
+    }
+  });
+  const [shape, setShape] = useState("pencil");
+  const [deselect, setdeselect] = useState(false);
+  const [lineWidth, setLineWidth] = useState(2);
+  const [lineColor, setLineColor] = useState("black");
+  const [fillColor, setFillColor] = useState("");
+  const [lineStyle, setLineStyle] = useState(0);
+  const [opacity, setOpacity] = useState(1);
+  const [showSidebar, setshowSidebar] = useState(false);
+  const [imageType, setimageType] = useState("");
+  const [lock, setlock] = useState(false);
+  const [roomUsers, setroomUsers] = useState([]);
+  const username = window.location.pathname.split("/")[2].trim().toLowerCase();
+  const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
+  // const getUser=async()=>{
+  //   const user=awa
+  // }
   useEffect(() => {
+    window.onbeforeunload = function (e) {
+      // const user = remove(username, roomname);
+      // console.log(user);
+      //remove(username, roomname);
+      return "Do you want to refresh?";
+    };
+    window.addEventListener("unload", async () => {
+      //sessionStorage.setItem("triggered", true);
+      await remove(username, roomname);
+      sessionStorage.setItem("xyz", true);
+    });
+    //const active = sessionStorage.getItem("active");
+    //getUser()
+    add(username, roomname);
+
     console.log(history);
     if (!location.state) {
       history.push("/404");
@@ -38,24 +72,6 @@ function Container({ socket }) {
 
     // eslint-disable-next-line
   }, []);
-  socket.on("users", ({ users, roomname: room }) => {
-    if (roomname === room) {
-      setroomUsers([...users]);
-    }
-  });
-  const [shape, setShape] = useState("pencil");
-  const [deselect, setdeselect] = useState(false);
-  const [lineWidth, setLineWidth] = useState(2);
-  const [lineColor, setLineColor] = useState("black");
-  const [fillColor, setFillColor] = useState("");
-  const [lineStyle, setLineStyle] = useState(0);
-  const [opacity, setOpacity] = useState(1);
-  const [showSidebar, setshowSidebar] = useState(false);
-  const [imageType, setimageType] = useState("");
-  const [lock, setlock] = useState(false);
-  const [roomUsers, setroomUsers] = useState([]);
-  const username = window.location.pathname.split("/")[2].trim().toLowerCase();
-  const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
   const deselectAll = (e) => {
     if (e.target.className !== "upper-canvas ") {
       setdeselect(true);

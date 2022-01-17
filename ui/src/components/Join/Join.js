@@ -33,6 +33,7 @@ function Join(props) {
             pathname: `/board/${username}/${roomname}`,
             state: { valid: true },
           });
+          sessionStorage.setItem("active", true);
           //history.push(`/board/${username}/${roomname}`);
           //window.location = `/board/${username}/${roomname}`;
         }

@@ -18,6 +18,7 @@ const roomSchema = new mongoose.Schema(
         lock: Boolean,
         showSidebar: Boolean,
         socketId: String,
+        delete: Boolean,
       },
     ],
     figures: [

@@ -21,6 +21,7 @@ const addRoom = async (roomname, username, singleroom, socketId) => {
           lock: false,
           showSidebar: false,
           socketId,
+          delete: false,
         });
         room.users = users;
         await room.save();
@@ -45,6 +46,7 @@ const addRoom = async (roomname, username, singleroom, socketId) => {
         lock: false,
         showSidebar: false,
         socketId,
+        delete: false,
       });
       room.users = users;
       await room.save();
@@ -261,6 +263,37 @@ const undoFigure = async (request, response) => {
     response.json({ message: e.message });
   }
 };
+const remove = async (request, response) => {
+  console.log("entered");
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const index = room.users.findIndex(
+      (user) => user.username === request.body.username
+    );
+    room.users[index].delete = true;
+    await room.save();
+    console.log(room.users[index]);
+    return response.send({ message: "Set delete property" });
+  } catch (e) {
+    console.log(e.message);
+    response.json({ message: e.message });
+  }
+};
+const add = async (request, response) => {
+  try {
+    const room = await Room.findOne({ roomname: request.body.roomname });
+    const index = room.users.findIndex(
+      (user) => user.username === request.body.username
+    );
+    room.users[index].delete = false;
+    await room.save();
+    console.log(room.users[index]);
+    return response.send({ message: "Set delete property" });
+  } catch (e) {
+    console.log(e.message);
+    response.json({ message: e.message });
+  }
+};
 
 module.exports = {
   addRoom,
@@ -277,4 +310,6 @@ module.exports = {
   changeOpacity,
   changeLock,
   changeshowSidebar,
+  remove,
+  add,
 };

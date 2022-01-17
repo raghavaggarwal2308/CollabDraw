@@ -86,6 +86,18 @@ const changeshowSidebar = async (showSidebar, roomname, username) => {
     username,
   });
 };
+const remove = async (username, roomname) => {
+  sessionStorage.setItem("called", true);
+  await axios.patch(`${URL}/remove`, { username, roomname });
+  // axios.patch(`${URL}/remove`, {
+  //   username,
+  //   roomname,
+  // });
+  sessionStorage.setItem("end", true);
+};
+const add = async (username, roomname) => {
+  await axios.patch(`${URL}/add`, { username, roomname });
+};
 export {
   addFigureAPI,
   updateFigure,
@@ -101,4 +113,6 @@ export {
   changeOpacity,
   changeLock,
   changeshowSidebar,
+  remove,
+  add,
 };

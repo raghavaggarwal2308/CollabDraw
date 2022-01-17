@@ -14,6 +14,8 @@ const {
   changeOpacity,
   changeLock,
   changeshowSidebar,
+  remove,
+  add,
 } = require("../controllers/Room.js");
 
 route.post("/addFigure", addFigure);
@@ -30,5 +32,7 @@ route.patch("/undoFIgure", undoFigure);
 route.patch("/redoFigure", undoFigure);
 route.patch("/changeLock", changeLock);
 route.patch("/changeshowSidebar", changeshowSidebar);
+route.patch("/remove", remove);
+route.patch("/add", add);
 
 module.exports = route;
