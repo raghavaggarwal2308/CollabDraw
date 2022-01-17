@@ -12,7 +12,6 @@ function Container({ socket }) {
     console.log(e);
   };
   window.onbeforeunload = function (e) {
-    console.log(e);
     return "Do you want to refresh?";
   };
   const location = useLocation();

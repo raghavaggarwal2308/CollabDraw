@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar({ logOut, isAuthenticated }) {
   return (
@@ -7,8 +8,8 @@ function Navbar({ logOut, isAuthenticated }) {
         <div onClick={logOut}>Logout</div>
       ) : (
         <>
-          <div>Login</div>
-          <div>Signup</div>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Signup</Link>
         </>
       )}
     </>

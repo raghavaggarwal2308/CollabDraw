@@ -8,14 +8,15 @@ function RoomUsers({ roomUsers, username }) {
       <p>
         <ArrowRightIcon /> You
       </p>
-      {roomUsers.map(
-        (user) =>
-          username !== user.username && (
-            <p>
-              <ArrowRightIcon /> {user.username}
-            </p>
-          )
-      )}
+      {roomUsers != null &&
+        roomUsers.map(
+          (user) =>
+            username !== user.username && (
+              <p>
+                <ArrowRightIcon /> {user.username}
+              </p>
+            )
+        )}
     </div>
   );
 }
