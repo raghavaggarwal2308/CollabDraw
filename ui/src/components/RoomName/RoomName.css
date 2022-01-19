@@ -1,0 +1,30 @@
+.roomname {
+  border: 1px solid grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 10px;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+}
+
+.roomname span {
+  margin-right: 5px;
+}
+
+.roomname:hover .tooltip {
+  display: block;
+}
+
+.tooltip {
+  display: none;
+  bottom: 50px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid grey;
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+}

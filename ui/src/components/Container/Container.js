@@ -3,6 +3,7 @@ import Board from "../Board/Board";
 import ToolBar from "../ToolBar/ToolBar";
 import SideBar from "../SideBar/SideBar";
 import RoomUsers from "../RoomUsers/RoomUsers";
+import RoomName from "../RoomName/RoomName";
 import { Redirect } from "react-router-dom";
 import { useLocation, useHistory } from "react-router-dom";
 import { remove, add } from "../../api/Room";
@@ -143,6 +144,7 @@ function Container({ socket }) {
             settextDecoration={settextDecoration}
           />
           <RoomUsers roomUsers={roomUsers} username={username} />
+          <RoomName roomname={roomname} />
         </div>
       ) : (
         <Redirect to="/login" />

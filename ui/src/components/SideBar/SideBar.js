@@ -20,6 +20,7 @@ function SideBar({
   setShape,
   // eraserSize,
   // setEraserSize,
+  settextDecoration,
   selectedShape,
   username,
   roomname,
@@ -299,20 +300,34 @@ function SideBar({
                 </button>
               </div>
             )}
-            <div className="fontTypes">
+            <div className="fontDecoration">
+              <div>Font Decoration:</div>
               <div>
-                <div>
-                  <input type="radio" name="fontDecor" />
-                  <span>Underline</span>
-                </div>
-                <div>
-                  <input type="radio" name="fontDecor" />
-                  <span>Overline</span>
-                </div>
-                <div>
-                  <input type="radio" name="fontDecor" />
-                  <span>Linethrough</span>
-                </div>
+                <input
+                  type="radio"
+                  name="fontDecor"
+                  value="underline"
+                  onChange={settextDecoration("underline")}
+                />
+                <span>Underline</span>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="fontDecor"
+                  value="overline"
+                  onClick={settextDecoration("overline")}
+                />
+                <span>Overline</span>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="fontDecor"
+                  value="linethrough"
+                  onClick={settextDecoration("line-through")}
+                />
+                <span>Linethrough</span>
               </div>
             </div>
             <button onClick={() => setShape("copy")}>Copy</button>

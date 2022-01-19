@@ -55,7 +55,7 @@ class Board extends React.Component {
           opacity: this.props.opacity,
           strokeUniform: true,
           strokeWidth: this.props.lineWidth,
-          textDecoration: this.props.textDecoration,
+          textDecoration: "underline",
         });
         this.canvas.add(this.text);
         this.canvas.setActiveObject(this.text);
