@@ -8,7 +8,7 @@ function Home() {
   return (
     <>
       {isAuthenticated === "false" || isAuthenticated === null ? (
-        <div>
+        <div className="home-wrapper">
           <div className="home">
             <div className="homeLeft">
               <h1>Collab Draw</h1>
@@ -25,6 +25,49 @@ function Home() {
             </div>
             <div className="homeRight">
               <img src={image} alt="" />
+            </div>
+          </div>
+          <div className="features">
+            <div className="feature-heading">Features</div>
+            <div className="feature-left">
+              <div className="feature-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </div>
+              <div className="feature-image">
+                <img src={image} alt="" />
+              </div>
+            </div>
+            <div className="feature-right">
+              <div className="feature-image">
+                <img src={image} alt="" />
+              </div>
+              <div className="feature-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </div>
+            </div>
+            <div className="feature-left">
+              <div className="feature-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </div>
+              <div className="feature-image">
+                <img src={image} alt="" />
+              </div>
+            </div>
+            <div className="feature-right">
+              <div className="feature-image">
+                <img src={image} alt="" />
+              </div>
+              <div className="feature-description">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s
+              </div>
             </div>
           </div>
         </div>
