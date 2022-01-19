@@ -429,6 +429,7 @@ class Board extends React.Component {
     this.canvas.on("mouse:up", this.finish);
     this.canvas.on("selection:cleared", this.deselection);
     this.canvas.on("selection:created", this.selection);
+    this.canvas.on("selection:updated", this.selection);
     this.canvas.on("object:modified", (o) => {
       this.modify(o);
       this.saveAction();
