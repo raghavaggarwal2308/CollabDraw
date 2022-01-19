@@ -42,7 +42,6 @@ function Join(props) {
             pathname: `/board/${username}/${room}`,
             state: { valid: true },
           });
-          sessionStorage.setItem("active", true);
           //history.push(`/board/${username}/${roomname}`);
           //window.location = `/board/${username}/${roomname}`;
         }

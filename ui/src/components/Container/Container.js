@@ -52,7 +52,6 @@ function Container({ socket }) {
     //getUser()
     add(username, roomname);
 
-    console.log(history);
     if (!location.state) {
       history.push("/404");
     }

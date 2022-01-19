@@ -183,8 +183,9 @@ class Board extends React.Component {
       this.props.setshowSidebar(false);
       changeshowSidebar(false, this.roomname, this.username);
     }
-    this.canvas.isDrawingMode = false;
+
     if (this.props.lock === false) {
+      this.canvas.isDrawingMode = false;
       this.props.setShape("selection");
     }
   };
@@ -326,7 +327,8 @@ class Board extends React.Component {
     }
   };
   selection = (o) => {
-    this.props.setShape("selection");
+    //console.log("selection created");
+    if (this.props.lock === false) this.props.setShape("selection");
     this.props.setshowSidebar(true);
     changeshowSidebar(true, this.roomname, this.username);
   };

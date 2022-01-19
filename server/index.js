@@ -24,14 +24,13 @@ app.use(userRoutes);
 app.use(roomRoutes);
 cron.schedule("*/2 * * * *", async function () {
   const rooms = await Room.find();
-  console.log(rooms);
+  console.log("cron fired");
   for (room of rooms) {
     room.users = room.users.filter((user) => {
       return user.delete !== true;
     });
     await room.save();
   }
-  console.log(rooms);
 });
 server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
