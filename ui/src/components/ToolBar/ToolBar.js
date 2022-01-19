@@ -23,6 +23,7 @@ function ToolBar({
   username,
   deselectAll,
   setshowSidebar,
+  setselectedShape,
   lock,
   setlock,
 }) {
@@ -34,7 +35,7 @@ function ToolBar({
   const changeShapeType = (shape, event) => {
     setShape(shape);
     changeShape(shape, roomname, username);
-
+    setselectedShape("");
     if (
       shape !== "selection" &&
       shape !== "redo" &&

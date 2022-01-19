@@ -103,14 +103,18 @@ function Join(props) {
               className="submitJoin"
             />
           </form>
+          {existing ? (
+            <p className="existing" onClick={() => setExisting(false)}>
+              Create new room
+            </p>
+          ) : (
+            <p className="existing" onClick={() => setExisting(true)}>
+              Join existing room
+            </p>
+          )}
           <p className="singleRoom" onClick={joinSigleRoom}>
             Join sigle room &gt;&gt;
           </p>
-          {existing ? (
-            <p onClick={() => setExisting(false)}>Create new room</p>
-          ) : (
-            <p onClick={() => setExisting(true)}>Join existing room</p>
-          )}
         </div>
       ) : (
         <Redirect to="/login" />

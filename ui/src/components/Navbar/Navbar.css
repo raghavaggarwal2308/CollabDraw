@@ -1,0 +1,37 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* border: 1px solid grey; */
+  padding: 5px;
+  width: auto;
+  position: fixed;
+  top: 10px;
+  z-index: 10;
+  right: 10px;
+  /* background-color: hotpink; */
+}
+
+.logout {
+  padding: 12px 15px 15px 15px;
+  background-color: rgb(196, 98, 98);
+  border-radius: 5px;
+  color: white;
+}
+
+.signup {
+  padding: 12px 15px 15px 15px;
+  background-color: rgb(196, 98, 98);
+  border-radius: 5px;
+  color: white;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+.login {
+  padding: 12px 15px 15px 15px;
+  background-color: rgb(151, 221, 151);
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}

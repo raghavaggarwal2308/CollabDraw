@@ -20,6 +20,7 @@ function SideBar({
   setShape,
   // eraserSize,
   // setEraserSize,
+  selectedShape,
   username,
   roomname,
   fillColor,
@@ -133,57 +134,61 @@ function SideBar({
                 </div>
               </div>
             )}
-            {shape !== "pencil" && shape !== "download" && (
-              <div className="colorPickerContainer">
-                <p>Fill color:</p>
-                <div className="colorPickerInput">
-                  <input
-                    type="text"
-                    id="fillColorValue"
-                    value={fillColor}
-                    onChange={(e) => fillChangeColor(e)}
-                  />
+            {shape !== "pencil" &&
+              shape !== "download" &&
+              selectedShape !== "pencil" && (
+                <div className="colorPickerContainer">
+                  <p>Fill color:</p>
+                  <div className="colorPickerInput">
+                    <input
+                      type="text"
+                      id="fillColorValue"
+                      value={fillColor}
+                      onChange={(e) => fillChangeColor(e)}
+                    />
 
-                  <div id="fillColorPicker">
-                    <div
-                      id="fillColor"
-                      style={{ backgroundColor: `${fillColor}` }}
-                    ></div>
-                    <div id="fillPicker">
-                      <SketchPicker
-                        color={fillColor}
-                        onChangeComplete={fillHandleChangeComplete}
-                      />
+                    <div id="fillColorPicker">
+                      <div
+                        id="fillColor"
+                        style={{ backgroundColor: `${fillColor}` }}
+                      ></div>
+                      <div id="fillPicker">
+                        <SketchPicker
+                          color={fillColor}
+                          onChangeComplete={fillHandleChangeComplete}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            {shape !== "pencil" && shape !== "download" && (
-              <div className="lineWidthContainer">
-                <p>Opacity :</p>
-                <div className="lineWidthInput">
-                  <Slider
-                    onAfterChange={opacityslider}
-                    min={0.1}
-                    max={1}
-                    step={0.1}
-                    onChange={opacityHandler}
-                    value={opac}
-                    className="slider"
-                  />
+              )}
+            {shape !== "pencil" &&
+              shape !== "download" &&
+              selectedShape !== "pencil" && (
+                <div className="lineWidthContainer">
+                  <p>Opacity :</p>
+                  <div className="lineWidthInput">
+                    <Slider
+                      onAfterChange={opacityslider}
+                      min={0.1}
+                      max={1}
+                      step={0.1}
+                      onChange={opacityHandler}
+                      value={opac}
+                      className="slider"
+                    />
 
-                  <div
-                    id="opacity"
-                    style={{
-                      opacity: opac,
-                      height: lineWidth + "px",
-                      backgroundColor: lineColor,
-                    }}
-                  ></div>
+                    <div
+                      id="opacity"
+                      style={{
+                        opacity: opac,
+                        height: lineWidth + "px",
+                        backgroundColor: lineColor,
+                      }}
+                    ></div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {shape !== "download" && (
               <div className="lineWidthContainer">
                 <p>Stroke Width:</p>
@@ -207,69 +212,73 @@ function SideBar({
                 </div>
               </div>
             )}
-            {shape !== "pencil" && shape !== "download" && (
-              <div className="lineWidthContainer">
-                <p>Stroke Style : </p>
-                <div className="lineWidthInput">
-                  <Slider
-                    onAfterChange={styleslider}
-                    min={0}
-                    max={8}
-                    step={1}
-                    onChange={styleHandler}
-                    value={style}
-                    className="slider"
-                  />
-                  <div id="lineStyle">
-                    <div
-                      style={{
-                        height: lineWidth + "px",
-                        backgroundColor: lineColor,
-                        width: lineStyle,
-                        marginLeft: lineStyle / 2,
-                        marginRight: lineStyle / 2,
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        height: lineWidth + "px",
-                        backgroundColor: lineColor,
-                        width: lineStyle,
-                        marginLeft: lineStyle / 2,
-                        marginRight: lineStyle / 2,
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        height: lineWidth + "px",
-                        backgroundColor: lineColor,
-                        width: lineStyle,
-                        marginLeft: lineStyle / 2,
-                        marginRight: lineStyle / 2,
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        height: lineWidth + "px",
-                        backgroundColor: lineColor,
-                        width: lineStyle,
-                        marginLeft: lineStyle / 2,
-                        marginRight: lineStyle / 2,
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        height: lineWidth + "px",
-                        backgroundColor: lineColor,
-                        width: lineStyle,
-                        marginLeft: lineStyle / 2,
-                        marginRight: lineStyle / 2,
-                      }}
-                    ></div>
+            {shape !== "pencil" &&
+              shape !== "text" &&
+              shape !== "download" &&
+              selectedShape !== "pencil" &&
+              selectedShape !== "text" && (
+                <div className="lineWidthContainer">
+                  <p>Stroke Style : </p>
+                  <div className="lineWidthInput">
+                    <Slider
+                      onAfterChange={styleslider}
+                      min={0}
+                      max={8}
+                      step={1}
+                      onChange={styleHandler}
+                      value={style}
+                      className="slider"
+                    />
+                    <div id="lineStyle">
+                      <div
+                        style={{
+                          height: lineWidth + "px",
+                          backgroundColor: lineColor,
+                          width: lineStyle,
+                          marginLeft: lineStyle / 2,
+                          marginRight: lineStyle / 2,
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          height: lineWidth + "px",
+                          backgroundColor: lineColor,
+                          width: lineStyle,
+                          marginLeft: lineStyle / 2,
+                          marginRight: lineStyle / 2,
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          height: lineWidth + "px",
+                          backgroundColor: lineColor,
+                          width: lineStyle,
+                          marginLeft: lineStyle / 2,
+                          marginRight: lineStyle / 2,
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          height: lineWidth + "px",
+                          backgroundColor: lineColor,
+                          width: lineStyle,
+                          marginLeft: lineStyle / 2,
+                          marginRight: lineStyle / 2,
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          height: lineWidth + "px",
+                          backgroundColor: lineColor,
+                          width: lineStyle,
+                          marginLeft: lineStyle / 2,
+                          marginRight: lineStyle / 2,
+                        }}
+                      ></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
             {shape === "download" && (
               <div className="downloadType">
                 <button
@@ -290,6 +299,22 @@ function SideBar({
                 </button>
               </div>
             )}
+            <div className="fontTypes">
+              <div>
+                <div>
+                  <input type="radio" name="fontDecor" />
+                  <span>Underline</span>
+                </div>
+                <div>
+                  <input type="radio" name="fontDecor" />
+                  <span>Overline</span>
+                </div>
+                <div>
+                  <input type="radio" name="fontDecor" />
+                  <span>Linethrough</span>
+                </div>
+              </div>
+            </div>
             <button onClick={() => setShape("copy")}>Copy</button>
             {/* <button>Copy</button> */}
           </>

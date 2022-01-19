@@ -21,12 +21,14 @@ function Container({ socket }) {
     }
   });
   const [shape, setShape] = useState("pencil");
+  const [selectedShape, setselectedShape] = useState("");
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);
   const [lineColor, setLineColor] = useState("black");
   const [fillColor, setFillColor] = useState("");
   const [lineStyle, setLineStyle] = useState(0);
   const [opacity, setOpacity] = useState(1);
+  const [textDecoration, settextDecoration] = useState("");
   const [showSidebar, setshowSidebar] = useState(false);
   const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
@@ -86,6 +88,7 @@ function Container({ socket }) {
             shape={shape}
             setShape={setShape}
             username={username}
+            setselectedShape={setselectedShape}
             roomname={roomname}
             setshowSidebar={setshowSidebar}
             deselectAll={deselectAll}
@@ -97,6 +100,7 @@ function Container({ socket }) {
             setshowSidebar={setshowSidebar}
             shape={shape}
             setShape={setShape}
+            setselectedShape={setselectedShape}
             socket={socket}
             deselect={deselect}
             setdeselect={setdeselect}
@@ -116,10 +120,12 @@ function Container({ socket }) {
             setlock={setlock}
             imageType={imageType}
             setroomUsers={setroomUsers}
+            textDecoration={textDecoration}
           />
           <SideBar
             showSidebar={showSidebar}
             shape={shape}
+            selectedShape={selectedShape}
             setShape={setShape}
             setLineColor={setLineColor}
             setLineWidth={setLineWidth}
@@ -134,6 +140,7 @@ function Container({ socket }) {
             opacity={opacity}
             setOpacity={setOpacity}
             setimageType={setimageType}
+            settextDecoration={settextDecoration}
           />
           <RoomUsers roomUsers={roomUsers} username={username} />
         </div>

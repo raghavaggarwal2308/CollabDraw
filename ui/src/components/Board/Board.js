@@ -49,8 +49,13 @@ class Board extends React.Component {
           left: this.origX,
           top: this.origY,
           fontFamily: "arial black",
-          fill: "#333",
+          fill: this.props.fillColor,
           fontSize: 50,
+          stroke: this.props.lineColor,
+          opacity: this.props.opacity,
+          strokeUniform: true,
+          strokeWidth: this.props.lineWidth,
+          textDecoration: this.props.textDecoration,
         });
         this.canvas.add(this.text);
         this.canvas.setActiveObject(this.text);
@@ -301,6 +306,10 @@ class Board extends React.Component {
           top: figure.top,
           fontFamily: figure.fontFamily,
           fill: figure.fill,
+          stroke: figure.stroke,
+          strokeWidth: figure.strokeWidth,
+          opacity: figure.opacity,
+          strokeUniform: figure.strokeUniform,
           fontSize: figure.fontSize,
         });
         this.canvas.add(this.text);
@@ -327,9 +336,11 @@ class Board extends React.Component {
     }
   };
   selection = (o) => {
-    //console.log("selection created");
     if (this.props.lock === false) this.props.setShape("selection");
     this.props.setshowSidebar(true);
+    if (o.target.path === undefined) this.props.setselectedShape("");
+    else if (o.target.path === null) this.props.setselectedShape("text");
+    else this.props.setselectedShape("pencil");
     changeshowSidebar(true, this.roomname, this.username);
   };
   deselection = (o) => {
