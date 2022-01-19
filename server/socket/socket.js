@@ -4,29 +4,47 @@ const initializeSocket = (io) => {
   let room, user;
   io.on("connection", (socket) => {
     console.log("connection established");
-    socket.on("join", ({ username, roomname, singleroom }, callback) => {
-      const id = socket.id;
-      roomname = roomname.trim().toLowerCase();
-      username = username.trim().toLowerCase();
-      room = roomname;
-      user = username;
-      if (singleroom) {
-        socket.join(roomname);
-        addRoom(roomname, username, singleroom, socket.id);
-        callback(null, "User added");
-      } else {
-        addUser({ username, roomname, id }).then((res) => {
-          const { error, message } = res;
-          if (message) {
-            socket.join(roomname);
-            addRoom(roomname, username, singleroom, socket.id).then((res) => {
-              io.emit("users", { roomname, users: res });
-            });
-          }
-          callback(error, message);
-        });
+    socket.on(
+      "join",
+      ({ username, roomname, singleroom, existing }, callback) => {
+        const id = socket.id;
+        roomname = roomname.trim().toLowerCase();
+        username = username.trim().toLowerCase();
+        room = roomname;
+        user = username;
+        if (singleroom) {
+          socket.join(roomname);
+          addRoom(roomname, username, singleroom, existing);
+          callback(null, "User added");
+        } else {
+          addUser({ username, roomname, id }).then(async (res) => {
+            const { error, message } = res;
+            if (message) {
+              socket.join(roomname);
+              const { err, users } = await addRoom(
+                roomname,
+                username,
+                singleroom,
+                existing
+              );
+              console.log("###", err, users, "####");
+              if (err) {
+                callback(err, null);
+              } else {
+                console.log("****", users);
+                callback(error, message);
+                io.emit("users", { roomname, users });
+              }
+              // .then((res) => {
+              //   io.emit("users", { roomname, users: res });
+              // });
+            } else {
+              callback(error, message);
+            }
+          });
+        }
       }
-    });
+    );
     socket.on("drawFigures", ({ figure, id, roomname }) => {
       socket.broadcast.emit("newFigure", { figure, id, roomname });
     });

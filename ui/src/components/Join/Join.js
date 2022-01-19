@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Join.css";
+import uuid from "react-uuid";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
@@ -7,6 +8,7 @@ function Join(props) {
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [roomname, setRoomname] = useState("");
+  const [existing, setExisting] = useState(false);
   const changeHandler = (e) => {
     const name = e.target.name;
     switch (name) {
@@ -21,16 +23,23 @@ function Join(props) {
   };
   const submitHandler = (e) => {
     e.preventDefault();
+    const room = existing ? roomname : uuid();
+    setRoomname(room);
     props.socket.emit(
       "join",
-      { roomname, username, singleroom: false },
+      {
+        roomname: room,
+        username,
+        singleroom: false,
+        existing,
+      },
       (error, message) => {
         if (error) {
           alert(error);
         } else {
           alert(message);
           history.push({
-            pathname: `/board/${username}/${roomname}`,
+            pathname: `/board/${username}/${room}`,
             state: { valid: true },
           });
           sessionStorage.setItem("active", true);
@@ -78,19 +87,31 @@ function Join(props) {
               className="username"
             />
             {/* <label>Room name</label> */}
+            {existing && (
+              <input
+                value={roomname}
+                name="roomname"
+                type="text"
+                onChange={changeHandler}
+                placeholder="Room Name"
+                className="roomName"
+              />
+            )}
+
             <input
-              value={roomname}
-              name="roomname"
-              type="text"
-              onChange={changeHandler}
-              placeholder="Room Name"
-              className="roomName"
+              type="submit"
+              value={existing ? "Join" : "Create"}
+              className="submitJoin"
             />
-            <input type="submit" value="Join" className="submitJoin" />
           </form>
           <p className="singleRoom" onClick={joinSigleRoom}>
             Join sigle room &gt;&gt;
           </p>
+          {existing ? (
+            <p onClick={() => setExisting(false)}>Create new room</p>
+          ) : (
+            <p onClick={() => setExisting(true)}>Join existing room</p>
+          )}
         </div>
       ) : (
         <Redirect to="/login" />

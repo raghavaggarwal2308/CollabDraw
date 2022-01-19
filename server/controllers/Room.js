@@ -1,6 +1,6 @@
 const Room = require("../models/Room.js");
 
-const addRoom = async (roomname, username, singleroom, socketId) => {
+const addRoom = async (roomname, username, singleroom, existing) => {
   try {
     if (singleroom) {
       let room = await Room.findOne({ roomname });
@@ -20,7 +20,6 @@ const addRoom = async (roomname, username, singleroom, socketId) => {
           strokeDashArray: 0,
           lock: false,
           showSidebar: false,
-          socketId,
           delete: false,
         });
         room.users = users;
@@ -28,10 +27,19 @@ const addRoom = async (roomname, username, singleroom, socketId) => {
       }
       return room;
     } else {
-      let room = await Room.findOne({ roomname });
-      if (room == null) {
+      let room = null;
+      if (existing) {
+        room = await Room.findOne({ roomname });
+        if (room == null) {
+          return { err: "Invalid roomName" };
+        }
+      } else {
         room = await new Room({ roomname });
       }
+      // let room = await Room.findOne({ roomname });
+      // if (room == null) {
+      //   room = await new Room({ roomname });
+      // }
       room.singleroom = singleroom;
       let users = room.users;
 
@@ -45,12 +53,11 @@ const addRoom = async (roomname, username, singleroom, socketId) => {
         strokeDashArray: 0,
         lock: false,
         showSidebar: false,
-        socketId,
         delete: false,
       });
       room.users = users;
       await room.save();
-      return room.users;
+      return { users: room.users };
     }
   } catch (e) {
     console.log(e.message);

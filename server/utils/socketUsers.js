@@ -7,7 +7,9 @@ const addUser = async ({ username, roomname, id }) => {
   const room = await Room.findOne({ roomname });
   if (room) {
     const users = room.users;
-    const user = users.find((user) => user.username === username);
+    const user = users.find(
+      (user) => user.username === username && user.delete === false
+    );
     if (user) {
       return { error: `${username} already exists in ${roomname}` };
     }
@@ -27,13 +29,13 @@ const removeUser = async (username, roomname) => {
       const user = room.users[index];
       room.users.splice(index, 1);
       // room.users = room.users.filter((user) => user.username !== username);
-      if (room.users.length === 0) {
-        // if (room.singleroom) await room.save();
-        // else
-        await Room.deleteOne({ roomname });
-      } else {
-        await room.save();
-      }
+      // if (room.users.length === 0) {
+      //   // if (room.singleroom) await room.save();
+      //   // else
+      //   await Room.deleteOne({ roomname });
+      // } else {
+      await room.save();
+      // }
       console.log(user);
       return { message: "user removed successfully", user };
     }
