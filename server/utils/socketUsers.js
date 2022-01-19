@@ -19,7 +19,6 @@ const addUser = async ({ username, roomname, id }) => {
 };
 
 const removeUser = async (username, roomname) => {
-  console.log(username, roomname);
   try {
     const room = await Room.findOne({ roomname });
     if (room.singleroom) {
@@ -36,7 +35,6 @@ const removeUser = async (username, roomname) => {
       // } else {
       await room.save();
       // }
-      console.log(user);
       return { message: "user removed successfully", user };
     }
   } catch (e) {

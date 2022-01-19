@@ -27,7 +27,6 @@ cron.schedule("*/2 * * * *", async function () {
   console.log(rooms);
   for (room of rooms) {
     room.users = room.users.filter((user) => {
-      //console.log(user.delete);
       return user.delete !== true;
     });
     await room.save();

@@ -87,7 +87,6 @@ const updateFigure = async (request, response) => {
     // const index = room.figures.findIndex((figure) => figure.id === id);
     // room.figures[index] = figure;
     room.figures = figures;
-    console.log(figures);
     await room.save();
     response.send({ message: "Figure updated successfully" });
   } catch (e) {
@@ -99,18 +98,21 @@ const getFigures = async (request, response) => {
   const username = request.query.username.trim().toLowerCase();
   try {
     const room = await Room.findOne({ roomname });
-    const index = room.users.findIndex((user) => user.username === username);
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === username);
     if (room != null)
       response.send({
         figures: room.figures,
-        lineColor: room.users[index].lineColor,
-        opacity: room.users[index].opacity,
-        fillColor: room.users[index].fillColor,
-        lineStyle: room.users[index].strokeDashArray,
-        lineWidth: room.users[index].lineWidth,
-        shape: room.users[index].shape,
-        lock: room.users[index].lock,
-        showSidebar: room.users[index].showSidebar,
+        lineColor: user.lineColor,
+        opacity: user.opacity,
+        fillColor: user.fillColor,
+        lineStyle: user.strokeDashArray,
+        lineWidth: user.lineWidth,
+        shape: user.shape,
+        lock: user.lock,
+        showSidebar: user.showSidebar,
         users: room.users,
       });
   } catch (e) {
@@ -133,9 +135,10 @@ const clearCanvas = async (request, response) => {
 const changeLineColor = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.lineColor = request.body.lineColor;
     await room.save();
     response.send({ message: "Line Color updated" });
@@ -146,9 +149,10 @@ const changeLineColor = async (request, response) => {
 const changeFillColor = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.fillColor = request.body.fillColor;
     await room.save();
     response.send({ message: "Fill Color updated" });
@@ -160,9 +164,10 @@ const changeFillColor = async (request, response) => {
 const changeLineWidth = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.lineWidth = request.body.lineWidth;
     await room.save();
     response.send({ message: "Line Width updated" });
@@ -174,9 +179,10 @@ const changeLineWidth = async (request, response) => {
 const changeLock = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.lock = request.body.lock;
     await room.save();
     response.send({ message: "Lock updated" });
@@ -189,9 +195,10 @@ const changeLock = async (request, response) => {
 const changeshowSidebar = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.showSidebar = request.body.showSidebar;
     await room.save();
     response.send({ message: "Sidebar updated" });
@@ -203,9 +210,10 @@ const changeshowSidebar = async (request, response) => {
 const changeStyleSlider = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.strokeDashArray = request.body.strokeDashArray;
     await room.save();
     response.send({ message: "stroke Style updated" });
@@ -216,9 +224,10 @@ const changeStyleSlider = async (request, response) => {
 const changeOpacity = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     user.opacity = request.body.opacity;
     await room.save();
     response.send({ message: "opacity updated" });
@@ -231,9 +240,10 @@ const changeOpacity = async (request, response) => {
 const changeShape = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const user = room.users.find(
-      (user) => user.username === request.body.username
-    );
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
     if (
       request.body.shape !== "undo" &&
       request.body.shape !== "redo" &&
@@ -271,15 +281,14 @@ const undoFigure = async (request, response) => {
   }
 };
 const remove = async (request, response) => {
-  console.log("entered");
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const index = room.users.findIndex(
-      (user) => user.username === request.body.username
-    );
-    room.users[index].delete = true;
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
+    user.delete = true;
     await room.save();
-    console.log(room.users[index]);
     return response.send({ message: "Set delete property" });
   } catch (e) {
     console.log(e.message);
@@ -289,12 +298,12 @@ const remove = async (request, response) => {
 const add = async (request, response) => {
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
-    const index = room.users.findIndex(
-      (user) => user.username === request.body.username
-    );
-    room.users[index].delete = false;
+    const user = room.users
+      .slice()
+      .reverse()
+      .find((user) => user.username === request.body.username);
+    user.delete = false;
     await room.save();
-    console.log(room.users[index]);
     return response.send({ message: "Set delete property" });
   } catch (e) {
     console.log(e.message);

@@ -27,11 +27,9 @@ const initializeSocket = (io) => {
                 singleroom,
                 existing
               );
-              console.log("###", err, users, "####");
               if (err) {
                 callback(err, null);
               } else {
-                console.log("****", users);
                 callback(error, message);
                 io.emit("users", { roomname, users });
               }
