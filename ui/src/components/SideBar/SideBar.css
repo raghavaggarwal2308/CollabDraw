@@ -1,5 +1,4 @@
 .sideContainer {
-  /* border: 1px solid gray; */
   box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
@@ -7,9 +6,8 @@
   border-radius: 10px;
   position: fixed;
   left: 10px;
-  top: 50%;
-  /* width: 250px; */
-  transform: translate(0%, -50%);
+  bottom: 50%;
+  transform: translate(0%, 50%);
   box-sizing: border-box;
   z-index: 10;
 }
@@ -150,4 +148,11 @@
 .rc-slider-handle:active {
   border-color: #aa14f0;
   box-shadow: 0 0 5px #aa14f0;
+}
+
+@media screen and (max-width: 900px) {
+  .sideContainer {
+    bottom: 60px;
+    transform: translate(0%, 0%);
+  }
 }

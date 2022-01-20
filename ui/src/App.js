@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar logOut={logOut} isAuthenticated={isAuthenticated} />
+      {/* <Navbar logOut={logOut} isAuthenticated={isAuthenticated} /> */}
       <Switch>
         <Route exact path="/">
           <Home />
@@ -42,7 +42,7 @@ function App() {
           <Join socket={socket} />
         </Route>
         <Route path="/board/:username/:roomname">
-          <Container socket={socket} />
+          <Container socket={socket} logOut={logOut} />
         </Route>
         <Route path="/*">
           <P404 />
