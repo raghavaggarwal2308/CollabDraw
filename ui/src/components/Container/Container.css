@@ -1,0 +1,67 @@
+.containerBottomLeft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+
+.containerSidebarButton {
+  background-color: #eeeeee;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  cursor: pointer;
+}
+
+.containerBottomRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+.containerLogout {
+  background-color: #aa14f0;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  cursor: pointer;
+}
+
+.containerUsers {
+  background-color: #eeeeee;
+  padding: 5px;
+  cursor: pointer;
+  color: black;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+}

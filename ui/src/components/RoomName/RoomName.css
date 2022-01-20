@@ -5,9 +5,9 @@
   justify-content: center;
   border-radius: 5px;
   padding: 10px;
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
+  position: relative;
+  /* right: 10px;
+  bottom: 10px; */
   box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);

@@ -7,8 +7,12 @@ import RoomName from "../RoomName/RoomName";
 import { Redirect } from "react-router-dom";
 import { useLocation, useHistory } from "react-router-dom";
 import { remove, add } from "../../api/Room";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SidebarIcon from "@mui/icons-material/DensitySmall";
+import GroupIcon from "@mui/icons-material/Group";
+import "./Container.css";
 
-function Container({ socket }) {
+function Container({ socket, logOut }) {
   window.onunload = function (e) {
     console.log(e);
   };
@@ -25,6 +29,8 @@ function Container({ socket }) {
   const [selectedShape, setselectedShape] = useState("");
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);
+  const [displayUsers, setdisplayUsers] = useState(false);
+  const [displaySidebar, setdisplaySidebar] = useState(true);
   const [lineColor, setLineColor] = useState("black");
   const [fillColor, setFillColor] = useState("transparent");
   const [lineStyle, setLineStyle] = useState(0);
@@ -121,28 +127,54 @@ function Container({ socket }) {
             imageType={imageType}
             setroomUsers={setroomUsers}
           />
-          <SideBar
-            showSidebar={showSidebar}
-            shape={shape}
-            selectedShape={selectedShape}
-            setShape={setShape}
-            setLineColor={setLineColor}
-            setLineWidth={setLineWidth}
-            lineColor={lineColor}
-            lineWidth={lineWidth}
+          {displaySidebar && (
+            <SideBar
+              showSidebar={showSidebar}
+              shape={shape}
+              selectedShape={selectedShape}
+              setShape={setShape}
+              setLineColor={setLineColor}
+              setLineWidth={setLineWidth}
+              lineColor={lineColor}
+              lineWidth={lineWidth}
+              username={username}
+              roomname={roomname}
+              fillColor={fillColor}
+              setFillColor={setFillColor}
+              lineStyle={lineStyle}
+              setLineStyle={setLineStyle}
+              opacity={opacity}
+              setOpacity={setOpacity}
+              setimageType={setimageType}
+            />
+          )}
+          <RoomUsers
+            roomUsers={roomUsers}
             username={username}
-            roomname={roomname}
-            fillColor={fillColor}
-            setFillColor={setFillColor}
-            lineStyle={lineStyle}
-            setLineStyle={setLineStyle}
-            opacity={opacity}
-            setOpacity={setOpacity}
-            setimageType={setimageType}
+            displayUsers={displayUsers}
           />
-
-          <RoomUsers roomUsers={roomUsers} username={username} />
-          <RoomName roomname={roomname} />
+          <div className="containerBottomLeft">
+            <div
+              className="containerSidebarButton"
+              onClick={() => setdisplaySidebar(!displaySidebar)}
+            >
+              <SidebarIcon />
+            </div>
+          </div>
+          <div className="containerBottomRight">
+            <div className="containerLogout" onClick={logOut}>
+              <LogoutIcon />
+            </div>
+            <RoomName roomname={roomname} />
+            <div
+              className="containerUsers"
+              onClick={() => {
+                shape !== "selection" && setdisplayUsers(!displayUsers);
+              }}
+            >
+              <GroupIcon />
+            </div>
+          </div>
         </div>
       ) : (
         <Redirect to="/login" />

@@ -2,9 +2,9 @@ import React from "react";
 import "./RoomUsers.css";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-function RoomUsers({ roomUsers, username }) {
+function RoomUsers({ roomUsers, username, displayUsers }) {
   return (
-    <div className="roomUsers">
+    <div className={`roomUsers ${!displayUsers && "displayRoomUsers"}`}>
       <p>
         <ArrowRightIcon /> You
       </p>

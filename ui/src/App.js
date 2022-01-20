@@ -42,7 +42,7 @@ function App() {
           <Join socket={socket} />
         </Route>
         <Route path="/board/:username/:roomname">
-          <Container socket={socket} />
+          <Container socket={socket} logOut={logOut} />
         </Route>
         <Route path="/*">
           <P404 />

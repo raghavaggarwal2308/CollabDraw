@@ -36,3 +36,11 @@
   background-color: #aa14f0;
   color: white;
 }
+
+@media screen and (max-width: 650px) {
+  .topContainer div {
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+  }
+}
