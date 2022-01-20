@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 // import { withRouter } from "react-router";
 import "./Home.css";
 import image from "../../assets/homeimg.svg";
@@ -69,6 +70,23 @@ function Home() {
                 text ever since the 1500s
               </div>
             </div>
+          </div>
+          <div className="try">
+            <div className="try-icon">
+              <BorderColorIcon />
+            </div>
+            <div className="try-description">Try out Collab Draw</div>
+            <div className="try-button">Sign Up</div>
+          </div>
+          <div className="footer">
+            <p>
+              Made with ❤️ by &nbsp;
+              <a href="https://github.com/Charu271">Charu Sachdeva</a> &nbsp;
+              and &nbsp;
+              <a href="https://github.com/raghavaggarwal2308">
+                Raghav Aggarwal
+              </a>
+            </p>
           </div>
         </div>
       ) : (
