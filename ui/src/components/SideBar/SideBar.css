@@ -1,7 +1,10 @@
 .sideContainer {
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+  -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 10px;
   position: fixed;
   left: 10px;
   top: 50%;
@@ -105,8 +108,46 @@
   border: none;
 }
 
-.fontDecoration {
+.copydelete {
   display: flex;
-  margin: 5px 0;
-  flex-direction: column;
+  margin: 12px 0 0 0;
+}
+
+.copydelete button {
+  background-color: transparent;
+  border-radius: 5px;
+  border: none;
+  background-color: #eeeeee;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 6px 6px 6px 0;
+}
+
+.rc-slider-rail {
+  background-color: #eeeeee;
+}
+.rc-slider-track {
+  background-color: #aa14f0;
+}
+.rc-slider-handle {
+  border: solid 2px #bc8cf2;
+  background-color: #fff;
+}
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color: #aa14f0;
+  box-shadow: 0 0 0 5px #bc8cf2;
+}
+.rc-slider-handle-click-focused:focus {
+  border-color: #bc8cf2;
+  box-shadow: unset;
+}
+.rc-slider-handle:hover {
+  border-color: #aa14f0;
+}
+.rc-slider-handle:active {
+  border-color: #aa14f0;
+  box-shadow: 0 0 5px #aa14f0;
 }

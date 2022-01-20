@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./SideBar.css";
 import { SketchPicker } from "react-color";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import "./SideBar.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   changeLineColor,
   changeLineWidth,
@@ -177,6 +179,7 @@ function SideBar({
                       onChange={opacityHandler}
                       value={opac}
                       className="slider"
+                      railStyle={{ color: "red" }}
                     />
 
                     <div
@@ -300,38 +303,17 @@ function SideBar({
                 </button>
               </div>
             )}
-            <div className="fontDecoration">
-              <div>Font Decoration:</div>
-              <div>
-                <input
-                  type="radio"
-                  name="fontDecor"
-                  value="underline"
-                  onChange={settextDecoration("underline")}
-                />
-                <span>Underline</span>
+
+            {selectedShape !== "" && (
+              <div className="copydelete">
+                <button onClick={() => setShape("copy")}>
+                  <ContentCopyIcon style={{ fontSize: "18px" }} />
+                </button>
+                <button onClick={() => setShape("delete")}>
+                  <DeleteIcon style={{ fontSize: "19px" }} />
+                </button>
               </div>
-              <div>
-                <input
-                  type="radio"
-                  name="fontDecor"
-                  value="overline"
-                  onClick={settextDecoration("overline")}
-                />
-                <span>Overline</span>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  name="fontDecor"
-                  value="linethrough"
-                  onClick={settextDecoration("line-through")}
-                />
-                <span>Linethrough</span>
-              </div>
-            </div>
-            <button onClick={() => setShape("copy")}>Copy</button>
-            {/* <button>Copy</button> */}
+            )}
           </>
           {/* )} */}
         </div>

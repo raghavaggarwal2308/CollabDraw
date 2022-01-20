@@ -52,27 +52,24 @@ function ToolBar({
   };
   return (
     <div className="topContainer" onClick={deselectAll}>
-      {/* <div
-        className={`eraserContainer ${shape === "eraser" && "buttonBack"}`}
-        onClick={(e) => changeShapeType("eraser", e)}
-      >
-        <Eraser />
-      </div> */}
       <div
         className={`lockContainer ${lock && "buttonBack"}`}
         onClick={(e) => updateLock(e)}
+        title="Lock"
       >
         {lock ? <Locked /> : <Lock />}
       </div>
       <div
         className={`selectContainer ${shape === "selection" && "buttonBack"}`}
         onClick={(e) => changeShapeType("selection", e)}
+        title="Select"
       >
         <Select />
       </div>
       <div
         className={`pencilContainer ${shape === "pencil" && "buttonBack"}`}
         onClick={(e) => changeShapeType("pencil", e)}
+        title="Pencil"
       >
         <Pencil />
       </div>
@@ -81,49 +78,56 @@ function ToolBar({
           shape === "rectangle" && "buttonBack"
         }`}
         onClick={(e) => changeShapeType("rectangle", e)}
+        title="Rectangle"
       >
         <Rectangle />
       </div>
       <div
         className={`circleContainer ${shape === "ellipse" && "buttonBack"}`}
         onClick={(e) => changeShapeType("ellipse", e)}
+        title="Circle"
       >
         <Circle />
       </div>
       <div
         className={`lineContainer ${shape === "line" && "buttonBack"}`}
         onClick={(e) => changeShapeType("line", e)}
+        title="Line"
       >
         <Line />
       </div>
       <div
         className={`textContainer ${shape === "text" && "buttonBack"}`}
         onClick={(e) => changeShapeType("text", e)}
+        title="Text"
       >
-        {/* <Text /> */}
         <span style={{ fontSize: "21px", fontWeight: "450" }}>A</span>
       </div>
       <div
         className="clearBoardContainer"
         onClick={(e) => changeShapeType("clear", e)}
+        title="Clear All"
       >
         <ClearAll />
       </div>
       <div
         className="undoContainer"
         onClick={(e) => changeShapeType("undo", e)}
+        title="Undo"
       >
         <Undo />
       </div>
       <div
         className="redoContainer"
         onClick={(e) => changeShapeType("redo", e)}
+        title="Redo"
       >
         <Redo />
       </div>
       <div
         className="redoContainer"
         onClick={(e) => changeShapeType("download", e)}
+        title="Download"
       >
         <Download />
       </div>

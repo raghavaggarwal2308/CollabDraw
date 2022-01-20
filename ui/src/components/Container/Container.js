@@ -26,11 +26,10 @@ function Container({ socket }) {
   const [deselect, setdeselect] = useState(false);
   const [lineWidth, setLineWidth] = useState(2);
   const [lineColor, setLineColor] = useState("black");
-  const [fillColor, setFillColor] = useState("");
+  const [fillColor, setFillColor] = useState("transparent");
   const [lineStyle, setLineStyle] = useState(0);
   const [opacity, setOpacity] = useState(1);
-  const [textDecoration, settextDecoration] = useState("");
-  const [showSidebar, setshowSidebar] = useState(false);
+  const [showSidebar, setshowSidebar] = useState(true);
   const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
   const [roomUsers, setroomUsers] = useState([]);
@@ -121,7 +120,6 @@ function Container({ socket }) {
             setlock={setlock}
             imageType={imageType}
             setroomUsers={setroomUsers}
-            textDecoration={textDecoration}
           />
           <SideBar
             showSidebar={showSidebar}
@@ -141,8 +139,8 @@ function Container({ socket }) {
             opacity={opacity}
             setOpacity={setOpacity}
             setimageType={setimageType}
-            settextDecoration={settextDecoration}
           />
+
           <RoomUsers roomUsers={roomUsers} username={username} />
           <RoomName roomname={roomname} />
         </div>

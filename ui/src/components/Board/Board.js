@@ -55,7 +55,6 @@ class Board extends React.Component {
           opacity: this.props.opacity,
           strokeUniform: true,
           strokeWidth: this.props.lineWidth,
-          textDecoration: "underline",
         });
         this.canvas.add(this.text);
         this.canvas.setActiveObject(this.text);
@@ -74,7 +73,6 @@ class Board extends React.Component {
           height: pointer.y - this.origY,
           angle: 0,
           fill: this.props.fillColor,
-          transparentCorners: false,
           stroke: this.props.lineColor,
           strokeWidth: this.props.lineWidth,
           opacity: this.props.opacity,
@@ -338,13 +336,14 @@ class Board extends React.Component {
   selection = (o) => {
     if (this.props.lock === false) this.props.setShape("selection");
     this.props.setshowSidebar(true);
-    if (o.target.path === undefined) this.props.setselectedShape("");
+    if (o.target.path === undefined) this.props.setselectedShape("fig");
     else if (o.target.path === null) this.props.setselectedShape("text");
     else this.props.setselectedShape("pencil");
     changeshowSidebar(true, this.roomname, this.username);
   };
   deselection = (o) => {
     if (this.props.shape === "selection") {
+      this.props.setselectedShape("");
       this.props.setshowSidebar(false);
       changeshowSidebar(false, this.roomname, this.username);
     }
@@ -367,28 +366,31 @@ class Board extends React.Component {
       this.change = false;
     }
   };
-  deleteSelectedFigure = (e) => {
+  deleteSelectedFigure = () => {
     let flag = false;
-    if (e.keyCode === 8 && this.canvas.getActiveObjects().length > 0) {
-      this.canvas.getActiveObjects().forEach((object) => {
-        if (!object.isEditing) this.canvas.remove(object);
-        else flag = true;
-      });
-      if (!flag) {
-        if (this.canvas.getActiveObjects().length > 1)
-          this.canvas.discardActiveObject().renderAll();
+    this.canvas.getActiveObjects().forEach((object) => {
+      if (!object.isEditing) this.canvas.remove(object);
+      else flag = true;
+    });
+    if (!flag) {
+      if (this.canvas.getActiveObjects().length > 1)
+        this.canvas.discardActiveObject().renderAll();
 
-        this.saveAction();
-        this.props.socket.emit("undo", {
-          figures: JSON.stringify(
-            this.canvas.toDatalessJSON(this.canvas.extraProps)
-          ),
-          undo: this.undo,
-          redo: this.redo,
-          roomname: this.roomname,
-        });
-        undoFigure(this.canvas._objects, this.roomname);
-      }
+      this.saveAction();
+      this.props.socket.emit("undo", {
+        figures: JSON.stringify(
+          this.canvas.toDatalessJSON(this.canvas.extraProps)
+        ),
+        undo: this.undo,
+        redo: this.redo,
+        roomname: this.roomname,
+      });
+      undoFigure(this.canvas._objects, this.roomname);
+    }
+  };
+  keyDown = (e) => {
+    if (e.keyCode === 8 && this.canvas.getActiveObjects().length > 0) {
+      this.deleteSelectedFigure();
     }
   };
   saveAction = () => {
@@ -435,7 +437,7 @@ class Board extends React.Component {
       this.saveAction();
     });
 
-    window.addEventListener("keydown", this.deleteSelectedFigure);
+    window.addEventListener("keydown", this.keyDown);
     window.addEventListener("keyup", (e) => {
       if (this.canvas.getActiveObjects().length === 1) {
         const object = this.canvas.getActiveObject();
@@ -597,6 +599,9 @@ class Board extends React.Component {
         break;
       case "download":
         this.props.setshowSidebar(true);
+        break;
+      case "delete":
+        this.deleteSelectedFigure();
         break;
       case "downloadpng":
         this.downloadCanvasPNG();

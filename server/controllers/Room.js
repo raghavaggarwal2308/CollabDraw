@@ -12,14 +12,14 @@ const addRoom = async (roomname, username, singleroom, existing) => {
 
         users.push({
           username,
-          fillColor: "",
+          fillColor: "transparent",
           lineColor: "black",
           lineWidth: 2,
-          shape: "rectangle",
+          shape: "pencil",
           opacity: 1,
           strokeDashArray: 0,
           lock: false,
-          showSidebar: false,
+          showSidebar: true,
           delete: false,
         });
         room.users = users;
@@ -45,14 +45,14 @@ const addRoom = async (roomname, username, singleroom, existing) => {
 
       users.push({
         username,
-        fillColor: "",
+        fillColor: "transparent",
         lineColor: "black",
         lineWidth: 2,
-        shape: "rectangle",
+        shape: "pencil",
         opacity: 1,
         strokeDashArray: 0,
         lock: false,
-        showSidebar: false,
+        showSidebar: true,
         delete: false,
       });
       room.users = users;

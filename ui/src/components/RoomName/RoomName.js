@@ -16,7 +16,7 @@ function RoomName({ roomname }) {
     <div className="roomname" onClick={copy}>
       <span className="tooltip">{tooltipText}</span>
       <span>{roomname}</span>
-      <ContentCopyIcon />
+      <ContentCopyIcon style={{ fontSize: "19px" }} />
     </div>
   );
 }
