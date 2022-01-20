@@ -11,7 +11,8 @@ function RoomUsers({ roomUsers, username, displayUsers }) {
       {roomUsers != null &&
         roomUsers.map(
           (user) =>
-            username !== user.username && (
+            username !== user.username &&
+            user.delete == false && (
               <p>
                 <ArrowRightIcon /> {user.username}
               </p>

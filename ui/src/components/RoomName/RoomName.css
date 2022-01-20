@@ -13,22 +13,40 @@
   -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
 }
 
-.roomname span {
+.roomvalue {
   margin-right: 10px;
 }
 
 .roomname:hover .tooltip {
   display: block;
 }
-
+.inviteIcon {
+  display: none;
+  margin-right: 0;
+}
 .tooltip {
   display: none;
   bottom: 50px;
   padding: 2px 4px;
   font-size: 12px;
   border-radius: 3px;
+  text-align: center;
   border: 1px solid grey;
   left: 50%;
   transform: translate(-50%, 0);
   position: absolute;
+}
+
+@media screen and (max-width: 550px) {
+  .roomname {
+    height: 20px;
+    width: 20px;
+  }
+  .roomvalue,
+  .copyIcon {
+    display: none;
+  }
+  .inviteIcon {
+    display: block;
+  }
 }

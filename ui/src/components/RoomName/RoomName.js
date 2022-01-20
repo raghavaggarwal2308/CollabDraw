@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "../RoomName/RoomName.css";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import "../RoomName/RoomName.css";
 
 function RoomName({ roomname }) {
   const [tooltipText, settooltipText] = useState("Click to Copy");
@@ -14,9 +15,15 @@ function RoomName({ roomname }) {
   };
   return (
     <div className="roomname" onClick={copy}>
+      <span className="inviteIcon">
+        <PersonAddAltIcon />
+      </span>
+
       <span className="tooltip">{tooltipText}</span>
-      <span>{roomname}</span>
-      <ContentCopyIcon style={{ fontSize: "19px" }} />
+      <span className="roomvalue">{roomname}</span>
+      <span className="copyIcon">
+        <ContentCopyIcon style={{ fontSize: "19px" }} />
+      </span>
     </div>
   );
 }
