@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar logOut={logOut} isAuthenticated={isAuthenticated} />
+      {/* <Navbar logOut={logOut} isAuthenticated={isAuthenticated} /> */}
       <Switch>
         <Route exact path="/">
           <Home />
