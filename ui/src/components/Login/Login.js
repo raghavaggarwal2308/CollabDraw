@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { loginUser } from "../../api/User";
 //import history from "../../history.js";
 import "./Login.css";
@@ -44,27 +44,40 @@ function Login({ setisAuthenticated }) {
     setPassword("");
   };
   return (
-    <form id="loginForm" className="logIn">
-      <input
-        value={email}
-        name="email"
-        type="email"
-        onChange={changeHandler}
-        placeholder="Email"
-        className="loginEmail"
-        required
-      />
-      <input
-        name="password"
-        type="password"
-        value={password}
-        onChange={changeHandler}
-        placeholder="Password"
-        className="loginPassword"
-        required
-      />
-      <input type="submit" value="Login" className="submitLogin" />
-    </form>
+    <div className="logIn">
+      <p className="exploreLink">
+        <Link to="/" style={{ color: "white" }}>
+          Explore
+        </Link>
+      </p>
+      <form id="loginForm" className="loginForm">
+        <input
+          value={email}
+          name="email"
+          type="email"
+          onChange={changeHandler}
+          placeholder="Email"
+          className="loginEmail"
+          required
+        />
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={changeHandler}
+          placeholder="Password"
+          className="loginPassword"
+          required
+        />
+        <input type="submit" value="Login" className="submitLogin" />
+        <p className="loginSignup">
+          Dont't have an account?{" "}
+          <Link to="/signup" className="loginSignupLink">
+            Signup
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 }
 

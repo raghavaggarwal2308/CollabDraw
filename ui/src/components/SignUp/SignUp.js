@@ -55,6 +55,11 @@ function SignUp({ setisAuthenticated }) {
   };
   return (
     <div className="signUp">
+      <p className="exploreLink">
+        <Link to="/" style={{ color: "white" }}>
+          Explore
+        </Link>
+      </p>
       <form id="signupForm" className="signupForm">
         <input
           value={firstName}
