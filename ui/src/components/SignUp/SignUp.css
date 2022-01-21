@@ -38,6 +38,7 @@
   color: white;
   border-bottom: 2px solid white;
   background-color: transparent;
+  outline: none;
 }
 
 .submitSign {

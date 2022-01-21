@@ -33,6 +33,8 @@ class Board extends React.Component {
     this.redo = [];
     this.currentStatus = null;
     this.change = false;
+    this.currentX = 0;
+    this.currentY = 0;
   }
 
   start = (o) => {
@@ -193,7 +195,6 @@ class Board extends React.Component {
     }
   };
   modify = (o) => {
-    console.log("modified");
     const figures = JSON.stringify(
       this.canvas.toDatalessJSON(this.canvas.extraProps)
     );
@@ -394,8 +395,73 @@ class Board extends React.Component {
       undoFigure(this.canvas._objects, this.roomname);
     }
   };
+  fireundo = () => {
+    if (this.undo.length > 0) {
+      this.change = true;
+      const last = this.undo.pop();
+      this.redo.push(
+        JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+      );
+      this.props.socket.emit("undo", {
+        figures: last,
+        undo: this.undo,
+        redo: this.redo,
+        roomname: this.roomname,
+      });
+      const temp = this.canvas.loadFromJSON(last);
+      temp.renderAll();
+      this.change = false;
+      undoFigure(temp._objects, this.roomname);
+    }
+  };
+  fireredo = () => {
+    if (this.redo.length > 0) {
+      this.change = true;
+      const last = this.redo.pop();
+      this.undo.push(
+        JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
+      );
+      this.props.socket.emit("redo", {
+        figures: last,
+        undo: this.undo,
+        redo: this.redo,
+        roomname: this.roomname,
+      });
+      const temp = this.canvas.loadFromJSON(last);
+      temp.renderAll();
+      this.change = false;
+      redoFigure(temp._objects, this.roomname);
+    }
+  };
   keyDown = (e) => {
-    if (e.keyCode === 8 && this.canvas.getActiveObjects().length > 0) {
+    if (e.key === "c" && e.ctrlKey) {
+      this.copy();
+    } else if (e.key === "v" && e.ctrlKey) {
+      this.paste2(
+        this.currentX + window.scrollX,
+        this.currentY + window.scrollY
+      );
+      this.modify();
+      this.saveAction();
+    } else if (e.key === "x" && e.ctrlKey) {
+      this.copy();
+      this.deleteSelectedFigure();
+    } else if (e.key === "z" && e.ctrlKey) {
+      this.fireundo();
+    } else if (e.key === "y" && e.ctrlKey) {
+      this.fireredo();
+    } else if (e.key === "a" && e.ctrlKey) {
+      this.canvas.discardActiveObject();
+      var sel = new fabric.ActiveSelection(this.canvas.getObjects(), {
+        canvas: this.canvas,
+      });
+      this.canvas.setActiveObject(sel);
+      this.canvas.requestRenderAll();
+    }
+    if (
+      (e.keyCode === 8 || e.keyCode === 46) &&
+      this.canvas.getActiveObjects().length > 0
+    ) {
       this.deleteSelectedFigure();
     }
   };
@@ -407,6 +473,10 @@ class Board extends React.Component {
     );
   };
   componentDidMount() {
+    window.addEventListener("mousemove", (e) => {
+      this.currentX = e.clientX;
+      this.currentY = e.clientY;
+    });
     this.canvas = new fabric.Canvas("canvas");
     // this.canvas.setDimensions({
     //   height: 400,
@@ -551,36 +621,69 @@ class Board extends React.Component {
     }
   };
   copy = () => {
-    this.canvas.getActiveObject().clone((cloned) => {
-      this.clipboard = cloned;
-    });
+    if (this.canvas.getActiveObject()) {
+      this.canvas.getActiveObject().clone((cloned) => {
+        this.clipboard = cloned;
+      });
+    } else {
+      this.clipboard = null;
+    }
+  };
+  paste2 = (x, y) => {
+    if (this.clipboard) {
+      this.clipboard.clone((clonedObj) => {
+        this.canvas.discardActiveObject();
+        clonedObj.set({
+          left: x,
+          top: y,
+          evented: true,
+        });
+        if (clonedObj.type === "activeSelection") {
+          // active selection needs a reference to the canvas.
+          clonedObj.canvas = this.canvas;
+          clonedObj.forEachObject((obj) => {
+            this.canvas.add(obj);
+          });
+          // this should solve the unselectability
+          clonedObj.setCoords();
+        } else {
+          this.canvas.add(clonedObj);
+        }
+        // this.clipboard.top += 10;
+        // this.clipboard.left += 10;
+        this.canvas.setActiveObject(clonedObj);
+        this.canvas.requestRenderAll();
+      });
+    }
+  };
+  paste = () => {
+    if (this.clipboard) {
+      this.clipboard.clone((clonedObj) => {
+        this.canvas.discardActiveObject();
+        clonedObj.set({
+          left: clonedObj.left + 10,
+          top: clonedObj.top + 10,
+          evented: true,
+        });
+        if (clonedObj.type === "activeSelection") {
+          // active selection needs a reference to the canvas.
+          clonedObj.canvas = this.canvas;
+          clonedObj.forEachObject((obj) => {
+            this.canvas.add(obj);
+          });
+          // this should solve the unselectability
+          clonedObj.setCoords();
+        } else {
+          this.canvas.add(clonedObj);
+        }
+        this.clipboard.top += 10;
+        this.clipboard.left += 10;
+        this.canvas.setActiveObject(clonedObj);
+        this.canvas.requestRenderAll();
+      });
+    }
   };
 
-  paste = () => {
-    this.clipboard.clone((clonedObj) => {
-      this.canvas.discardActiveObject();
-      clonedObj.set({
-        left: clonedObj.left + 10,
-        top: clonedObj.top + 10,
-        evented: true,
-      });
-      if (clonedObj.type === "activeSelection") {
-        // active selection needs a reference to the canvas.
-        clonedObj.canvas = this.canvas;
-        clonedObj.forEachObject((obj) => {
-          this.canvas.add(obj);
-        });
-        // this should solve the unselectability
-        clonedObj.setCoords();
-      } else {
-        this.canvas.add(clonedObj);
-      }
-      this.clipboard.top += 10;
-      this.clipboard.left += 10;
-      this.canvas.setActiveObject(clonedObj);
-      this.canvas.requestRenderAll();
-    });
-  };
   componentDidUpdate(prevProps) {
     this.changeSelectedItem(prevProps);
     if (this.props.lock === true) {
@@ -645,43 +748,11 @@ class Board extends React.Component {
         }
         break;
       case "undo":
-        if (this.undo.length > 0) {
-          this.change = true;
-          const last = this.undo.pop();
-          this.redo.push(
-            JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-          );
-          this.props.socket.emit("undo", {
-            figures: last,
-            undo: this.undo,
-            redo: this.redo,
-            roomname: this.roomname,
-          });
-          const temp = this.canvas.loadFromJSON(last);
-          temp.renderAll();
-          this.change = false;
-          undoFigure(temp._objects, this.roomname);
-        }
+        this.fireundo();
         this.props.setShape("selection");
         break;
       case "redo":
-        if (this.redo.length > 0) {
-          this.change = true;
-          const last = this.redo.pop();
-          this.undo.push(
-            JSON.stringify(this.canvas.toDatalessJSON(this.canvas.extraProps))
-          );
-          this.props.socket.emit("redo", {
-            figures: last,
-            undo: this.undo,
-            redo: this.redo,
-            roomname: this.roomname,
-          });
-          const temp = this.canvas.loadFromJSON(last);
-          temp.renderAll();
-          this.change = false;
-          redoFigure(temp._objects, this.roomname);
-        }
+        this.fireredo();
         this.props.setShape("selection");
         break;
       default:
