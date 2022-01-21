@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { addUser } from "../../api/User";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./SignUp.css";
 
 function SignUp({ setisAuthenticated }) {
@@ -54,58 +54,61 @@ function SignUp({ setisAuthenticated }) {
     }
   };
   return (
-    <form id="signupForm" className="signUp">
-      {/* <label>First Name</label> */}
-      <input
-        value={firstName}
-        type="text"
-        required
-        name="firstName"
-        onChange={changeHandler}
-        placeholder="First Name"
-        className="firstName"
-      />
-      {/* <label>Last Name</label> */}
-      <input
-        value={lastName}
-        type="text"
-        name="lastName"
-        onChange={changeHandler}
-        placeholder="Last Name"
-        className="lastName"
-      />
-      {/* <label>Email</label> */}
-      <input
-        value={email}
-        type="email"
-        required
-        name="email"
-        onChange={changeHandler}
-        placeholder="Email"
-        className="signupEmail"
-      />
-      {/* <label>Password</label> */}
-      <input
-        value={password}
-        type="password"
-        required
-        name="password"
-        onChange={changeHandler}
-        placeholder="Password"
-        className="password"
-      />
-      {/* <label>Confirm Password</label> */}
-      <input
-        value={confirmPassword}
-        type="password"
-        required
-        name="confirmPassword"
-        onChange={changeHandler}
-        placeholder="Confirm Password"
-        className="confirmPassword"
-      />
-      <input type="submit" value="SignUp" className="submitSign" />
-    </form>
+    <div className="signUp">
+      <form id="signupForm" className="signupForm">
+        <input
+          value={firstName}
+          type="text"
+          required
+          name="firstName"
+          onChange={changeHandler}
+          placeholder="First Name"
+          className="firstName signupInput"
+        />
+        <input
+          value={lastName}
+          type="text"
+          name="lastName"
+          onChange={changeHandler}
+          placeholder="Last Name"
+          className="lastName signupInput"
+        />
+        <input
+          value={email}
+          type="email"
+          required
+          name="email"
+          onChange={changeHandler}
+          placeholder="Email"
+          className="signupEmail signupInput"
+        />
+        <input
+          value={password}
+          type="password"
+          required
+          name="password"
+          onChange={changeHandler}
+          placeholder="Password"
+          className="password signupInput"
+        />
+        <input
+          value={confirmPassword}
+          type="password"
+          required
+          name="confirmPassword"
+          onChange={changeHandler}
+          placeholder="Confirm Password"
+          className="confirmPassword signupInput"
+        />
+        <input type="submit" value="SignUp" className="submitSign" />
+        <p className="signupLogin">
+          Already have an account?{" "}
+          <Link to="/login" className="signupLoginLink">
+            Login
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 }
 

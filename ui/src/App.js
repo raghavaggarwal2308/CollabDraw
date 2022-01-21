@@ -8,7 +8,6 @@ import Join from "./components/Join/Join";
 import Container from "./components/Container/Container";
 import P404 from "./components/404/404";
 import Auth from "./components/Auth/Auth";
-import Navbar from "./components/Navbar/Navbar";
 import { useState } from "react";
 
 function App() {
@@ -27,10 +26,9 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Navbar logOut={logOut} isAuthenticated={isAuthenticated} /> */}
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Home isAuthenticated={isAuthenticated} logOut={logOut} />
         </Route>
         <Route path="/login">
           <Login setisAuthenticated={setisAuthenticated} />

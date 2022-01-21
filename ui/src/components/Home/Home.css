@@ -36,6 +36,34 @@
 .homeRight img {
   width: 100%;
 }
+
+.exploreButton,
+.signupButton {
+  padding: 12px 22px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 10px;
+  font-size: 17px;
+}
+
+.signupButton {
+  background-color: #aa14f0;
+}
+
+.signupButton a {
+  text-decoration: none;
+  color: white;
+}
+
+.exploreButton {
+  background-color: #eeeeee;
+}
+
+.exploreButton a {
+  text-decoration: none;
+  color: black;
+}
+
 .features {
   width: 100%;
 }
@@ -112,7 +140,7 @@
 }
 .footer a {
   color: white;
-  text-decoration: none;
+  text-decoration: underline;
 }
 @media screen and (max-width: 1000px) {
   .feature-description {

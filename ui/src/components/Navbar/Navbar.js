@@ -1,20 +1,24 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Logo from "../Logo/Logo";
 
 function Navbar({ logOut, isAuthenticated }) {
   useEffect(() => {
     window.addEventListener("scroll", (e) => {
       const nav = document.querySelector(".navbar");
-      if (window.pageYOffset > 0) {
-        nav.classList.add("add-shadow");
-      } else {
-        nav.classList.remove("add-shadow");
+      if (nav !== null) {
+        if (window.pageYOffset > 0) {
+          nav.classList.add("add-shadow");
+        } else {
+          nav.classList.remove("add-shadow");
+        }
       }
     });
   });
   return (
     <div className="navbar">
+      <Logo />
       <div className="inner">
         {isAuthenticated === "true" ? (
           <div onClick={logOut} className="logout">

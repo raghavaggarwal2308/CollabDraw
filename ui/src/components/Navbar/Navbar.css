@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Redacted+Script");
+
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   /* border: 1px solid grey; */
   padding: 5px;
   width: auto;
@@ -12,6 +14,7 @@
   height: 60px;
   /* background-color: hotpink; */
 }
+
 .inner {
   margin-right: 20px;
 }

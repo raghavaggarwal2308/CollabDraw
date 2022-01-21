@@ -1,0 +1,16 @@
+.appLogo {
+  font-size: 35px;
+  margin-left: 20px;
+}
+
+.lIcon {
+  transform: rotate(-45deg) scale(1.3);
+}
+
+.BIcon {
+  transform: rotate(80deg) scale(1.3);
+}
+
+.w {
+  font-family: "Redacted Script";
+}

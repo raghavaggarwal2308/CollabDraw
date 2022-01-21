@@ -5,48 +5,68 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  /* background-color: rgb(34, 32, 32); */
-  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-  /* background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
-    linear-gradient(
-      to top,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(0, 0, 0, 0.25) 200%
-    );
-  background-blend-mode: multiply; */
+  background: url("../../assets/sign1.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
-.signUp input {
+.signupForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1p solid white;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #030303;
+}
+
+.signupInput {
   padding: 7px 10px;
   width: 20vw;
   margin: 12px;
-  border-radius: 7px;
+  border-radius: 3px;
   border: none;
+  color: white;
+  border-bottom: 2px solid white;
+  background-color: transparent;
 }
 
 .submitSign {
-  /* background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(0, 0, 0, 0.15) 100%
-    ),
-    radial-gradient(
-        at top center,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(0, 0, 0, 0.4) 120%
-      )
-      #989898;
-  background-blend-mode: multiply, multiply;*/
+  padding: 7px 10px;
+  margin: 12px;
+  margin-bottom: 5px;
+  width: 10vw;
+  border-radius: 5px;
+  border: none;
   color: rgb(235, 230, 230);
-  background-image: linear-gradient(-20deg, #616161 0%, #9bc5c3 100%);
-  /* background-image: linear-gradient(
-    to top,
-    #4fb576 0%,
-    #44c489 30%,
-    #28a9ae 46%,
-    #28a2b7 59%,
-    #4c7788 71%,
-    #6c4f63 86%,
-    #432c39 100%
-  ); */
+  background-color: #aa14f0;
+}
+
+.signupLogin {
+  margin: 0;
+  margin-bottom: 5px;
+  color: #eee;
+  font-size: 14px;
+  font-weight: 100;
+}
+
+.signupLoginLink {
+  color: #aa14f0;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: white;
 }

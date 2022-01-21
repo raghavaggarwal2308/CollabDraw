@@ -50,7 +50,7 @@ class Board extends React.Component {
           top: this.origY,
           fontFamily: "arial black",
           fill: this.props.fillColor,
-          fontSize: 50,
+          fontSize: 30,
           stroke: this.props.lineColor,
           opacity: this.props.opacity,
           strokeUniform: true,
@@ -193,6 +193,7 @@ class Board extends React.Component {
     }
   };
   modify = (o) => {
+    console.log("modified");
     const figures = JSON.stringify(
       this.canvas.toDatalessJSON(this.canvas.extraProps)
     );
@@ -302,6 +303,11 @@ class Board extends React.Component {
           id,
           left: figure.left,
           top: figure.top,
+          flipX: figure.flipX,
+          flipY: figure.flipY,
+          angle: figure.angle,
+          scaleX: figure.scaleX,
+          scaleY: figure.scaleY,
           fontFamily: figure.fontFamily,
           fill: figure.fill,
           stroke: figure.stroke,

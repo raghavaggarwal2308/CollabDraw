@@ -8,11 +8,11 @@ function RoomUsers({ roomUsers, username, displayUsers }) {
       <p>
         <ArrowRightIcon /> You
       </p>
-      {roomUsers != null &&
+      {roomUsers !== null &&
         roomUsers.map(
           (user) =>
             username !== user.username &&
-            user.delete == false && (
+            user.delete === false && (
               <p>
                 <ArrowRightIcon /> {user.username}
               </p>
