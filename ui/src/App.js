@@ -37,7 +37,7 @@ function App() {
           <SignUp setisAuthenticated={setisAuthenticated} />
         </Route>
         <Route path="/join">
-          <Join socket={socket} />
+          <Join socket={socket} logOut={logOut} />
         </Route>
         <Route path="/board/:username/:roomname">
           <Container socket={socket} logOut={logOut} />

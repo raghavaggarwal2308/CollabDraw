@@ -157,12 +157,13 @@ function Container({ socket, logOut }) {
             <div
               className="containerSidebarButton"
               onClick={() => setdisplaySidebar(!displaySidebar)}
+              title={!displaySidebar ? "Display Sidebar" : "Hide Sidebar"}
             >
               <SidebarIcon />
             </div>
           </div>
           <div className="containerBottomRight">
-            <div className="containerLogout" onClick={logOut}>
+            <div className="containerLogout" onClick={logOut} title="Logout">
               <LogoutIcon />
             </div>
             <RoomName roomname={roomname} />
@@ -171,6 +172,7 @@ function Container({ socket, logOut }) {
               onClick={() => {
                 shape !== "selection" && setdisplayUsers(!displayUsers);
               }}
+              title="Users in Room"
             >
               <GroupIcon />
             </div>

@@ -75,17 +75,25 @@ function Join(props) {
     <>
       {isAuthenticated === "true" ? (
         <div className="joinRoomContainer">
+          <div className="joinTopRight">
+            <p className="singleRoom" onClick={joinSigleRoom}>
+              Join sigle room
+            </p>
+            <p className="joinLogout" onClick={props.logOut}>
+              Logout
+            </p>
+          </div>
+
+          <h1 className="joinHead">Join</h1>
           <form onSubmit={submitHandler} className="joinRoom">
-            {/* <label>Name</label> */}
             <input
               value={username}
               name="username"
               type="text"
               onChange={changeHandler}
               placeholder="Username"
-              className="username"
+              className="joinUsername"
             />
-            {/* <label>Room name</label> */}
             {existing && (
               <input
                 value={roomname}
@@ -93,7 +101,7 @@ function Join(props) {
                 type="text"
                 onChange={changeHandler}
                 placeholder="Room Name"
-                className="roomName"
+                className="joinRoomname"
               />
             )}
 
@@ -102,19 +110,16 @@ function Join(props) {
               value={existing ? "Join" : "Create"}
               className="submitJoin"
             />
+            {existing ? (
+              <p className="existing" onClick={() => setExisting(false)}>
+                Create new room &gt;&gt;
+              </p>
+            ) : (
+              <p className="existing" onClick={() => setExisting(true)}>
+                Join existing room &gt;&gt;
+              </p>
+            )}
           </form>
-          {existing ? (
-            <p className="existing" onClick={() => setExisting(false)}>
-              Create new room
-            </p>
-          ) : (
-            <p className="existing" onClick={() => setExisting(true)}>
-              Join existing room
-            </p>
-          )}
-          <p className="singleRoom" onClick={joinSigleRoom}>
-            Join sigle room &gt;&gt;
-          </p>
         </div>
       ) : (
         <Redirect to="/login" />

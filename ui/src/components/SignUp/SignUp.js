@@ -60,6 +60,7 @@ function SignUp({ setisAuthenticated }) {
           Explore
         </Link>
       </p>
+      <h1 className="signupHead">SignUp</h1>
       <form id="signupForm" className="signupForm">
         <input
           value={firstName}

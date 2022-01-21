@@ -14,7 +14,7 @@ function RoomName({ roomname }) {
     }, 3000);
   };
   return (
-    <div className="roomname" onClick={copy}>
+    <div className="roomname" onClick={copy} title="Roomname">
       <span className="inviteIcon">
         <PersonAddAltIcon />
       </span>

@@ -50,6 +50,7 @@ function Login({ setisAuthenticated }) {
           Explore
         </Link>
       </p>
+      <h1 className="loginHead">Login</h1>
       <form id="loginForm" className="loginForm">
         <input
           value={email}

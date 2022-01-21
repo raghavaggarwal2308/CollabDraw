@@ -5,10 +5,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url("../../assets/back7.svg");
+  background: url("../../assets/log.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+.loginHead {
+  color: white;
+  margin: 12px 0;
+  opacity: 0.9;
+  font-weight: 170;
 }
 
 .loginForm {
@@ -41,6 +48,7 @@
   margin-bottom: 5px;
   width: 50%;
   border-radius: 5px;
+  cursor: pointer;
   border: none;
   color: rgb(235, 230, 230);
   background-color: #aa14f0;
