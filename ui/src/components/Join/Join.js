@@ -38,9 +38,10 @@ function Join(props) {
           alert(error);
         } else {
           alert(message);
+          sessionStorage.setItem("active", true);
           history.push({
             pathname: `/board/${username}/${room}`,
-            state: { valid: true },
+            state: { valid: true, singleroom: false },
           });
           //history.push(`/board/${username}/${roomname}`);
           //window.location = `/board/${username}/${roomname}`;
@@ -60,9 +61,10 @@ function Join(props) {
           alert(error);
         } else {
           alert(message);
+          sessionStorage.setItem("active", true);
           history.push({
             pathname: `/board/${user}/${room}`,
-            state: { valid: true },
+            state: { valid: true, singleroom: true },
           });
           //history.push(`/board/${user}/${room}`);
           //window.location = `/board/${username}/${roomname}`;
@@ -77,7 +79,7 @@ function Join(props) {
         <div className="joinRoomContainer">
           <div className="joinTopRight">
             <p className="singleRoom" onClick={joinSigleRoom}>
-              Join sigle room
+              Join single room
             </p>
             <p className="joinLogout" onClick={props.logOut}>
               Logout

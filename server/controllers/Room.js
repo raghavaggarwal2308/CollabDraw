@@ -29,7 +29,7 @@ const addRoom = async (roomname, username, singleroom, existing) => {
     } else {
       let room = null;
       if (existing) {
-        room = await Room.findOne({ roomname });
+        room = await Room.findOne({ roomname, singleroom: false });
         if (room == null) {
           return { err: "Invalid roomName" };
         }

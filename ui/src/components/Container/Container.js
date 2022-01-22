@@ -59,12 +59,15 @@ function Container({ socket, logOut }) {
     //const active = sessionStorage.getItem("active");
     //getUser()
     add(username, roomname);
-
+    console.log(location.state);
+    if (sessionStorage.getItem("active") === "false") {
+      history.goBack();
+    }
     if (!location.state) {
       history.push("/404");
     }
     // else if (location.state.valid === false) {
-    //   history.push("/join");
+    //   history.goBack();
     // } else {
     //   const state = { ...history.location.state };
     //   state.valid = false;
@@ -72,6 +75,8 @@ function Container({ socket, logOut }) {
     // }
     window.addEventListener("popstate", (e) => {
       if (window.location.href === "http://localhost:3000/join") {
+        sessionStorage.setItem("active", false);
+        window.onbeforeunload = function (e) {};
         socket.emit("disconnectUser", { username, roomname });
         console.log("disconnected");
       }
@@ -148,11 +153,13 @@ function Container({ socket, logOut }) {
               setimageType={setimageType}
             />
           )}
-          <RoomUsers
-            roomUsers={roomUsers}
-            username={username}
-            displayUsers={displayUsers}
-          />
+          {location.state != null && location.state.singleroom === false && (
+            <RoomUsers
+              roomUsers={roomUsers}
+              username={username}
+              displayUsers={displayUsers}
+            />
+          )}
           <div className="containerBottomLeft">
             <div
               className="containerSidebarButton"
@@ -166,16 +173,21 @@ function Container({ socket, logOut }) {
             <div className="containerLogout" onClick={logOut} title="Logout">
               <LogoutIcon />
             </div>
-            <RoomName roomname={roomname} />
-            <div
-              className="containerUsers"
-              onClick={() => {
-                shape !== "selection" && setdisplayUsers(!displayUsers);
-              }}
-              title="Users in Room"
-            >
-              <GroupIcon />
-            </div>
+            {location.state != null && location.state.singleroom === false && (
+              <>
+                {" "}
+                <RoomName roomname={roomname} />
+                <div
+                  className="containerUsers"
+                  onClick={() => {
+                    shape !== "selection" && setdisplayUsers(!displayUsers);
+                  }}
+                  title="Users in Room"
+                >
+                  <GroupIcon />
+                </div>
+              </>
+            )}
           </div>
         </div>
       ) : (

@@ -69,19 +69,6 @@ const initializeSocket = (io) => {
     socket.on("disconnectUser", ({ username, roomname }) => {
       removeUser(username, roomname);
     });
-    // io.of("/").adapter.on("leave-room", (room, id) => {
-    //   console.log(`socket ${id} has joined room ${room}`);
-    // });
-    // socket.on("disconnecting", function (e) {
-    //   const rooms = Array.from(socket.rooms);
-    //   if (rooms.length == 2) {
-    //     let roomname = rooms[1];
-    //     removeUser(roomname, socket.id);
-    //     console.log(roomname);
-    //   }
-    //   // console.log();
-    //   //console.log(socket.id);
-    // });
   });
 };
 module.exports = initializeSocket;

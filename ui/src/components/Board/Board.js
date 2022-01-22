@@ -50,7 +50,7 @@ class Board extends React.Component {
           id: uuid(),
           left: this.origX,
           top: this.origY,
-          fontFamily: "arial black",
+          fontFamily: "sans serif",
           fill: this.props.fillColor,
           fontSize: 30,
           stroke: this.props.lineColor,
