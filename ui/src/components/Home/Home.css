@@ -221,4 +221,9 @@
   .try-description {
     font-size: 1.2rem;
   }
+  .signupButton,
+  .exploreButton {
+    padding: 10px 15px;
+    font-size: 15px;
+  }
 }

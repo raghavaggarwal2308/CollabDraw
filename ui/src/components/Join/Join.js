@@ -78,8 +78,12 @@ function Join(props) {
       {isAuthenticated === "true" ? (
         <div className="joinRoomContainer">
           <div className="joinTopRight">
-            <p className="singleRoom" onClick={joinSigleRoom}>
-              Join single room
+            <p
+              className="singleRoom"
+              onClick={joinSigleRoom}
+              title="Draw privately on your board"
+            >
+              Single plank
             </p>
             <p className="joinLogout" onClick={props.logOut}>
               Logout

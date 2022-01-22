@@ -14,14 +14,14 @@ function Logo() {
       </span>
       I
       <span>
-        <DetailsIcon />
+        <DetailsIcon className="LogoIcon" />
       </span>
       <span>
         <HdrWeakIcon className="BIcon" />
       </span>{" "}
       D<span>r</span>
       <span>
-        <CategoryIcon />
+        <CategoryIcon className="LogoIcon" />
       </span>
       <span className="w">w</span>
     </div>

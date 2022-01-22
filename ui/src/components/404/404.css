@@ -1,0 +1,31 @@
+.page404 {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/404.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #310e41;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: 50px;
+}
+
+.page404 h1 {
+  font-size: 65px;
+  margin: -55px 0;
+  color: rgb(254, 200, 40);
+  opacity: 0.6;
+}
+@media screen and (max-width: 500px) {
+  .page404 img {
+    width: 80%;
+    height: auto;
+  }
+  .page404 h1 {
+    font-size: 52px;
+  }
+}

@@ -90,3 +90,24 @@
   margin: 0%;
   cursor: pointer;
 }
+
+@media screen and (max-width: 950px) {
+  .joinRoom {
+    width: 37vw;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .joinRoom {
+    width: 47vw;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .joinRoom {
+    width: 60vw;
+  }
+  .joinTopRight p {
+    padding: 8px 15px 10px 15px;
+  }
+}

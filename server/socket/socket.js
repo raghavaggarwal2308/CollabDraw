@@ -66,8 +66,9 @@ const initializeSocket = (io) => {
       socket.broadcast.emit("textUpdate", { text, textLines, id, roomname });
     });
 
-    socket.on("disconnectUser", ({ username, roomname }) => {
-      removeUser(username, roomname);
+    socket.on("disconnectUser", async ({ username, roomname }) => {
+      const { users } = await removeUser(username, roomname);
+      socket.broadcast.emit("updateUsersList", { users, room: roomname });
     });
   });
 };

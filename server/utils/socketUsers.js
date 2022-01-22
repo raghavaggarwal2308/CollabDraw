@@ -35,7 +35,7 @@ const removeUser = async (username, roomname) => {
       // } else {
       await room.save();
       // }
-      return { message: "user removed successfully", user };
+      return { message: "user removed successfully", user, users: room.users };
     }
   } catch (e) {
     console.log(e.message);

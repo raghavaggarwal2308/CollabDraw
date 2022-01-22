@@ -13,10 +13,6 @@ import GroupIcon from "@mui/icons-material/Group";
 import "./Container.css";
 
 function Container({ socket, logOut }) {
-  window.onunload = function (e) {
-    console.log(e);
-  };
-
   const location = useLocation();
   const history = useHistory();
 
@@ -41,38 +37,27 @@ function Container({ socket, logOut }) {
   const [roomUsers, setroomUsers] = useState([]);
   const username = window.location.pathname.split("/")[2].trim().toLowerCase();
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
-  // const getUser=async()=>{
-  //   const user=awa
-  // }
+
   useEffect(() => {
+    socket.on("updateUsersList", ({ users, room }) => {
+      if (roomname === room) setroomUsers(users);
+    });
     window.onbeforeunload = function (e) {
-      // const user = remove(username, roomname);
-      // console.log(user);
-      //remove(username, roomname);
       return "Do you want to refresh?";
     };
     window.addEventListener("unload", async () => {
-      //sessionStorage.setItem("triggered", true);
       await remove(username, roomname);
       sessionStorage.setItem("xyz", true);
     });
-    //const active = sessionStorage.getItem("active");
-    //getUser()
+
     add(username, roomname);
-    console.log(location.state);
     if (sessionStorage.getItem("active") === "false") {
       history.goBack();
     }
     if (!location.state) {
       history.push("/404");
     }
-    // else if (location.state.valid === false) {
-    //   history.goBack();
-    // } else {
-    //   const state = { ...history.location.state };
-    //   state.valid = false;
-    //   history.replace({ ...history.location, state });
-    // }
+
     window.addEventListener("popstate", (e) => {
       if (window.location.href === "http://localhost:3000/join") {
         sessionStorage.setItem("active", false);
@@ -180,7 +165,7 @@ function Container({ socket, logOut }) {
                 <div
                   className="containerUsers"
                   onClick={() => {
-                    shape !== "selection" && setdisplayUsers(!displayUsers);
+                    setdisplayUsers(!displayUsers);
                   }}
                   title="Users in Room"
                 >

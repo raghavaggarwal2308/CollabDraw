@@ -1,12 +1,12 @@
 import React from "react";
+import "./404.css";
+import okok from "../../assets/4048.gif";
 
 function P404() {
   return (
-    <div>
-      <img
-        src="https://www.commercialfridgerepairs.com.au/wp-content/uploads/2018/11/404-image.gif"
-        alt="404 page not found"
-      />
+    <div className="page404">
+      <img src={okok} alt="404 Not Found" />
+      <h1>OOPS!</h1>
     </div>
   );
 }
