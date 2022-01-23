@@ -341,6 +341,21 @@ class Board extends React.Component {
     }
   };
   selection = (o) => {
+    console.log(o);
+    if (o.selected.length === 1) {
+      console.log(o.target.opacity);
+      this.props.setOpacity(o.target.opacity);
+      this.props.setLineColor(o.target.stroke);
+      this.props.setFillColor(o.target.fill);
+      this.props.setLineStyle(o.target.strokeDashArray[0]);
+      this.props.setLineWidth(o.target.strokeWidth);
+    } else {
+      this.props.setOpacity(1);
+      this.props.setLineColor("black");
+      this.props.setFillColor("transparent");
+      this.props.setLineStyle(0);
+      this.props.setLineWidth(2);
+    }
     if (this.props.lock === false) this.props.setShape("selection");
     this.props.setshowSidebar(true);
     if (o.target.path === undefined) this.props.setselectedShape("fig");
@@ -556,6 +571,7 @@ class Board extends React.Component {
         this.props.setlock(res.data.lock);
         this.props.setshowSidebar(res.data.showSidebar);
         this.props.setroomUsers(res.data.users);
+        console.log(res.data.lineStyle);
       }
     });
   }
