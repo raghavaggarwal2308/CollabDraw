@@ -39,6 +39,11 @@ function Container({ socket, logOut }) {
   const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
 
   useEffect(() => {
+    socket.on("userUp", ({ roomname: room, users }) => {
+      if (roomname === room) {
+        setroomUsers([...users]);
+      }
+    });
     socket.on("updateUsersList", ({ users, room }) => {
       if (roomname === room) setroomUsers(users);
     });
@@ -47,7 +52,6 @@ function Container({ socket, logOut }) {
     };
     window.addEventListener("unload", async () => {
       await remove(username, roomname);
-      sessionStorage.setItem("xyz", true);
     });
 
     add(username, roomname);

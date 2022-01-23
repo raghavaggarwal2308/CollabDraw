@@ -281,6 +281,7 @@ const undoFigure = async (request, response) => {
   }
 };
 const remove = async (request, response) => {
+  console.log(request.io);
   try {
     const room = await Room.findOne({ roomname: request.body.roomname });
     const user = room.users
@@ -289,6 +290,11 @@ const remove = async (request, response) => {
       .find((user) => user.username === request.body.username);
     user.delete = true;
     await room.save();
+    request.io.emit("userUp", {
+      roomname: request.body.roomname,
+      users: room.users,
+    });
+    console.log("***", user);
     return response.send({ message: "Set delete property" });
   } catch (e) {
     console.log(e.message);
@@ -304,6 +310,7 @@ const add = async (request, response) => {
       .find((user) => user.username === request.body.username);
     user.delete = false;
     await room.save();
+
     return response.send({ message: "Set delete property" });
   } catch (e) {
     console.log(e.message);

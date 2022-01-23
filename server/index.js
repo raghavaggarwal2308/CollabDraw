@@ -20,6 +20,10 @@ const PORT = process.env.port || 5000;
 
 app.use(cors());
 app.use(bodyParser.json({ extended: true }));
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+});
 app.use(userRoutes);
 app.use(roomRoutes);
 cron.schedule("*/2 * * * *", async function () {
