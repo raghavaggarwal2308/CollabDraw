@@ -55,7 +55,7 @@ function Home({ isAuthenticated, logOut }) {
                 </div>
                 <div className="feature-description">
                   <h1>Common Use Cases</h1>
-                  <p>Common Use</p> <p>Brainstroming</p>
+                  <p>Brainstroming</p>
                   <p>Diagrams</p> <p>Wireframing</p> <p> Meetings</p>
                 </div>
               </div>
