@@ -57,6 +57,7 @@ class Board extends React.Component {
           opacity: this.props.opacity,
           strokeUniform: true,
           strokeWidth: this.props.lineWidth,
+          cursorColor: "black",
         });
         this.canvas.add(this.text);
         this.canvas.setActiveObject(this.text);
@@ -168,7 +169,8 @@ class Board extends React.Component {
 
       if (
         this.props.shape === "pencil" &&
-        this.canvas.isDrawingMode !== false
+        this.canvas.isDrawingMode !== false &&
+        this.props.lock === false
       ) {
         this.canvas.isDrawingMode = false;
         figures[figures.length - 1].id = uuid();
@@ -343,11 +345,11 @@ class Board extends React.Component {
   selection = (o) => {
     console.log(o);
     if (o.selected.length === 1) {
-      console.log(o.target.opacity);
-      this.props.setOpacity(o.target.opacity);
+      if (!o.selected[0].path) this.props.setOpacity(o.target.opacity);
       this.props.setLineColor(o.target.stroke);
-      this.props.setFillColor(o.target.fill);
-      this.props.setLineStyle(o.target.strokeDashArray[0]);
+      if (!o.selected[0].path) this.props.setFillColor(o.target.fill);
+      if (o.selected[0].text == undefined && !o.selected[0].path)
+        this.props.setLineStyle(o.target.strokeDashArray[0]);
       this.props.setLineWidth(o.target.strokeWidth);
     } else {
       this.props.setOpacity(1);
@@ -714,7 +716,44 @@ class Board extends React.Component {
       this.canvas.discardActiveObject().renderAll();
       this.props.setdeselect(false);
     }
+    let layerfigures = this.canvas.getActiveObjects();
     switch (this.props.shape) {
+      case "onefront":
+        layerfigures = this.canvas.getActiveObjects();
+        layerfigures.forEach((fig) => {
+          this.canvas.bringForward(fig);
+        });
+        this.saveAction();
+        this.modify();
+        this.props.setShape("selection");
+        break;
+      case "oneback":
+        layerfigures = this.canvas.getActiveObjects();
+        layerfigures.forEach((fig) => {
+          this.canvas.sendBackwards(fig);
+        });
+        this.saveAction();
+        this.modify();
+        this.props.setShape("selection");
+        break;
+      case "front":
+        layerfigures = this.canvas.getActiveObjects();
+        layerfigures.forEach((fig) => {
+          this.canvas.bringToFront(fig);
+        });
+        this.saveAction();
+        this.modify();
+        this.props.setShape("selection");
+        break;
+      case "back":
+        layerfigures = this.canvas.getActiveObjects();
+        layerfigures.forEach((fig) => {
+          this.canvas.sendToBack(fig);
+        });
+        this.saveAction();
+        this.modify();
+        this.props.setShape("selection");
+        break;
       case "copy":
         this.copy();
         this.paste();

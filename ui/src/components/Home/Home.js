@@ -6,6 +6,9 @@ import "./Home.css";
 import image from "../../assets/homeimg.svg";
 import Navbar from "../Navbar/Navbar";
 import temp from "../../assets/temp.png";
+import collab from "../../assets/collaboration.png";
+import diagram from "../../assets/diagram.png";
+import single from "../../assets/single.png";
 function Home({ isAuthenticated, logOut }) {
   return (
     <>
@@ -17,11 +20,9 @@ function Home({ isAuthenticated, logOut }) {
               <div className="homeLeft">
                 <h1>Collab Draw</h1>
                 <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
+                  It can be used to store, manage and organize your drawings
+                  within the app. You can access your drawings anytime and from
+                  anywhere
                 </p>
                 <button className="signupButton">
                   <Link to="/signup">Signup</Link>
@@ -38,35 +39,43 @@ function Home({ isAuthenticated, logOut }) {
               <div className="feature-heading">Features</div>
               <div className="feature-left">
                 <div className="feature-description">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
+                  <h1>Collaboration</h1>
+                  <p>
+                    No more requirement of sharing screens. Collaborate with
+                    your team-mates in a single workspace.
+                  </p>
                 </div>
                 <div className="feature-image">
-                  <img src={temp} alt="" />
+                  <img src={collab} alt="" />
                 </div>
               </div>
               <div className="feature-right">
                 <div className="feature-image">
-                  <img src={temp} alt="" />
+                  <img src={diagram} alt="" />
                 </div>
                 <div className="feature-description">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
+                  <h1>Common Use Cases</h1>
+                  <p>Common Use</p> <p>Brainstroming</p>
+                  <p>Diagrams</p> <p>Wireframing</p> <p> Meetings</p>
                 </div>
               </div>
               <div className="feature-left">
                 <div className="feature-description">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s
+                  <h1>Single Plank</h1>
+                  <p>
+                    A personal plank where you can conceive your ideas without
+                    any impede
+                  </p>
                 </div>
                 <div className="feature-image">
-                  <img src={temp} alt="" />
+                  <img
+                    src={single}
+                    style={{ border: "1px solid rgb(240, 236, 236)" }}
+                    alt=""
+                  />
                 </div>
               </div>
-              <div className="feature-right">
+              {/* <div className="feature-right">
                 <div className="feature-image">
                   <img src={temp} alt="" />
                 </div>
@@ -75,7 +84,7 @@ function Home({ isAuthenticated, logOut }) {
                   typesetting industry. Lorem Ipsum has been the industry's
                   standard dummy text ever since the 1500s
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="try">
               <div className="try-icon">
@@ -83,7 +92,9 @@ function Home({ isAuthenticated, logOut }) {
                 <Logo />
               </div>
               <div className="try-description">Try out Collab Draw</div>
-              <div className="try-button">Sign Up</div>
+              <Link to="/signup" className="try-button">
+                Sign Up
+              </Link>
             </div>
             <div className="footer">
               <p>

@@ -46,7 +46,7 @@ function Login({ setisAuthenticated }) {
   return (
     <div className="logIn">
       <p className="exploreLink">
-        <Link to="/" style={{ color: "white" }}>
+        <Link to="/" style={{ color: "skyblue" }}>
           Explore
         </Link>
       </p>

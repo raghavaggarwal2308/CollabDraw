@@ -5,7 +5,7 @@ import SideBar from "../SideBar/SideBar";
 import RoomUsers from "../RoomUsers/RoomUsers";
 import RoomName from "../RoomName/RoomName";
 import { Redirect } from "react-router-dom";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 import { remove, add } from "../../api/Room";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SidebarIcon from "@mui/icons-material/DensitySmall";
@@ -35,8 +35,12 @@ function Container({ socket, logOut }) {
   const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
   const [roomUsers, setroomUsers] = useState([]);
-  const username = window.location.pathname.split("/")[2].trim().toLowerCase();
-  const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
+  const [layer, setlayer] = useState("front");
+  let { username, roomname } = useParams();
+  username = username.trim().toLowerCase();
+  roomname = roomname.trim().toLowerCase();
+  // const username = window.location.pathname.split("/")[2].trim().toLowerCase();
+  // const roomname = window.location.pathname.split("/")[3].trim().toLowerCase();
 
   useEffect(() => {
     socket.on("userUp", ({ roomname: room, users }) => {
@@ -159,7 +163,14 @@ function Container({ socket, logOut }) {
             </div>
           </div>
           <div className="containerBottomRight">
-            <div className="containerLogout" onClick={logOut} title="Logout">
+            <div
+              className="containerLogout"
+              onClick={() => {
+                socket.emit("disconnectUser", { username, roomname });
+                logOut();
+              }}
+              title="Logout"
+            >
               <LogoutIcon />
             </div>
             {location.state != null && location.state.singleroom === false && (

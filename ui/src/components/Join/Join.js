@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Join.css";
 import uuid from "react-uuid";
 import { useHistory } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 function Join(props) {
   const history = useHistory();
@@ -126,6 +126,11 @@ function Join(props) {
               </p>
             )}
           </form>
+          <p className="exploreLinkJoin">
+            <Link to="/" style={{ color: "skyblue" }}>
+              Explore
+            </Link>
+          </p>
         </div>
       ) : (
         <Redirect to="/login" />

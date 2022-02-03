@@ -21,6 +21,7 @@
   -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   cursor: pointer;
+  display: none;
 }
 
 .containerBottomRight {
@@ -64,4 +65,10 @@
   box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -webkit-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
   -moz-box-shadow: 1px 1px 11px 0px rgba(188, 140, 242, 0.75);
+}
+
+@media screen and (max-width: 900px) {
+  .containerSidebarButton {
+    display: block;
+  }
 }

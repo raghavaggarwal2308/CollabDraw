@@ -3,12 +3,15 @@ import "./RoomUsers.css";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 function RoomUsers({ roomUsers, username, displayUsers }) {
+  console.log(roomUsers);
+  console.log(username);
   return (
     <div className={`roomUsers ${!displayUsers && "displayRoomUsers"}`}>
       <p>
         <ArrowRightIcon /> You
       </p>
       {roomUsers !== null &&
+        roomUsers !== undefined &&
         roomUsers.map(
           (user) =>
             username !== user.username &&

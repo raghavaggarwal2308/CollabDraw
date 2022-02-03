@@ -303,13 +303,116 @@ function SideBar({
                 </button>
               </div>
             )}
-
             {selectedShape !== "" && (
               <div className="copydelete">
-                <button onClick={() => setShape("copy")}>
+                <button onClick={() => setShape("front")} title="Brint on top">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    class="rtl-mirror"
+                  >
+                    <path
+                      d="M13 21a1 1 0 001 1h7a1 1 0 001-1v-7a1 1 0 00-1-1h-3v5h-5v3zM11 3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h3V6h5V3z"
+                      fill="var(--icon-fill-color)"
+                      stroke="var(--icon-fill-color)"
+                      stroke-width="2"
+                    ></path>
+                    <path
+                      d="M18 7.333C18 6.597 17.403 6 16.667 6H7.333C6.597 6 6 6.597 6 7.333v9.334C6 17.403 6.597 18 7.333 18h9.334c.736 0 1.333-.597 1.333-1.333V7.333z"
+                      fill=" #aa14f0"
+                      stroke=" #aa14f0"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </button>
+                <button onClick={() => setShape("back")} title="Send to bottom">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    class="rtl-mirror"
+                  >
+                    <path
+                      d="M18 7.333C18 6.597 17.403 6 16.667 6H7.333C6.597 6 6 6.597 6 7.333v9.334C6 17.403 6.597 18 7.333 18h9.334c.736 0 1.333-.597 1.333-1.333V7.333z"
+                      fill=" #aa14f0"
+                      stroke=" #aa14f0"
+                      stroke-width="2"
+                    ></path>
+                    <path
+                      d="M11 3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h8V3zM22 14a1 1 0 00-1-1h-7a1 1 0 00-1 1v7a1 1 0 001 1h8v-8z"
+                      fill="var(--icon-fill-color)"
+                      stroke="var(--icon-fill-color)"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setShape("onefront")}
+                  title="Bring one step front"
+                >
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    class="rtl-mirror"
+                  >
+                    <path
+                      d="M22 9.556C22 8.696 21.303 8 20.444 8H16v8H8v4.444C8 21.304 8.697 22 9.556 22h10.888c.86 0 1.556-.697 1.556-1.556V9.556z"
+                      fill="var(--icon-fill-color)"
+                      stroke="var(--icon-fill-color)"
+                      stroke-width="2"
+                    ></path>
+                    <path
+                      d="M16 3.556C16 2.696 15.303 2 14.444 2H3.556C2.696 2 2 2.697 2 3.556v10.888C2 15.304 2.697 16 3.556 16h10.888c.86 0 1.556-.697 1.556-1.556V3.556z"
+                      fill=" #aa14f0"
+                      stroke=" #aa14f0"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setShape("oneback")}
+                  title="Send one step Back"
+                >
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    class="rtl-mirror"
+                  >
+                    <path
+                      d="M16 3.556C16 2.696 15.303 2 14.444 2H3.556C2.696 2 2 2.697 2 3.556v10.888C2 15.304 2.697 16 3.556 16h10.888c.86 0 1.556-.697 1.556-1.556V3.556z"
+                      fill=" #aa14f0"
+                      stroke=" #aa14f0"
+                      stroke-width="2"
+                    ></path>
+                    <path
+                      d="M22 9.556C22 8.696 21.303 8 20.444 8H9.556C8.696 8 8 8.697 8 9.556v10.888C8 21.304 8.697 22 9.556 22h10.888c.86 0 1.556-.697 1.556-1.556V9.556z"
+                      fill="var(--icon-fill-color)"
+                      stroke="var(--icon-fill-color)"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            )}
+            {selectedShape !== "" && (
+              <div className="copydelete">
+                <button
+                  onClick={() => setShape("copy")}
+                  title="Clone Selected Figure"
+                >
                   <ContentCopyIcon style={{ fontSize: "18px" }} />
                 </button>
-                <button onClick={() => setShape("delete")}>
+                <button
+                  onClick={() => setShape("delete")}
+                  title="Delete Selected Figure"
+                >
                   <DeleteIcon style={{ fontSize: "19px" }} />
                 </button>
               </div>
