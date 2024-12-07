@@ -348,7 +348,7 @@ class Board extends React.Component {
       if (!o.selected[0].path) this.props.setOpacity(o.target.opacity);
       this.props.setLineColor(o.target.stroke);
       if (!o.selected[0].path) this.props.setFillColor(o.target.fill);
-      if (o.selected[0].text == undefined && !o.selected[0].path)
+      if (o.selected[0].text === undefined && !o.selected[0].path)
         this.props.setLineStyle(o.target.strokeDashArray[0]);
       this.props.setLineWidth(o.target.strokeWidth);
     } else {

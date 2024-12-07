@@ -27,7 +27,6 @@ function SignUp({ setisAuthenticated }) {
       localStorage.setItem("isAuthenticated", true);
       setisAuthenticated("true");
       history.push("/join");
-      // window.location = "/join";
     } catch (e) {
       alert(e.message);
     }

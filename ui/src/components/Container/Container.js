@@ -35,7 +35,6 @@ function Container({ socket, logOut }) {
   const [imageType, setimageType] = useState("");
   const [lock, setlock] = useState(false);
   const [roomUsers, setroomUsers] = useState([]);
-  const [layer, setlayer] = useState("front");
   let { username, roomname } = useParams();
   username = username.trim().toLowerCase();
   roomname = roomname.trim().toLowerCase();

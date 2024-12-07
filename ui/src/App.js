@@ -20,6 +20,7 @@ function App() {
   const history = useHistory();
   const logOut = () => {
     localStorage.setItem("isAuthenticated", false);
+    localStorage.setItem("token", "");
     setisAuthenticated("false");
     history.push("/login");
   };
